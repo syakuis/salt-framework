@@ -1,0 +1,69 @@
+buildscript {
+	repositories {
+		maven { url 'http://repo.spring.io/plugins-release' }
+	}
+	dependencies {
+		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+	}
+}
+
+configure(allprojects) {
+	group 'org.saltframework'
+	version '1.0.0.RELEASE'
+
+	apply plugin: 'java'
+	apply plugin: 'propdeps'
+
+	sourceCompatibility = 1.7
+	targetCompatibility = 1.7
+
+	repositories {
+		mavenCentral()
+	}
+
+	ext {
+		slf4jVersion = '1.7.12'
+		junitVersion = '4.11'
+
+		springVersion = '4.2.4.RELEASE'
+	}
+
+	configurations.all {
+		exclude group: "commons-logging", module: "commons-logging"
+	}
+
+	dependencies {
+		compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+		runtime('ch.qos.logback:logback-classic:1.1.7') {
+			exclude group: 'org.slf4j', module: 'slf4j-api'
+		}
+		testCompile "junit:junit:$junitVersion"
+
+		compile 'org.apache.commons:commons-lang3:3.4'
+
+		provided 'javax.servlet:javax.servlet-api:3.0.1'
+	}
+}
+
+project(':salt-core') {
+	group 'org.saltframework'
+	version '1.0.0.RELEASE'
+
+	dependencies {
+		testCompile "org.springframework:spring-test:$springVersion"
+
+		compile "org.springframework:spring-context:$springVersion"
+	}
+
+	jar {
+		baseName = 'salt-core'
+		version =  version
+	}
+}
+
+configure(rootProject) {
+
+	dependencies {
+		compile project(':salt-core')
+	}
+}
