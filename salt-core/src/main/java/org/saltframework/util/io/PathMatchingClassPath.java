@@ -20,7 +20,7 @@ import static org.apache.commons.lang3.StringUtils.*;
  * @site http://syaku.tistory.com
  * @since 16. 6. 7.
  */
-public class PathMatchingClassPath {
+public final class PathMatchingClassPath {
 	private static final Logger logger = LoggerFactory.getLogger(PathMatchingClassPath.class);
 
 	private PathMatchingClassPath() {

@@ -16,7 +16,13 @@ import java.util.Properties;
 import java.util.TimeZone;
 
 /**
- * 프레임워크를 구동하기 위한 프로퍼티를 모두 로드한다.
+ * 프레임워크를 구동하기 위한 모든 프로퍼티를 로드한다.
+ *
+ * 1. 기본 프로퍼티 로드 : 서비스 환경에 따른 프로퍼티 로드 -> 프레임워크 개발자
+ * 2. 서브파티 프로퍼티 로드 -> 프레임워크 개발자
+ * 3. 모듈 및 플러그인 프로퍼티 로드 -> 모듈 개발자
+ * 4. 애플리케이션 프로퍼티 로드 : 상위 설정을 오버로딩할 수 있다. -> 프로젝트
+ *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 16. 7. 21.
@@ -86,14 +92,14 @@ public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 
 		Properties properties = propertiesFactoryBean.getObject();
 
-		properties.setProperty("app.profiles", StringUtils.join(profiles, ","));
-		properties.setProperty("app.profile", profile);
-		properties.setProperty("app.charset", fileEncoding);
+		properties.setProperty("salt.profiles", StringUtils.join(profiles, ","));
+		properties.setProperty("salt.profile", profile);
+		properties.setProperty("salt.charset", fileEncoding);
 
-		properties.setProperty("app.timeZone", TimeZone.getDefault().getID());
+		properties.setProperty("salt.timeZone", TimeZone.getDefault().getID());
 
 		Locale locale = Locale.getDefault();
-		properties.setProperty("app.locale", locale.getLanguage());
+		properties.setProperty("salt.locale", locale.getLanguage());
 
 		return properties;
 	}

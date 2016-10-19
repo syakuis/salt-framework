@@ -21,12 +21,13 @@ public class RequestSalt {
 	 * @return servlet url
 	 */
 	public static String getPathQueryString(HttpServletRequest request) {
-		String servletPath = request.getServletPath();
+		StringBuilder builder = new StringBuilder(request.getServletPath());
 		String queryString = request.getQueryString();
-		queryString = ( StringUtils.isEmpty(queryString) ) ? "" : "?" + queryString;
-		String servletUrl = servletPath + queryString;
-
-		return servletUrl;
+		if (queryString != null && !"".equals(queryString)) {
+			builder.append('?');
+		}
+		builder.append(queryString);
+		return builder.toString();
 	}
 
 	/**

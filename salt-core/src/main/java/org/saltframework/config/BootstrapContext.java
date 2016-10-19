@@ -34,16 +34,16 @@ public class BootstrapContext {
 		System.out.println("/ __| __ _| | |_| __| _ __ _ _ __  _____ __ _____ _ _| |__");
 		System.out.println("\\__ \\/ _` | |  _| _| '_/ _` | '  \\/ -_) V  V / _ \\ '_| / /");
 		System.out.println("|___/\\__,_|_|\\__|_||_| \\__,_|_|_|_\\___|\\_/\\_/\\___/_| |_\\_\\");
-		System.out.println("                                     version " + salt.getProperty("app.version"));
+		System.out.println("                                     version " + salt.getProperty("salt.version"));
 		System.out.println("                                                          ");
 		System.out.println("                    Salt Framework by 52572 49437 44512   ");
 		System.out.println("__________________________________________________________");
 		System.out.println("");
-		System.out.println("* @timeZone: " + salt.getProperty("app.timeZone"));
+		System.out.println("* @timeZone: " + salt.getProperty("salt.timeZone"));
 		System.out.println("* @date: " + new Date());
-		System.out.println("* @java encoding: " + salt.getProperty("app.charset"));
-		System.out.println("* @profile: " + salt.getProperty("app.profile"));
-		System.out.println("* @profiles: " + salt.getProperty("app.profiles"));
+		System.out.println("* @java encoding: " + salt.getProperty("salt.charset"));
+		System.out.println("* @profile: " + salt.getProperty("salt.profile"));
+		System.out.println("* @profiles: " + salt.getProperty("salt.profiles"));
 		System.out.println("__________________________________________________________");
 	}
 
