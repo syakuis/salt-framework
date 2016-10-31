@@ -5,6 +5,6 @@ package org.saltframework.util.object;
  * @site http://syaku.tistory.com
  * @since 2016. 10. 7.
  */
-public class StringSalt {
+public final class StringSalt {
 	private StringSalt() {}
 }

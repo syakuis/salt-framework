@@ -28,7 +28,7 @@ public class PropertiesContext {
 	 * @throws IOException the io exception
 	 */
 	@Bean
-	public Properties salt() throws IOException {
+	public Properties config() throws IOException {
 		GeneralPropertiesFactoryBean bean = new GeneralPropertiesFactoryBean(env);
 		return bean.getObject();
 	}

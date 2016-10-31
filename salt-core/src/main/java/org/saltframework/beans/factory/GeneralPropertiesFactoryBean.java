@@ -55,11 +55,12 @@ public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 	public Properties getObject() throws IOException {
 		String profile;
 
-		if (fileEncoding == null) fileEncoding = "UTF-8";
-
+		if (fileEncoding == null) {
+			fileEncoding = "UTF-8";
+		}
 		String[] profiles = env.getActiveProfiles();
-		if (profiles != null) {
-			if (profiles.length == 0) profiles = env.getDefaultProfiles();
+		if (profiles != null && profiles.length == 0) {
+			profiles = env.getDefaultProfiles();
 		}
 
 		if (env.acceptsProfiles(Profile.DEV.value)) {
@@ -73,9 +74,9 @@ public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 		}
 
 		String[] props = new String[]{
-				"classpath*:org/saltframework/config/salt.properties",
-				"classpath*:salt.properties",
-				"classpath*:salt-" + profile + ".properties"
+				"classpath*:org/saltframework/config/config.properties",
+				"classpath*:config.properties",
+				"classpath*:config-" + profile + ".properties"
 		};
 
 		PathMatchingResourceResolver pathResourcePatternResolver = new PathMatchingResourceResolver();
@@ -92,14 +93,14 @@ public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 
 		Properties properties = propertiesFactoryBean.getObject();
 
-		properties.setProperty("salt.profiles", StringUtils.join(profiles, ","));
-		properties.setProperty("salt.profile", profile);
-		properties.setProperty("salt.charset", fileEncoding);
+		properties.setProperty("config.profiles", StringUtils.join(profiles, ","));
+		properties.setProperty("config.profile", profile);
+		properties.setProperty("config.charset", fileEncoding);
 
-		properties.setProperty("salt.timeZone", TimeZone.getDefault().getID());
+		properties.setProperty("config.timeZone", TimeZone.getDefault().getID());
 
 		Locale locale = Locale.getDefault();
-		properties.setProperty("salt.locale", locale.getLanguage());
+		properties.setProperty("config.locale", locale.getLanguage());
 
 		return properties;
 	}

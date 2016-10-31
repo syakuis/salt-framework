@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * @site http ://syaku.tistory.com
  * @since 2016. 10. 7.
  */
-public class RequestSalt {
+public final class RequestSalt {
 	private RequestSalt() {}
 
 	/**
