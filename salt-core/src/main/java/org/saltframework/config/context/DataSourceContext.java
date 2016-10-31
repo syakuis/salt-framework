@@ -29,8 +29,9 @@ public class DataSourceContext {
 		List<String> names = PropertiesTool.getNames(config, propertiesName);
 		for(String name : names) {
 			String value = config.getProperty(name);
-			if (!"".equals(value)) {
-				name = name.replaceAll(propertiesName, "");
+			name = name.replaceAll(propertiesName, "");
+
+			if (!"".equals(name) && !"".equals(value)) {
 				dataSource.addConnectionProperty(name, value);
 			}
 		}
