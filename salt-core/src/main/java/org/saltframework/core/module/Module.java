@@ -1,27 +1,39 @@
 package org.saltframework.core.module;
 
+import java.util.Map;
+
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2016. 11. 2.
  */
-public final class Module {
-	private final String moduleId;
-	private final String moduleName;
-	private String moduleIdx;
-	private ModuleOption options;
+public class Module {
+	private final String disable = "moduleId,moduleName,moduleIdx,skin,layoutIdx,browserTitle";
 
-	public Module(String moduleId, String moduleName) {
-		this.moduleId = moduleId;
-		this.moduleName = moduleName;
+	private String moduleId;
+	private String moduleName;
+	private String moduleIdx;
+	private Map<String, Object> options;
+
+	public String getDisable() {
+		return disable;
 	}
 
 	public String getModuleId() {
 		return moduleId;
 	}
 
+	public void setModuleId(String moduleId) {
+		this.moduleId = moduleId;
+		options.put("moduleId", moduleId);
+	}
+
 	public String getModuleName() {
 		return moduleName;
+	}
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
 	}
 
 	public String getModuleIdx() {
@@ -30,13 +42,5 @@ public final class Module {
 
 	public void setModuleIdx(String moduleIdx) {
 		this.moduleIdx = moduleIdx;
-	}
-
-	public ModuleOption getOptions() {
-		return options;
-	}
-
-	public void setOptions(ModuleOption options) {
-		this.options = options;
 	}
 }
