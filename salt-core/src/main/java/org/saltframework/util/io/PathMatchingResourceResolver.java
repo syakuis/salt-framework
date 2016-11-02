@@ -1,7 +1,5 @@
 package org.saltframework.util.io;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -19,8 +17,6 @@ import java.util.List;
  * @site http://syaku.tistory.com
  */
 public class PathMatchingResourceResolver implements ResourcePatternResolver {
-	private static Logger logger = LoggerFactory.getLogger(PathMatchingResourceResolver.class);
-
 	private final PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver;
 
 	public PathMatchingResourceResolver() {

@@ -1,8 +1,7 @@
-package org.saltframework.test;
+package org.saltframework.config;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.saltframework.config.BootstrapContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

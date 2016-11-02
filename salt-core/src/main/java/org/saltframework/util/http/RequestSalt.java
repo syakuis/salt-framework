@@ -40,7 +40,7 @@ public final class RequestSalt {
 		String accept = request.getHeader("accept");
 		String ajax = request.getHeader("X-Requested-With");
 
-		return ( StringUtils.indexOf(accept, "json") > -1 && StringUtils.isNotEmpty(ajax));
+		return StringUtils.indexOf(accept, "json") > -1 && StringUtils.isNotEmpty(ajax);
 	}
 
 	/**
@@ -52,6 +52,6 @@ public final class RequestSalt {
 	public static boolean isHtml(HttpServletRequest request) {
 		String accept = request.getHeader("accept");
 
-		return ( StringUtils.indexOf(accept, "text/html") > -1);
+		return StringUtils.indexOf(accept, "text/html") > -1;
 	}
 }

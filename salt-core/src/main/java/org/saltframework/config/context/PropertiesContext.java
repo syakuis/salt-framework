@@ -4,11 +4,8 @@ import org.saltframework.beans.factory.GeneralPropertiesFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -30,7 +27,7 @@ public class PropertiesContext {
 	 * @return the properties
 	 * @throws IOException the io exception
 	 */
-	@Bean
+	@Bean(name = "config")
 	public Properties config() throws IOException {
 		GeneralPropertiesFactoryBean bean = new GeneralPropertiesFactoryBean(env);
 		return bean.getObject();

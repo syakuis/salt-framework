@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @ActiveProfiles("mybatis")
 public class DemoDAOTest {
 
-	@Resource(name = "demoMapper")
+	@Resource(name = "demoDAO")
 	private DemoDAO demoDAO;
 
 	@Test

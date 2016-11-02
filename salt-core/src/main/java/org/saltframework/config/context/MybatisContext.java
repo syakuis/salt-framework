@@ -1,10 +1,10 @@
 package org.saltframework.config.context;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.saltframework.support.mybatis.Mapper;
 import org.saltframework.util.io.PathMatchingResourceResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -23,8 +24,9 @@ import java.util.Properties;
  * @since 2016. 10. 31.
  */
 @Configuration
-@MapperScan("org.saltframework.apps")
 @Profile("mybatis")
+@EnableTransactionManagement
+@MapperScan(basePackages = "org.saltframework.apps", annotationClass = Mapper.class)
 public class MybatisContext {
 	@Autowired
 	private Properties config;
