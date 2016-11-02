@@ -30,7 +30,7 @@ import java.util.TimeZone;
 public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 	private final Environment env;
 
-	private boolean singleton = true;
+	private final static boolean singleton = true;
 	private boolean localOverride = true;
 	private boolean ignoreResourceNotFound = true;
 	private String fileEncoding = Charset.defaultCharset().name();

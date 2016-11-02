@@ -1,5 +1,7 @@
 package org.saltframework.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,34 +19,62 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(
-		basePackages = "org.saltframework.config.context",
+		basePackages = {
+				"org.saltframework.config.context"
+		},
 		includeFilters = {
 				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 		}
 )
 public class BootstrapContext {
+	private static final Logger logger = LoggerFactory.getLogger(BootstrapContext.class);
 
-	@Autowired Properties config;
+	@Autowired
+	private Properties config;
 
+	/**
+	 * http://www.network-science.de/ascii/
+	 * standard type
+	 */
 	@PostConstruct
 	public void init() {
-		System.out.println("__________________________________________________________");
-		System.out.println("                                                          ");
-		System.out.println(" ___       _ _   ___                                  _   ");
-		System.out.println("/ __| __ _| | |_| __| _ __ _ _ __  _____ __ _____ _ _| |__");
-		System.out.println("\\__ \\/ _` | |  _| _| '_/ _` | '  \\/ -_) V  V / _ \\ '_| / /");
-		System.out.println("|___/\\__,_|_|\\__|_||_| \\__,_|_|_|_\\___|\\_/\\_/\\___/_| |_\\_\\");
-		System.out.println("                                     version " + config.getProperty("salt.version"));
-		System.out.println("                                                          ");
-		System.out.println("                    Salt Framework by 52572 49437 44512   ");
-		System.out.println("__________________________________________________________");
-		System.out.println("");
-		System.out.println("* @timeZone: " + config.getProperty("salt.timeZone"));
-		System.out.println("* @date: " + new Date());
-		System.out.println("* @java encoding: " + config.getProperty("salt.charset"));
-		System.out.println("* @profile: " + config.getProperty("salt.profile"));
-		System.out.println("* @profiles: " + config.getProperty("salt.profiles"));
-		System.out.println("__________________________________________________________");
+		StringBuilder print = new StringBuilder();
+		print.append("\n");
+		print.append("__________________________________________________________");
+		print.append("\n");
+		print.append("                                                          ");
+		print.append("\n");
+		print.append(" ___       _ _   ___                                  _   ");
+		print.append("\n");
+		print.append("/ __| __ _| | |_| __| _ __ _ _ __  _____ __ _____ _ _| |__");
+		print.append("\n");
+		print.append("\\__ \\/ _` | |  _| _| '_/ _` | '  \\/ -_) V  V / _ \\ '_| / /");
+		print.append("\n");
+		print.append("|___/\\__,_|_|\\__|_||_| \\__,_|_|_|_\\___|\\_/\\_/\\___/_| |_\\_\\");
+		print.append("\n");
+		print.append("                                     version " + config.getProperty("config.version"));
+		print.append("\n");
+		print.append("                                                          ");
+		print.append("\n");
+		print.append("                    Salt Framework by 52572 49437 44512   ");
+		print.append("\n");
+		print.append("__________________________________________________________");
+		print.append("\n");
+		print.append("\n");
+		print.append("* @timeZone: " + config.getProperty("config.timeZone"));
+		print.append("\n");
+		print.append("* @date: " + new Date());
+		print.append("\n");
+		print.append("* @java encoding: " + config.getProperty("config.charset"));
+		print.append("\n");
+		print.append("* @profile: " + config.getProperty("config.profile"));
+		print.append("\n");
+		print.append("* @profiles: " + config.getProperty("config.profiles"));
+		print.append("\n");
+		print.append("__________________________________________________________");
+		print.append("\n");
+
+		logger.warn(print.toString());
 	}
 
 }
