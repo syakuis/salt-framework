@@ -6,5 +6,5 @@ package org.saltframework.core.module;
  * @since 2016. 11. 3.
  */
 public enum ModuleName {
-	moduleId, moduleName, moduleIdx;
+	moduleId, moduleName, moduleIdx
 }

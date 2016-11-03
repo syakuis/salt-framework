@@ -1,11 +1,14 @@
 package org.saltframework.core.module;
 
+import java.io.Serializable;
+
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2016. 11. 2.
  */
-public final class Option {
+public final class Option implements Serializable {
+	private static final long serialVersionUID = -1356192845779265736L;
 	private final String name;
 	private final Object value;
 
