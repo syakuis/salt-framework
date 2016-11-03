@@ -8,9 +8,6 @@ buildscript {
 }
 
 configure(allprojects) {
-	group 'org.saltframework'
-	version '1.0.0.RELEASE'
-
 	apply plugin: 'java'
 	apply plugin: 'propdeps'
 	apply plugin: 'pmd'
@@ -57,7 +54,7 @@ configure(allprojects) {
 		compile "org.springframework:spring-jdbc:${springVersion}",
 				"org.springframework:spring-orm:${springVersion}",
 				"org.springframework:spring-tx:${springVersion}",
-				'commons-dbcp:commons-dbcp:1.4',
+				'org.apache.commons:commons-dbcp2:2.1.1',
 				'com.googlecode.log4jdbc:log4jdbc:1.2'
 
 		compile "org.mybatis:mybatis:${mybatisVersion}",
@@ -91,8 +88,29 @@ project(':salt-core') {
 }
 
 configure(rootProject) {
+	group 'egovmei'
+	version '3.0.0.RELEASE'
+
+	ext {
+		egovVersion = '3.5.0'
+	}
+
+	repositories {
+		maven {
+			name 'egovframe'
+			url 'http://www.egovframe.go.kr/maven/'
+		}
+	}
 
 	dependencies {
 		compile project(':salt-core')
+
+		compile "egovframework.rte:egovframework.rte.fdl.cmmn:${egovVersion}",
+				"egovframework.rte:egovframework.rte.fdl.idgnr:${egovVersion}",
+				"egovframework.rte:egovframework.rte.fdl.logging:${egovVersion}",
+				"egovframework.rte:egovframework.rte.fdl.property:${egovVersion}",
+				"egovframework.rte:egovframework.rte.fdl.string:${egovVersion}",
+				"egovframework.rte:egovframework.rte.psl.dataaccess:${egovVersion}",
+				"egovframework.rte:egovframework.rte.ptl.mvc:${egovVersion}"
 	}
 }

@@ -1,7 +1,7 @@
 package egovmei.modules.demo.mapper;
 
+import egovframework.rte.psl.dataaccess.mapper.Mapper;
 import egovmei.modules.demo.dao.DemoDAO;
-import org.saltframework.support.mybatis.Mapper;
 
 /**
  * mybatis dao
@@ -10,5 +10,5 @@ import org.saltframework.support.mybatis.Mapper;
  * @since 2016. 11. 1.
  */
 @Mapper
-public interface DemoMapper extends DemoDAO {
+public interface DemoEgovMapper extends DemoDAO {
 }

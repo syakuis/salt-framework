@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 })
 public class DemoDAOTest {
 
-	@Resource(name = "demoMapper")
+	@Resource(name = "demoEgovMapper")
 	private DemoDAO demoDAO;
 
 	@Test

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.FilterType;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Properties;
 
 /**
@@ -75,6 +76,16 @@ public class BootstrapConfiguration {
 		print.append("\n");
 
 		logger.warn(print.toString());
+
+		if (logger.isDebugEnabled()) {
+			Iterator<String> iterator = config.stringPropertyNames().iterator();
+
+			while (iterator.hasNext()) {
+				String name = iterator.next();
+
+				logger.debug("{} : {}", name, config.getProperty(name));
+			}
+		}
 	}
 
 }

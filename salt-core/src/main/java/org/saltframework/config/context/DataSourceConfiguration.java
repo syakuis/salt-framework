@@ -1,6 +1,6 @@
 package org.saltframework.config.context;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.saltframework.util.object.PropertiesTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,7 @@ public class DataSourceConfiguration {
 	private Properties config;
 
 	@Bean(destroyMethod = "close")
-	public DataSource dataSource() {
+	public DataSource dataSource() throws NamingException {
 		BasicDataSource dataSource = new BasicDataSource();
 
 		String driverClassName = config.getProperty("dataSource.driverClassName");
@@ -39,10 +40,10 @@ public class DataSourceConfiguration {
 
 		Integer initialSize = (Integer) config.get("dataSource.initialSize");
 
-		Integer maxActive = (Integer) config.get("dataSource.maxActive");
+		Integer maxTotal = (Integer) config.get("dataSource.maxTotal");
 		Integer maxIdle = (Integer) config.get("dataSource.maxIdle");
 		Integer minIdle = (Integer) config.get("dataSource.minIdle");
-		Integer maxWait = (Integer) config.get("dataSource.maxWait");
+		Integer maxWaitMills = (Integer) config.get("dataSource.maxWaitMills");
 		Boolean testOnBorrow = (Boolean) config.get("dataSource.testOnBorrow");
 		Boolean testOnReturn = (Boolean) config.get("dataSource.testOnReturn");
 		Long timeBetweenEvictionRunsMillis = (Long) config.get("dataSource.timeBetweenEvictionRunsMillis");
@@ -58,7 +59,6 @@ public class DataSourceConfiguration {
 		Integer defaultTransactionIsolation = (Integer) config.get("dataSource.defaultTransactionIsolation");
 		String defaultCatalog = config.getProperty("dataSource.defaultCatalog");
 
-
 		dataSource.setDriverClassName(driverClassName);
 		dataSource.setUrl(url);
 		dataSource.setUsername(username);
@@ -68,8 +68,8 @@ public class DataSourceConfiguration {
 			dataSource.setInitialSize(initialSize.intValue());
 		}
 
-		if (maxActive != null) {
-			dataSource.setMaxActive(maxActive);
+		if (maxTotal != null) {
+			dataSource.setMaxTotal(maxTotal);
 		}
 
 		if (maxIdle != null) {
@@ -80,8 +80,8 @@ public class DataSourceConfiguration {
 			dataSource.setMinIdle(minIdle.intValue());
 		}
 
-		if (maxWait != null) {
-			dataSource.setMaxWait(maxWait.longValue());
+		if (maxWaitMills != null) {
+			dataSource.setMaxWaitMillis(maxWaitMills.intValue());
 		}
 
 		if (testOnBorrow != null) {

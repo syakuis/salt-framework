@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="egovmei.modules.demo.mapper.DemoMapper">
+<mapper namespace="egovmei.modules.demo.mapper.DemoEgovMapper">
 
 	<resultMap id="demo" type="egovmei.modules.demo.domain.Demo">
 		<id property="demoIdx" column="demo_idx" />
