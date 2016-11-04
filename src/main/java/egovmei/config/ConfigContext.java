@@ -1,7 +1,7 @@
 package egovmei.config;
 
-import egovframework.rte.psl.dataaccess.mapper.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.saltframework.support.mybatis.Mapper;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
  */
 @Configuration
 @ComponentScan(
-		basePackages = "egovmei",
+		basePackages = "egovmei.apps",
 		includeFilters = {
 				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Component.class),
 				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class)
 		}
 )
-@MapperScan(basePackages = "egovmei", annotationClass = Mapper.class)
-@ImportResource("egovmei/config/config-context.xml")
+@MapperScan(basePackages = "egovmei.apps", annotationClass = Mapper.class)
+@ImportResource({"egovmei/config/egovmei-context.xml"})
 public class ConfigContext {
 }

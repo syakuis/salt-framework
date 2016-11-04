@@ -1,4 +1,4 @@
-package egovmei.modules.demo.web;
+package egovmei.apps.modules.demo.web;
 
 import org.saltframework.core.module.ModuleCache;
 import org.springframework.beans.factory.annotation.Autowired;

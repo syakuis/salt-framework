@@ -1,6 +1,6 @@
-package egovmei.modules.demo.dao;
+package egovmei.apps.modules.demo.dao;
 
-import egovmei.modules.demo.domain.Demo;
+import egovmei.apps.modules.demo.domain.Demo;
 
 import java.util.List;
 

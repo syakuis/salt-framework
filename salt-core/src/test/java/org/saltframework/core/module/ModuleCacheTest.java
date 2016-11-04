@@ -26,7 +26,7 @@ public class ModuleCacheTest {
 	@Test
 	public void test() throws IOException {
 		Properties properties = new Properties();
-		properties.load(ClassLoader.getSystemResourceAsStream("org/saltframework/apps/modules/demo/demo.module.properties"));
+		properties.load(ClassLoader.getSystemResourceAsStream("demo.module.properties"));
 
 		System.out.println(ModuleName.moduleId);
 

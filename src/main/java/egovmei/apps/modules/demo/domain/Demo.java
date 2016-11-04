@@ -1,4 +1,4 @@
-package egovmei.modules.demo.domain;
+package egovmei.apps.modules.demo.domain;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)

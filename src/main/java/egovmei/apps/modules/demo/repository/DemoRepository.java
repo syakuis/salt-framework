@@ -1,6 +1,6 @@
-package egovmei.modules.demo.repository;
+package egovmei.apps.modules.demo.repository;
 
-import egovmei.modules.demo.dao.DemoDAO;
+import egovmei.apps.modules.demo.dao.DemoDAO;
 import org.springframework.stereotype.Repository;
 
 /**

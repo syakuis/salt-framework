@@ -1,7 +1,7 @@
-package egovmei.modules.demo;
+package egovmei.apps.modules.demo;
 
 import egovmei.config.ConfigContext;
-import egovmei.modules.demo.dao.DemoDAO;
+import egovmei.apps.modules.demo.dao.DemoDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.saltframework.config.BootstrapConfiguration;

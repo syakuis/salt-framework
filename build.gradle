@@ -9,8 +9,12 @@ buildscript {
 
 configure(allprojects) {
 	apply plugin: 'java'
-	apply plugin: 'propdeps'
 	apply plugin: 'pmd'
+	apply plugin: 'propdeps'
+	apply plugin: 'war'
+
+	apply plugin: 'idea'
+	apply plugin: 'propdeps-idea'
 
 	sourceCompatibility = 1.7
 	targetCompatibility = 1.7
@@ -20,10 +24,13 @@ configure(allprojects) {
 	}
 
 	ext {
-		slf4jVersion = '1.7.12'
-		junitVersion = '4.11'
+		slf4jVersion = '1.7.21'
+		junitVersion = '4.12'
 
-		springVersion = '4.2.4.RELEASE'
+		aspectjVersion = '1.8.8'
+		jacksonVersion = '2.1.0'
+
+		springVersion = '4.3.3.RELEASE'
 
 		hibernateVersion = '5.1.0.Final'
 		springDataJpaVersion = '1.10.1.RELEASE'
@@ -45,6 +52,14 @@ configure(allprojects) {
 		}
 		testCompile "junit:junit:$junitVersion"
 
+		compile 'org.apache.commons:commons-lang3:3.4'
+
+		compile "org.aspectj:aspectjweaver:${aspectjVersion}"
+
+		compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}",
+				"com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
+				"com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+
 		testCompile "org.springframework:spring-test:$springVersion"
 		compile "org.springframework:spring-context:$springVersion",
 				"org.springframework:spring-context-support:$springVersion"
@@ -65,11 +80,9 @@ configure(allprojects) {
 
 		compile "net.sf.ehcache:ehcache:${ehcacheVersion}"
 
-		compile 'org.apache.commons:commons-lang3:3.4'
-
-		provided "javax.servlet:javax.servlet-api:3.0.1",
-				"javax.servlet.jsp:jsp-api:2.1",
-				"javax.el:javax.el-api:2.2.4"
+		providedCompile 'javax.servlet:javax.servlet-api:3.0.1',
+				'javax.servlet.jsp:jsp-api:2.1',
+				'javax.el:javax.el-api:2.2.4'
 	}
 }
 
@@ -105,12 +118,10 @@ configure(rootProject) {
 	dependencies {
 		compile project(':salt-core')
 
-		compile "egovframework.rte:egovframework.rte.fdl.cmmn:${egovVersion}",
-				"egovframework.rte:egovframework.rte.fdl.idgnr:${egovVersion}",
-				"egovframework.rte:egovframework.rte.fdl.logging:${egovVersion}",
-				"egovframework.rte:egovframework.rte.fdl.property:${egovVersion}",
-				"egovframework.rte:egovframework.rte.fdl.string:${egovVersion}",
-				"egovframework.rte:egovframework.rte.psl.dataaccess:${egovVersion}",
-				"egovframework.rte:egovframework.rte.ptl.mvc:${egovVersion}"
+		compile('javax.servlet:jstl:1.2') {
+			exclude group: 'javax.servlet', module: 'servlet-api'
+		}
+
+		compile "org.springframework:spring-webmvc:$springVersion"
 	}
 }

@@ -20,12 +20,8 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(
-		basePackages = {
-				"org.saltframework.config.context"
-		},
-		includeFilters = {
-				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
-		}
+		basePackages = "org.saltframework.config.context",
+		includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 )
 public class BootstrapConfiguration {
 	private static final Logger logger = LoggerFactory.getLogger(BootstrapConfiguration.class);
