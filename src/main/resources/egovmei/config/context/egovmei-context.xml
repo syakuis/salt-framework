@@ -18,7 +18,7 @@
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="egovmei.apps" />
-		<property name="annotationClass" value="org.saltframework.support.mybatis.Mapper"/>
+		<property name="annotationClass" value="egovframework.rte.psl.dataaccess.mapper.Mapper"/>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 

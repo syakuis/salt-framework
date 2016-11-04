@@ -23,6 +23,6 @@ import org.springframework.stereotype.Service;
 		}
 )
 @MapperScan(basePackages = "egovmei.apps", annotationClass = Mapper.class)
-@ImportResource({"egovmei/config/egovmei-context.xml"})
+@ImportResource({"egovmei/bootstrap-context.xml"})
 public class ConfigContext {
 }
