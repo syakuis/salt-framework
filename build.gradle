@@ -128,5 +128,34 @@ configure(rootProject) {
 		providedCompile 'javax.servlet:javax.servlet-api:3.0.1',
 				'javax.servlet.jsp:jsp-api:2.1',
 				'javax.el:javax.el-api:2.2.4'
+
+		compile ("egovframework.rte:egovframework.rte.fdl.cmmn:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.idgnr:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.logging:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.property:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.string:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.psl.dataaccess:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.ptl.mvc:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
 	}
 }
