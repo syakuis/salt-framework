@@ -23,19 +23,19 @@ public class ModuleCache {
 	}
 
 	public void put(String name, Properties module) {
-		cache.put(name, new FactoryModule(module));
+		cache.put(name, new ModuleMap(module));
 	}
 
 	public void put(String name, Map<String, Object> module) {
-		cache.put(name, new FactoryModule(module));
+		cache.put(name, new ModuleMap(module));
 	}
 
 	public Module merge(String name, Map<String, Object> module) {
-		Module module2 = cache.get(name, Module.class);
-		Map<String, Object> module3 = module2.getOptions();
-		module3.putAll(module);
-		cache.put(name, new FactoryModule(module3));
+		Module original = cache.get(name, Module.class);
+		Map<String, Object> result = original.toMap();
+		result.putAll(module);
+		cache.put(name, new ModuleMap(result));
 
-		return new FactoryModule(module3);
+		return cache.get(name, Module.class);
 	}
 }

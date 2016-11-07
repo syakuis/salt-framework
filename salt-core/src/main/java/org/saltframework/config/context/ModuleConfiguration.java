@@ -19,13 +19,6 @@ import java.util.Properties;
  * @since 2016. 11. 1.
  */
 @Configuration
-@ComponentScan(
-		basePackages = "org.saltframework.apps",
-		includeFilters = {
-				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Component.class),
-				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class)
-		}
-)
 public class ModuleConfiguration {
 
 	@Autowired
