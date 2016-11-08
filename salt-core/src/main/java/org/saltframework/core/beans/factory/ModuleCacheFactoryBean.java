@@ -20,13 +20,18 @@ public class ModuleCacheFactoryBean extends AbstractFactoryBean<ModuleCache> {
 	private final String cache_name = "module";
 	private final String propertiesName = ".module.properties";
 	private final CacheManager cacheManager;
-	private String configLocations;
+	private String configLocation;
+	private String[] configLocations;
 
 	public ModuleCacheFactoryBean(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
 
-	public void setConfigLocations(String configLocations) {
+	public void setConfigLocation(String configLocation) {
+		this.setConfigLocations(StringUtils.tokenizeToStringArray(configLocation, ","));
+	}
+
+	public void setConfigLocations(String[] configLocations) {
 		this.configLocations = configLocations;
 	}
 
@@ -38,7 +43,6 @@ public class ModuleCacheFactoryBean extends AbstractFactoryBean<ModuleCache> {
 	@Override
 	protected ModuleCache createInstance() throws IOException {
 		ModuleCache moduleCache = new ModuleCache(cacheManager.getCache(cache_name));
-		String[] configLocations = StringUtils.tokenizeToStringArray(this.configLocations, ",");
 		PathMatchingResourceResolver pathResourcePatternResolver = new PathMatchingResourceResolver();
 		Resource[] resources = pathResourcePatternResolver.getResources(configLocations);
 		for (Resource resource : resources) {

@@ -100,22 +100,15 @@ project(':salt-core') {
 }
 
 project(':salt-web') {
-	apply plugin: 'war'
-
 	group 'org.saltframework'
 	version '1.0.0.RELEASE'
 
 	dependencies {
 		compile project(':salt-core')
 
-		compile('javax.servlet:jstl:1.2') {
-			exclude group: 'javax.servlet', module: 'servlet-api'
-		}
-
 		compile "org.springframework:spring-webmvc:$springVersion"
 
-		providedCompile 'javax.servlet:javax.servlet-api:3.0.1',
-				'javax.servlet.jsp:jsp-api:2.1',
+		provided 'javax.servlet:javax.servlet-api:3.0.1',
 				'javax.el:javax.el-api:2.2.4'
 
 		compile 'org.freemarker:freemarker:2.3.23'
@@ -148,6 +141,7 @@ configure(rootProject) {
 
 	dependencies {
 		compile project(':salt-core')
+		compile project(':salt-web')
 
 		compile('javax.servlet:jstl:1.2') {
 			exclude group: 'javax.servlet', module: 'servlet-api'

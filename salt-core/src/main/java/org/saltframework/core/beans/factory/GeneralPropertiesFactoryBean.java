@@ -74,7 +74,8 @@ public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 		}
 
 		String[] props = new String[]{
-				"classpath*:org/saltframework/config/config.properties",
+				"classpath*:org/saltframework/config/core.properties",
+				"classpath*:org/saltframework/config/web.properties",
 				"classpath*:config.properties",
 				"classpath*:config-" + profile + ".properties"
 		};

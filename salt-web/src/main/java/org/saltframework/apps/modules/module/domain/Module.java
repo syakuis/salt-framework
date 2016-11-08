@@ -1,5 +1,7 @@
 package org.saltframework.apps.modules.module.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -8,6 +10,7 @@ import java.util.Date;
  * @site http://syaku.tistory.com
  * @since 2016. 11. 7.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Module {
 	private String groupId;
 	@NotNull

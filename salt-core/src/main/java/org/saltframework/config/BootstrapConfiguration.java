@@ -21,6 +21,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(
 		basePackages = "org.saltframework.config.context",
+		useDefaultFilters = false,
 		includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 )
 public class BootstrapConfiguration {

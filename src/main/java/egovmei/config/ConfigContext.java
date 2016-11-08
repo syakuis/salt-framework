@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Configuration
 @ComponentScan(
 		basePackages = "egovmei.apps",
+		useDefaultFilters = false,
 		includeFilters = {
 				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Component.class),
 				@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class)

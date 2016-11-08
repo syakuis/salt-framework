@@ -8,6 +8,6 @@ import org.saltframework.support.mybatis.Mapper;
  * @site http://syaku.tistory.com
  * @since 2016. 11. 7.
  */
-@Mapper
+@Mapper("moduleDAO")
 public interface ModuleMapper extends ModuleDAO {
 }

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -38,7 +39,9 @@ public class MybatisConfiguration {
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
-		String dbms = config.getProperty("dataSource.dbms", "oracle");
+		String type = config.getProperty("dataSource.type");
+		Assert.hasText(type);
+
 		String configLocation = config.getProperty("mybatis.configLocation");
 		String[] mapperLocations = StringUtils.tokenizeToStringArray(config.getProperty("config.mybatis.mapperLocations"), ",");
 		String[] mapperLocations2 = StringUtils.tokenizeToStringArray(config.getProperty("mybatis.mapperLocations"), ",");
@@ -48,7 +51,7 @@ public class MybatisConfiguration {
 
 		String[] mappers = new String[ mapperLocations.length ];
 		for (int i = 0; i < mapperLocations.length; i++) {
-			mappers[i] = String.format(mapperLocations[i], dbms);
+			mappers[i] = String.format(mapperLocations[i], type);
 		}
 
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -64,7 +67,7 @@ public class MybatisConfiguration {
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("\ndbms : {}\nconfigLocation : {}\nmapperLocations : {}",
-					dbms,
+					type,
 					configLocation,
 					StringUtils.arrayToCommaDelimitedString(mappers));
 		}
