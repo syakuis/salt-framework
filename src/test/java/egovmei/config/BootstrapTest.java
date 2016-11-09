@@ -2,7 +2,6 @@ package egovmei.config;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.saltframework.config.BootstrapConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +17,7 @@ import java.util.Properties;
  * @since 2016. 10. 8.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {
-		BootstrapConfiguration.class,
-		ConfigContext.class
-})
+@ContextConfiguration(locations = "classpath*:egovmei/config/bootstrap-context.xml")
 public class BootstrapTest {
 	private static final Logger logger = LoggerFactory.getLogger(BootstrapTest.class);
 

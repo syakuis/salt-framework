@@ -60,7 +60,7 @@ public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 		}
 		String[] profiles = env.getActiveProfiles();
 		if (profiles != null && profiles.length == 0) {
-			profiles = env.getDefaultProfiles();
+				profiles = env.getDefaultProfiles();
 		}
 
 		if (env.acceptsProfiles(Profile.DEV.value)) {

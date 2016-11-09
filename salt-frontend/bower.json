@@ -1,0 +1,28 @@
+{
+  "name": "salt-web",
+  "description": "saltframework front-end library package",
+  "authors": [
+	"Syaku (http://syaku.tistory.com>)"
+  ],
+  "homepage": "http://syaku.tistory.com",
+  "license": "MIT",
+  "ignore": [
+	"**/.*",
+	"node_modules",
+	"bower_components",
+	"test",
+	"tests"
+  ],
+  "dependencies": {
+	"jquery": "1.12.4",
+	"jquery-migrate": "1.4.0",
+	"font-awesome": "4.7.0",
+	"bootstrap": "3.3.7",
+	"jquery.serializeJSON": "2.7.2",
+	"underscore": "1.8.3",
+	"handlebars": "4.0.5",
+	"jquery-ui": "1.12.1",
+	"ionicons": "2.0.1",
+	"toastr": "2.1.3"
+  }
+}

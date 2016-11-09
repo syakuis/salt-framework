@@ -1,7 +1,6 @@
 package org.saltframework.core.module;
 
-import com.sun.tools.jdi.LinkedHashMap;
-
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -27,7 +26,7 @@ public final class ModuleModel {
 		this.groupId = groupId;
 		this.moduleId = moduleId;
 		this.moduleName = moduleName;
-		this.options = new LinkedHashMap(options);
+		this.options = new LinkedHashMap<>(options);
 	}
 
 	public String getGroupId() {

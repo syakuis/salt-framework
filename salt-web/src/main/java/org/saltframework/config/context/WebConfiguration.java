@@ -45,7 +45,7 @@ public class WebConfiguration {
 	@Bean(name ="freemarkerConfig")
 	public FreeMarkerConfigurer freeMarkerConfigurer() {
 		FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-		configurer.setTemplateLoaderPath("/WEB-INF/apps/views/");
+		configurer.setTemplateLoaderPath("/WEB-INF/views/");
 		configurer.setDefaultEncoding(config.getProperty("config.charset"));
 
 		Properties properties = new Properties();
