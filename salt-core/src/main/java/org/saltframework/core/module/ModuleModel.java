@@ -1,14 +1,18 @@
 package org.saltframework.core.module;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.springframework.util.Assert;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http ://syaku.tistory.com
  * @since 2016. 11. 7.
  */
-public final class ModuleModel {
+public final class ModuleModel implements Serializable {
+	private static final long serialVersionUID = 6426236474133190177L;
+
 	private final String groupId;
 	private final String moduleId;
 	private final String moduleName;
@@ -18,11 +22,24 @@ public final class ModuleModel {
 
 	private final Map<String, Object> options;
 
+	public ModuleModel(String moduleId, String moduleName) {
+		this(moduleId, moduleId, moduleName, new LinkedHashMap());
+	}
+
+	public ModuleModel(String groupId, String moduleId, String moduleName) {
+		this(moduleId, moduleId, moduleName, new LinkedHashMap());
+	}
+
 	public ModuleModel(String moduleId, String moduleName, Map<String, Object> options) {
 		this(moduleId, moduleId, moduleName, options);
 	}
 
 	public ModuleModel(String groupId, String moduleId, String moduleName, Map<String, Object> options) {
+		Assert.notNull(groupId);
+		Assert.notNull(moduleId);
+		Assert.notNull(moduleName);
+		Assert.notNull(options);
+
 		this.groupId = groupId;
 		this.moduleId = moduleId;
 		this.moduleName = moduleName;

@@ -63,14 +63,14 @@ public class GeneralPropertiesFactoryBean implements FactoryBean<Properties> {
 				profiles = env.getDefaultProfiles();
 		}
 
-		if (env.acceptsProfiles(Profile.DEV.value)) {
-			profile = Profile.DEV.value;
-		} else if (env.acceptsProfiles(Profile.TEST.value)) {
-			profile = Profile.TEST.value;
-		} else if (env.acceptsProfiles(Profile.PROD.value)) {
-			profile = Profile.PROD.value;
+		if (env.acceptsProfiles(Profile.DEV.getValue())) {
+			profile = Profile.DEV.getValue();
+		} else if (env.acceptsProfiles(Profile.TEST.getValue())) {
+			profile = Profile.TEST.getValue();
+		} else if (env.acceptsProfiles(Profile.PROD.getValue())) {
+			profile = Profile.PROD.getValue();
 		} else {
-			profile = Profile.DEFAULT.value;
+			profile = Profile.DEFAULT.getValue();
 		}
 
 		String[] props = new String[]{

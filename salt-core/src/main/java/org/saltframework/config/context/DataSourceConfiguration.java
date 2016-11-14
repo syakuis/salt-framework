@@ -119,7 +119,7 @@ public class DataSourceConfiguration {
 			dataSource.setConnectionInitSqls(Arrays.asList(connectionInitSqlsArray));
 		}
 		if (defaultReadOnly != null) {
-			dataSource.setDefaultReadOnly(defaultReadOnly.booleanValue());
+			dataSource.setDefaultReadOnly(defaultReadOnly);
 		}
 		if (defaultAutoCommit != null) {
 			dataSource.setDefaultAutoCommit(defaultAutoCommit.booleanValue());

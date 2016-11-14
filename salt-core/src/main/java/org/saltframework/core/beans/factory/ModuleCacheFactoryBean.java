@@ -17,8 +17,8 @@ import java.util.Properties;
  * @since 2016. 11. 3.
  */
 public class ModuleCacheFactoryBean extends AbstractFactoryBean<ModuleCache> {
-	private final String cache_name = "module";
-	private final String propertiesName = ".module.properties";
+	private static final String CACHE_NAME = "module";
+	private static final String PROPERTIES_NAME = ".module.properties";
 	private final CacheManager cacheManager;
 	private String configLocation;
 	private String[] configLocations;
@@ -42,11 +42,11 @@ public class ModuleCacheFactoryBean extends AbstractFactoryBean<ModuleCache> {
 
 	@Override
 	protected ModuleCache createInstance() throws IOException {
-		ModuleCache moduleCache = new ModuleCache(cacheManager.getCache(cache_name));
+		ModuleCache moduleCache = new ModuleCache(cacheManager.getCache(CACHE_NAME));
 		PathMatchingResourceResolver pathResourcePatternResolver = new PathMatchingResourceResolver();
 		Resource[] resources = pathResourcePatternResolver.getResources(configLocations);
 		for (Resource resource : resources) {
-			String name = resource.getFilename().replace(propertiesName, "");
+			String name = resource.getFilename().replace(PROPERTIES_NAME, "");
 			Properties properties = new Properties();
 			properties.load(resource.getInputStream());
 

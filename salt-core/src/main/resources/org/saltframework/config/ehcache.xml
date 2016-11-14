@@ -6,6 +6,7 @@
 
 	<diskStore path="java.io.tmpdir" />
 
+	<!-- 코어 모듈용 캐시 -->
 	<cache name="module"
 		   maxEntriesLocalHeap="10000"
 		   eternal="true"

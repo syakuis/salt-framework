@@ -19,12 +19,18 @@ public final class ModuleUtils {
 
 	public static List<String> getSkinsFolderName(String module) {
 		File skinFile = new File(PathUtils.getWebRootAbsolutePath() + "/" + module);
-		if (!skinFile.exists()) return Collections.EMPTY_LIST;
+		if (!skinFile.exists()) {
+			return Collections.EMPTY_LIST;
+		}
 
 		List<String> result = new ArrayList<>();
 
 		String skinNaming = "[a-zA-Z0-9_]+";
 		Pattern pattern =  Pattern.compile(skinNaming);
+
+		if (skinFile.listFiles() == null) {
+			return Collections.EMPTY_LIST;
+		}
 
 		for(File file : skinFile.listFiles()) {
 			if (file.isDirectory() && pattern.matcher(file.getName()).find()) {

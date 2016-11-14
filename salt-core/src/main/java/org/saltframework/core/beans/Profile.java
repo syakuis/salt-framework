@@ -8,9 +8,13 @@ package org.saltframework.core.beans;
 public enum Profile {
 	DEFAULT("default"), DEV("dev"), TEST("test"), PROD("prod");
 
-	public String value;
+	private String value;
 
 	Profile(String value) {
 		this.value = value;
+	}
+
+	public String getValue() {
+		return value;
 	}
 }

@@ -62,10 +62,10 @@ public class Module {
 	}
 
 	public Date getRegDate() {
-		return regDate;
+		return new Date(regDate.getTime());
 	}
 
 	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
+		this.regDate = new Date(regDate.getTime());
 	}
 }

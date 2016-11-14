@@ -1,7 +1,5 @@
 package org.saltframework.core.module;
 
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -13,7 +11,6 @@ import java.util.*;
  * @since 2016. 11. 3.
  */
 public class ModuleMap implements Module, Serializable {
-	private static final long serialVersionUID = -3417004497467828361L;
 
 	private static final String GROUP_ID_FIELD = "groupId";
 	private static final String MODULE_ID_FIELD = "moduleId";
@@ -21,6 +18,7 @@ public class ModuleMap implements Module, Serializable {
 	private static final String SKIN_FIELD = "skin";
 	private static final String LAYOUT_ID_FIELD = "layoutId";
 	private static final String PARENT_FIELD = "parent";
+
 
 	private ModuleModel moduleModel;
 	private Date create;
@@ -61,6 +59,8 @@ public class ModuleMap implements Module, Serializable {
 	/**
 	 * Map 을 ModuleModel 로 바인딩
 	 *
+	 * null 인 경우 대입되지 않음. 그래서 기존에 값을 유지할 필요가 있음.
+	 *
 	 * @param map Map
 	 * @return ModuleModel
 	 */
@@ -74,10 +74,11 @@ public class ModuleMap implements Module, Serializable {
 
 		Map<String, Object> options = new LinkedHashMap<>();
 
-		Iterator<String> names = map.keySet().iterator();
-		while (names.hasNext()) {
-			String name = names.next();
-			String value = String.valueOf(map.get(name));
+		for(Map.Entry<String, Object> item : map.entrySet()) {
+			if (item.getValue() == null) continue;
+
+			String value = String.valueOf(item.getValue());
+			String name = item.getKey();
 
 			if (name.equals(GROUP_ID_FIELD)) {
 				groupId = value;
@@ -92,7 +93,7 @@ public class ModuleMap implements Module, Serializable {
 			} else if (name.equals(PARENT_FIELD)) {
 				parent = Boolean.parseBoolean(value);
 			} else {
-				options.put(name, map.get(name));
+				options.put(name, value);
 			}
 		}
 

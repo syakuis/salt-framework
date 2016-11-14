@@ -19,6 +19,7 @@ public class ModuleMapTest {
 		Properties properties = new Properties();
 
 		/*
+		프로퍼티의
 		moduleId = demo
 		moduleName = demo
 		skin = tpl
