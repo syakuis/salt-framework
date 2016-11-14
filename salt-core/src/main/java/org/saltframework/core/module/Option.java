@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @site http://syaku.tistory.com
  * @since 2016. 11. 2.
  */
-public final class Option implements Serializable {
+public class Option implements Serializable {
 	private static final long serialVersionUID = -1356192845779265736L;
 	private final String name;
 	private final Object value;

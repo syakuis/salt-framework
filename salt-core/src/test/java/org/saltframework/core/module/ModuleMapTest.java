@@ -1,12 +1,12 @@
 package org.saltframework.core.module;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)
@@ -14,31 +14,47 @@ import java.util.Properties;
  * @since 2016. 11. 3.
  */
 public class ModuleMapTest {
-	private static final Logger logger = LoggerFactory.getLogger(ModuleMapTest.class);
-
-
 	@Test
-	public void init() throws IOException {
+	public void test() throws IOException {
 		Properties properties = new Properties();
+
+		/*
+		moduleId = demo
+		moduleName = demo
+		skin = tpl
+		time = 10000
+		title = 데모
+		 */
 		properties.load(ClassLoader.getSystemResourceAsStream("demo.module.properties"));
 
+		String moduleId = properties.getProperty("moduleId");
+		String moduleName = properties.getProperty("moduleName");
+
+		// ModuleMap 생성되는 지 확인한다.
 		ModuleMap module = new ModuleMap(properties);
+		assertNotNull("should not be null", module);
 
-		logger.debug("groupId: {}", module.getGroupId());
-		logger.debug("moduleId: {}", module.getModuleId());
-		logger.debug("moduleName: {}", module.getModuleName());
+		// 값이 일치하는 지 확인한다.
+		assertEquals("failure - strings are not equal", moduleId, module.getGroupId());
+		assertEquals("failure - strings are not equal", moduleId, module.getModuleId());
+		assertEquals("failure - strings are not equal", moduleName, module.getModuleName());
 
+		// Map 으로 변경하여 얻는 다.
 		Map<String, Object> original = module.toMap();
-		original.put("moduleId", "demo2");
+		assertNotNull("should not be null", original);
+
+		String aModuleId = "demo2";
+		assertFalse("failure - should be false", original.isEmpty());
+		original.put("moduleId", aModuleId);
 
 		ModuleMap copy = new ModuleMap(original);
+		assertNotNull("should not be null", copy);
 
-		logger.debug(module.toString());
-		logger.debug(copy.toString());
+		assertNotSame("should not be same Object", module, copy);
+		assertEquals("failure - strings are not equal", aModuleId, copy.getModuleId());
 
 		for(Option option : copy.options()) {
-			logger.debug("Option {} : {}", option.getName(), option.getValue());
-			logger.debug("getOption {} : {}", option.getName(), copy.getOption(option.getName()));
+			assertEquals("failure - strings are not equal", option.getValue(), copy.getOption(option.getName()));
 		}
 
 	}

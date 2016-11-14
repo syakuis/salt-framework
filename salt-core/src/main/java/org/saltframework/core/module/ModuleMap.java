@@ -1,5 +1,7 @@
 package org.saltframework.core.module;
 
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import java.util.*;
  * @site http://syaku.tistory.com
  * @since 2016. 11. 3.
  */
-public final class ModuleMap implements Module, Serializable {
+public class ModuleMap implements Module, Serializable {
 	private static final long serialVersionUID = -3417004497467828361L;
 
 	private static final String GROUP_ID_FIELD = "groupId";
@@ -40,19 +42,29 @@ public final class ModuleMap implements Module, Serializable {
 		Assert.notNull(moduleModel.getModuleName());
 	}
 
-	public static ModuleModel load(Map<String, Object> map) {
-		Properties properties = new Properties();
-		properties.putAll(map);
-		return load(properties);
-	}
-
 	/**
-	 * 프로퍼티로 모듈을 생성한다.
+	 * Properties to Map and ModuleModel
 	 *
 	 * @param properties Properties
 	 * @return ModuleModel
 	 */
 	public static ModuleModel load(Properties properties) {
+		Map<String, Object> map = new LinkedHashMap<>();
+
+		for (final String name: properties.stringPropertyNames()) {
+			map.put(name, properties.getProperty(name));
+		}
+
+		return ModuleMap.load(map);
+	}
+
+	/**
+	 * Map 을 ModuleModel 로 바인딩
+	 *
+	 * @param map Map
+	 * @return ModuleModel
+	 */
+	public static ModuleModel load(Map<String, Object> map) {
 		String groupId = null;
 		String moduleId = null;
 		String moduleName = null;
@@ -62,22 +74,25 @@ public final class ModuleMap implements Module, Serializable {
 
 		Map<String, Object> options = new LinkedHashMap<>();
 
-		for (final String name: properties.stringPropertyNames()) {
+		Iterator<String> names = map.keySet().iterator();
+		while (names.hasNext()) {
+			String name = names.next();
+			String value = String.valueOf(map.get(name));
 
 			if (name.equals(GROUP_ID_FIELD)) {
-				groupId = properties.getProperty(name);
+				groupId = value;
 			} else if (name.equals(MODULE_ID_FIELD)) {
-				moduleId = properties.getProperty(name);
+				moduleId = value;
 			} else if (name.equals(MODULE_NAME_FIELD)) {
-				moduleName = properties.getProperty(name);
+				moduleName = value;
 			} else if (name.equals(SKIN_FIELD)) {
-				skin = properties.getProperty(name);
+				skin = value;
 			} else if (name.equals(LAYOUT_ID_FIELD)) {
-				layoutId = properties.getProperty(name);
+				layoutId = value;
 			} else if (name.equals(PARENT_FIELD)) {
-				parent = (boolean) properties.get(name);
+				parent = Boolean.parseBoolean(value);
 			} else {
-				options.put(name, properties.get(name));
+				options.put(name, map.get(name));
 			}
 		}
 

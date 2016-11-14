@@ -2,6 +2,7 @@ package org.saltframework.core.module;
 
 import org.springframework.cache.Cache;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 

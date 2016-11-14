@@ -1,8 +1,12 @@
 package org.saltframework.core.module;
 
+import org.saltframework.util.io.PathUtils;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)
@@ -10,36 +14,24 @@ import java.util.List;
  * @since 2016. 11. 9.
  */
 public final class ModuleUtils {
-	public static final String MODULE_SKIN_DIR_FORMAT = "/WEB-INF/views/modules/%s";
 	private ModuleUtils() {
 	}
 
-	public static List<String> getSkinsFolderName() {
+	public static List<String> getSkinsFolderName(String module) {
+		File skinFile = new File(PathUtils.getWebRootAbsolutePath() + "/" + module);
+		if (!skinFile.exists()) return Collections.EMPTY_LIST;
 
-		File
+		List<String> result = new ArrayList<>();
 
+		String skinNaming = "[a-zA-Z0-9_]+";
+		Pattern pattern =  Pattern.compile(skinNaming);
 
-		List<String> listFolders = new ArrayList<String>();
-
-		String path = moduleContext.getAbsolutePath() + String.format(SKINS_PATH, module_name);
-		File folder = new File(path);
-		if (!folder.exists()) return listFolders;
-
-		File arrayFolder[] = folder.listFiles();
-		int count = 0;
-		if (arrayFolder != null) {
-			count = arrayFolder.length;
-		}
-
-		for (int i = 0; i < count; i++) {
-			File info = arrayFolder[i];
-			if (arrayFolder[i].isDirectory()) {
-				String name = info.getName();
-				if (name.equals(".svn") || StringUtils.isEmpty(name) || name.equals("tpl")) continue;
-				listFolders.add(name);
+		for(File file : skinFile.listFiles()) {
+			if (file.isDirectory() && pattern.matcher(file.getName()).find()) {
+				result.add(file.getName());
 			}
 		}
 
-		return listFolders;
+		return result;
 	}
 }

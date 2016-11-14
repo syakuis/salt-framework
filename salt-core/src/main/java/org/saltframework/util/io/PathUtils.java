@@ -16,10 +16,8 @@ public final class PathUtils {
 	}
 
 	public static String getWebRootAbsolutePath() {
-		File file = new File( PathUtils.class.getResource("/").getPath() );
-		String url = FilenameUtils.separatorsToSystem( file.getAbsolutePath() );
-		String classpath = FilenameUtils.separatorsToSystem(CLASSES_PATH);
-		return url.replace(classpath, "");
+		File file = new File(PathUtils.class.getResource("/").getPath());
+		return FilenameUtils.separatorsToSystem(file.getAbsolutePath()).replace(FilenameUtils.separatorsToSystem(CLASSES_PATH), "");
 	}
 
 }

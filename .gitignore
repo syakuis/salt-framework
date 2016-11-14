@@ -27,3 +27,4 @@ gradlew.bat
 bower_components/
 node_modules/
 .tmp/
+/bin/
