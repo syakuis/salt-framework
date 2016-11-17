@@ -32,12 +32,13 @@ public class ModuleMap implements Module, Serializable {
 	}
 
 	public ModuleMap(ModuleModel moduleModel) {
-		this.moduleModel = moduleModel;
-		this.create = new Date();
-
 		Assert.notNull(moduleModel.getGroupId());
 		Assert.notNull(moduleModel.getModuleId());
 		Assert.notNull(moduleModel.getModuleName());
+
+		this.moduleModel = moduleModel;
+		this.create = new Date();
+
 	}
 
 	/**
@@ -75,10 +76,8 @@ public class ModuleMap implements Module, Serializable {
 		Map<String, Object> options = new LinkedHashMap<>();
 
 		for(Map.Entry<String, Object> item : map.entrySet()) {
-			if (item.getValue() == null) continue;
-
-			String value = String.valueOf(item.getValue());
 			String name = item.getKey();
+			String value = (item.getValue() == null) ? null : String.valueOf(item.getValue());
 
 			if (name.equals(GROUP_ID_FIELD)) {
 				groupId = value;
@@ -167,10 +166,8 @@ public class ModuleMap implements Module, Serializable {
 		}
 
 		List<Option> moduleOptions = new ArrayList<>();
-		Iterator<String> names = options.keySet().iterator();
-		while(names.hasNext()) {
-			String name = names.next();
-			moduleOptions.add(new Option(name, options.get(name)));
+		for(Map.Entry<String, Object> option : options.entrySet()) {
+			moduleOptions.add(new Option(option.getKey(), option.getValue()));
 		}
 
 		return moduleOptions;

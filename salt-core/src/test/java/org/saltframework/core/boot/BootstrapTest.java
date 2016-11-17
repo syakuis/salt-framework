@@ -1,9 +1,14 @@
 package org.saltframework.core.boot;
 
 import org.junit.Test;
+import org.saltframework.core.ApplicationProperties;
+import org.saltframework.core.ApplicationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -19,8 +24,14 @@ public class BootstrapTest extends BootstrapTestCase {
 	@Autowired
 	Properties config;
 
+	@Autowired
+	ApplicationProperties applicationProperties;
+
 	@Test
 	public void properties() {
+
+		System.out.println(applicationProperties.getProperties(ApplicationType.MODULE).toString());
+
 		Iterator<String> iterator = config.stringPropertyNames().iterator();
 
 		while (iterator.hasNext()) {

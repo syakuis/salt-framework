@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
  * @site http ://syaku.tistory.com
  * @since 2016. 10. 7.
  */
-public final class RequestSalt {
-	private RequestSalt() {}
+public final class RequestUtils {
+	private RequestUtils() {}
 
 	/**
 	 * 현재 경로를 얻는 다.

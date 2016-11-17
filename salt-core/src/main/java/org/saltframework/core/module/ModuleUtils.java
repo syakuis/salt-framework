@@ -24,15 +24,15 @@ public final class ModuleUtils {
 		}
 
 		List<String> result = new ArrayList<>();
+		Pattern pattern = Pattern.compile("[a-zA-Z0-9_]+");
 
-		String skinNaming = "[a-zA-Z0-9_]+";
-		Pattern pattern =  Pattern.compile(skinNaming);
+		File[] files = skinFile.listFiles();
 
-		if (skinFile.listFiles() == null) {
-			return Collections.EMPTY_LIST;
+		if (files == null || files.length == 0) {
+			return result;
 		}
 
-		for(File file : skinFile.listFiles()) {
+		for(File file : files) {
 			if (file.isDirectory() && pattern.matcher(file.getName()).find()) {
 				result.add(file.getName());
 			}

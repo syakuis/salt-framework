@@ -1,7 +1,7 @@
 package org.saltframework.config.context;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.saltframework.util.object.PropertiesTool;
+import org.saltframework.util.object.PropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +122,7 @@ public class DataSourceConfiguration {
 			dataSource.setDefaultReadOnly(defaultReadOnly);
 		}
 		if (defaultAutoCommit != null) {
-			dataSource.setDefaultAutoCommit(defaultAutoCommit.booleanValue());
+			dataSource.setDefaultAutoCommit(defaultAutoCommit);
 		}
 		if (defaultTransactionIsolation != null) {
 			dataSource.setDefaultTransactionIsolation(defaultTransactionIsolation.intValue());
@@ -132,7 +132,7 @@ public class DataSourceConfiguration {
 		}
 
 		if (logger.isDebugEnabled()) {
-			List<String> names = PropertiesTool.getNames(config, propertiesName);
+			List<String> names = PropertiesUtils.getNames(config, propertiesName);
 			for (String name : names) {
 				logger.debug("{} : {}", name, config.getProperty(name));
 			}

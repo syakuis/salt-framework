@@ -22,12 +22,12 @@ public class ModuleCacheTest extends BootstrapTestCase {
 	@Autowired
 	private CacheManager cacheManager;
 
-	private ModuleCache moduleCache;
+	private ModuleContext moduleContext;
 	private Module module;
 
 	@Before
 	public void init() throws IOException {
-		moduleCache = new ModuleCache(cacheManager.getCache("module"));
+		moduleContext = new CacheModuleContext(cacheManager.getCache("module"));
 		Properties properties = new Properties();
 
 		/*
@@ -49,55 +49,55 @@ public class ModuleCacheTest extends BootstrapTestCase {
 	@Test
 	public void create() throws IOException {
 		// 캐시에 담음
-		moduleCache.put("demo", module.toMap());
+		moduleContext.save("demo", module);
 
-		assertNotEquals(module, moduleCache.get("demo"));
-		assertNotSame(module.toMap(), moduleCache.get("demo").toMap());
+		assertEquals(module, moduleContext.get("demo"));
+		assertNotSame(module.toMap(), moduleContext.get("demo").toMap());
 
 		// 새로운 데이터를 만들어 캐시 머지 테스트
-		Map<String, Object> map = moduleCache.get("demo").toMap();
+		Map<String, Object> map = moduleContext.get("demo").toMap();
 		map.put("skin", null);
 
-		moduleCache.merge("demo", map);
+		moduleContext.merge("demo", new ModuleMap(map), false);
 
-		assertNotSame(moduleCache.get("demo").toMap(), moduleCache.get("demo").toMap());
+		assertNotSame(moduleContext.get("demo").toMap(), moduleContext.get("demo").toMap());
 	}
 
 	// 필수값 null 인 경우 익셉션 발생
 	@Test(expected = IllegalArgumentException.class)
 	public void moduleRequired() {
-		Map<String, Object> map = moduleCache.get("demo").toMap();
+		Map<String, Object> map = moduleContext.get("demo").toMap();
 		map.put("moduleId", null);
 
-		moduleCache.merge("demo", map);
+		moduleContext.merge("demo", new ModuleMap(map), false);
 	}
 
 	// moduleCache merge
 	@Test
 	public void merge() {
 
-		Map<String, Object> map = moduleCache.get("demo").toMap();
+		Map<String, Object> map = moduleContext.get("demo").toMap();
 		map.put("skin", null);
 		map.put("time", null);
-		moduleCache.merge("demo", map);
+		moduleContext.merge("demo", new ModuleMap(map), false);
 
-		Map<String, Object> dataIsNull = moduleCache.get("demo").toMap();
+		Module dataNull = moduleContext.get("demo");
 
-		assertNull(dataIsNull.get("skin"));
-		assertNull(dataIsNull.get("time"));
+		assertNull(dataNull.getSkin());
+		assertNull(dataNull.getOption("time"));
 
 		// isNull 이 false 경우
 		map.put("skin", "demo");
 		map.put("time", "good");
-		moduleCache.merge("demo", map, false);
+		moduleContext.merge("demo", new ModuleMap(map), false);
 
 		map.put("skin", null);
 		map.put("time", null);
-		moduleCache.merge("demo", map, false);
+		moduleContext.merge("demo", new ModuleMap(map), true);
 
-		Map<String, Object> dataIsNullFalse = moduleCache.get("demo").toMap();
+		Module dataNotNull = moduleContext.get("demo");
 
-		assertNotNull(dataIsNullFalse.get("skin"));
-		assertNotNull(dataIsNullFalse.get("time"));
+		assertNotNull(dataNotNull.getSkin());
+		assertNotNull(dataNotNull.getOption("time"));
 	}
 }

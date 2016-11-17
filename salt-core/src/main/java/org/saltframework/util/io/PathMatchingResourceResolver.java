@@ -17,11 +17,7 @@ import java.util.List;
  * @site http://syaku.tistory.com
  */
 public class PathMatchingResourceResolver implements ResourcePatternResolver {
-	private final PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver;
-
-	public PathMatchingResourceResolver() {
-		this.pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
-	}
+	private final PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
 
 	@Override
 	public ClassLoader getClassLoader() {

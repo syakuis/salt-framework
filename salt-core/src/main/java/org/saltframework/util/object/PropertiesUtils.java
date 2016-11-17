@@ -7,8 +7,8 @@ import java.util.*;
  * @site http://syaku.tistory.com
  * @since 2016. 10. 31.
  */
-public final class PropertiesTool {
-	private PropertiesTool() {
+public final class PropertiesUtils {
+	private PropertiesUtils() {
 	}
 
 	/**

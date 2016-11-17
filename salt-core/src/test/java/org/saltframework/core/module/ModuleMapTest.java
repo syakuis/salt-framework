@@ -32,7 +32,7 @@ public class ModuleMapTest {
 		String moduleName = properties.getProperty("moduleName");
 
 		// ModuleMap 생성되는 지 확인한다.
-		ModuleMap module = new ModuleMap(properties);
+		Module module = new ModuleMap(properties);
 		assertNotNull("should not be null", module);
 
 		// 값이 일치하는 지 확인한다.
@@ -48,7 +48,7 @@ public class ModuleMapTest {
 		assertFalse("failure - should be false", original.isEmpty());
 		original.put("moduleId", aModuleId);
 
-		ModuleMap copy = new ModuleMap(original);
+		Module copy = new ModuleMap(original);
 		assertNotNull("should not be null", copy);
 
 		assertNotSame("should not be same Object", module, copy);

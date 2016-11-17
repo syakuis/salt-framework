@@ -1,7 +1,7 @@
 package org.saltframework.core.beans.factory;
 
 
-import org.saltframework.util.object.PropertiesTool;
+import org.saltframework.util.object.PropertiesUtils;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -60,7 +60,7 @@ public class JpaEntityManagerFactoryBean extends AbstractFactoryBean<LocalContai
 		if (jpaProperties == null && properties != null) {
 			jpaProperties = new Properties();
 
-			for(String name : PropertiesTool.getNames(properties, "jpa.hibernate")) {
+			for(String name : PropertiesUtils.getNames(properties, "jpa.hibernate")) {
 				jpaProperties.setProperty(name.replace("jpa.", ""), properties.getProperty(name));
 			}
 		}
