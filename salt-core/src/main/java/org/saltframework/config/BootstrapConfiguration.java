@@ -1,5 +1,6 @@
 package org.saltframework.config;
 
+import org.saltframework.core.beans.boot.BootstrapRegistryPostProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class BootstrapConfiguration {
 	private Properties config;
 
 	@Bean
-	public ApplicationPropertiesRegistryPostProcessor applicationPropertiesRegistryPostProcessor() {
-		return new ApplicationPropertiesRegistryPostProcessor();
+	public BootstrapRegistryPostProcessor bootstrapRegistryPostProcessor() {
+		return new BootstrapRegistryPostProcessor();
 	}
 
 	/**

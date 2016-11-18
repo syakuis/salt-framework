@@ -1,4 +1,4 @@
-package org.saltframework.core;
+package org.saltframework.core.properties;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)

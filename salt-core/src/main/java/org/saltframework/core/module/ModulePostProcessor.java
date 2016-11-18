@@ -1,7 +1,7 @@
 package org.saltframework.core.module;
 
-import org.saltframework.core.ApplicationPostProcessor;
-import org.saltframework.core.ApplicationType;
+import org.saltframework.core.properties.ApplicationPostProcessor;
+import org.saltframework.core.properties.ApplicationType;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)

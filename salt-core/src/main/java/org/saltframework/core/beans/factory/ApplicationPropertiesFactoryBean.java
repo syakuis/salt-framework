@@ -1,8 +1,8 @@
 package org.saltframework.core.beans.factory;
 
-import org.saltframework.core.AppPostProcessor;
-import org.saltframework.core.ApplicationProperties;
-import org.saltframework.core.InitializingApplicationProperties;
+import org.saltframework.core.properties.AppPostProcessor;
+import org.saltframework.core.properties.ApplicationProperties;
+import org.saltframework.core.properties.InitializingApplicationProperties;
 import org.saltframework.core.module.ModulePostProcessor;
 import org.springframework.beans.factory.FactoryBean;
 
@@ -25,7 +25,7 @@ public class ApplicationPropertiesFactoryBean implements FactoryBean<Application
 		);
 		initializingApplicationContext.setConfigLocations(locations);
 		initializingApplicationContext.afterPostProcessor();
-		return initializingApplicationContext.getApplicationContext();
+		return initializingApplicationContext.getApplicationProperties();
 	}
 
 	@Override

@@ -3,10 +3,10 @@ package org.saltframework.core.beans;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.saltframework.core.AppPostProcessor;
-import org.saltframework.core.ApplicationProperties;
-import org.saltframework.core.ApplicationType;
-import org.saltframework.core.InitializingApplicationProperties;
+import org.saltframework.core.properties.AppPostProcessor;
+import org.saltframework.core.properties.ApplicationProperties;
+import org.saltframework.core.properties.ApplicationType;
+import org.saltframework.core.properties.InitializingApplicationProperties;
 import org.saltframework.core.module.ModuleMap;
 import org.saltframework.core.module.ModulePostProcessor;
 
@@ -18,27 +18,27 @@ import java.util.Properties;
  * @site http://syaku.tistory.com
  * @since 2016. 11. 15.
  */
-public class InitializingApplicationContextTest {
+public class InitializingApplicationPropertiesTest {
 
-	private ApplicationProperties applicationContext;
+	private ApplicationProperties applicationProperties;
 	private String[] locations = new String[]{
 			"classpath*:test/modules/**/application.properties"
 	};
 
 	@Before
 	public void init() throws Exception {
-		InitializingApplicationProperties initializingApplicationContext = new InitializingApplicationProperties(
+		InitializingApplicationProperties initializingApplicationProperties = new InitializingApplicationProperties(
 				new ModulePostProcessor(),
 				new AppPostProcessor()
 		);
-		initializingApplicationContext.setConfigLocations(locations);
-		initializingApplicationContext.afterPostProcessor();
-		this.applicationContext = initializingApplicationContext.getApplicationContext();
+		initializingApplicationProperties.setConfigLocations(locations);
+		initializingApplicationProperties.afterPostProcessor();
+		this.applicationProperties = initializingApplicationProperties.getApplicationProperties();
 	}
 
 	@Test
 	public void moduleMap() {
-		for(Properties properties : this.applicationContext.getProperties(ApplicationType.MODULE)) {
+		for(Properties properties : this.applicationProperties.getProperties(ApplicationType.MODULE)) {
 			Map<String, Object> module = new ModuleMap(properties).toMap();
 
 			for(Map.Entry<Object, Object> item : properties.entrySet()) {

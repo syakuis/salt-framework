@@ -1,4 +1,4 @@
-package org.saltframework.core;
+package org.saltframework.core.properties;
 
 import org.saltframework.util.io.PathMatchingResourceResolver;
 import org.saltframework.util.object.PropertiesUtils;
@@ -34,7 +34,7 @@ public class InitializingApplicationProperties {
 		this.applicationPostProcessors = applicationPostProcessors;
 	}
 
-	public ApplicationProperties getApplicationContext() {
+	public ApplicationProperties getApplicationProperties() {
 		return this.applicationProperties;
 	}
 

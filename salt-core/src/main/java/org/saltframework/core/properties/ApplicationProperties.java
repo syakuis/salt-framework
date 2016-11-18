@@ -1,4 +1,4 @@
-package org.saltframework.core;
+package org.saltframework.core.properties;
 
 import java.util.*;
 
