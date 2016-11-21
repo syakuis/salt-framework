@@ -17,7 +17,7 @@ public class BootstrapRegistryPostProcessor implements BeanDefinitionRegistryPos
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-		registry.registerBeanDefinition("config2", new RootBeanDefinition(ConfigurePropertiesFactoryBean.class));
+		registry.registerBeanDefinition("config", new RootBeanDefinition(ConfigurePropertiesFactoryBean.class));
 		registry.registerBeanDefinition("app", new RootBeanDefinition(ApplicationPropertiesFactoryBean.class));
 	}
 

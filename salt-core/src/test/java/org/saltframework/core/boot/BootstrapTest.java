@@ -22,14 +22,10 @@ public class BootstrapTest extends BootstrapTestCase {
 	Properties config;
 
 	@Autowired
-	Properties config2;
-
-	@Autowired
 	ApplicationProperties app;
 
 	@Test
 	public void properties() {
-		System.out.println(config2.toString());
 		System.out.println(app.getProperties(ApplicationType.MODULE).toString());
 
 		Iterator<String> iterator = config.stringPropertyNames().iterator();

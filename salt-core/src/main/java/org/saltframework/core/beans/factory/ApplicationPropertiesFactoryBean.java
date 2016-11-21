@@ -7,6 +7,8 @@ import org.saltframework.core.module.ModulePostProcessor;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
+ * 어플리케이션 영역의 모든 초기 설정 정보를 로드하여 설정 정보를 초기화한다.
+ * 어플리케이션 영역은 모듈, 플러그인, 레이아웃 그리고 공통에 해당하는 설정정보이다.
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2016. 11. 17.

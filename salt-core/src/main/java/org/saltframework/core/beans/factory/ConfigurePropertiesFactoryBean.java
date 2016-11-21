@@ -1,16 +1,14 @@
 package org.saltframework.core.beans.factory;
 
-import org.saltframework.core.beans.Profile;
 import org.saltframework.core.properties.InitializingConfigureProperties;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Properties;
 
 /**
+ * 프레임워크를 구동하기 위한 설정 정보를 로드 한다.
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2016. 11. 18.
@@ -18,7 +16,11 @@ import java.util.Properties;
 public class ConfigurePropertiesFactoryBean implements FactoryBean<Properties>, EnvironmentAware {
 
 	private Environment environment;
-	private String fileEncoding = Charset.defaultCharset().name();
+	private String fileEncoding;
+
+	public void setFileEncoding(String fileEncoding) {
+		this.fileEncoding = fileEncoding;
+	}
 
 	@Override
 	public void setEnvironment(Environment environment) {
@@ -33,10 +35,6 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Properties>, 
 	 */
 	@Override
 	public Properties getObject() {
-		if (fileEncoding == null) {
-			fileEncoding = "UTF-8";
-		}
-
 
 		String[] locations = new String[]{
 				"classpath*:org/saltframework/config/core.properties",
@@ -49,6 +47,7 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Properties>, 
 
 
 		InitializingConfigureProperties initializingGeneralProperties = new InitializingConfigureProperties(environment, locations);
+		initializingGeneralProperties.setFileEncoding(fileEncoding);
 		initializingGeneralProperties.afterPostProcessor();
 		return initializingGeneralProperties.getProperties();
 	}

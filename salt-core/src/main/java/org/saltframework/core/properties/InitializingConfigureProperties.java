@@ -1,5 +1,6 @@
 package org.saltframework.core.properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.saltframework.core.beans.Profile;
 import org.saltframework.util.io.PathMatchingResourceResolver;
 import org.slf4j.Logger;
@@ -13,21 +14,14 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 /**
+ * 프레임워크를 구동하기 위한 설정 정보를 초기화한다.
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2016. 11. 18.
  */
 public class InitializingConfigureProperties {
 	private static final Logger logger = LoggerFactory.getLogger(InitializingConfigureProperties.class);
-
-	private final static String[] LOCATIONS = new String[]{
-			"classpath*:org/saltframework/config/core.properties",
-			"classpath*:org/saltframework/config/web.properties",
-			"classpath*:/**/_module.properties",
-			"classpath*:/**/_plugin.properties",
-			"classpath*:/**/_config.properties",
-			"classpath*:/**/_config-test.properties"
-	};
+	private static final String CHARSET_NAME = "charset";
 
 	private final Environment environment;
 	private final String[] locations;
@@ -39,33 +33,46 @@ public class InitializingConfigureProperties {
 		this.locations = locations;
 	}
 
+	public void setFileEncoding(String fileEncoding) {
+		this.fileEncoding = fileEncoding;
+	}
+
+	/**
+	 * 프레임워크에서 사용될 언어셋을 최종 선정한다.
+	 * default = utf-8 , properties , system properties 순으로 최종적으로 설정된다.
+	 */
+	private void setFileEncoding() {
+		if (fileEncoding == null && !"".equals(fileEncoding)) {
+			fileEncoding = "UTF-8";
+		}
+
+		String charset = environment.getProperty(CHARSET_NAME);
+		if (charset != null && !"".equals(charset)) {
+			fileEncoding = charset;
+		}
+	}
+
 	public void afterPostProcessor() {
+
+		setFileEncoding();
 
 		String[] profiles = environment.getActiveProfiles();
 		if (profiles != null && profiles.length == 0) {
 			profiles = environment.getDefaultProfiles();
 		}
 
-		String profile;
-		if (environment.acceptsProfiles(Profile.DEV.getValue())) {
-			profile = Profile.DEV.getValue();
-		} else if (environment.acceptsProfiles(Profile.TEST.getValue())) {
-			profile = Profile.TEST.getValue();
-		} else if (environment.acceptsProfiles(Profile.PROD.getValue())) {
-			profile = Profile.PROD.getValue();
-		} else {
-			profile = Profile.DEFAULT.getValue();
-		}
+		String profile = getProfile(environment);
 
-		String[] configLocations = new ;
+		String[] configLocations = new String[locations.length];
 
-		for(String location : locations) {
-			String.format(location, profile);
+		for(int i = 0; i < locations.length; i++) {
+			String location = String.format(locations[i], profile);
+			configLocations[i] = location;
 		}
 
 		try {
 			PathMatchingResourceResolver pathResourcePatternResolver = new PathMatchingResourceResolver();
-			Resource[] resources = pathResourcePatternResolver.getResources(LOCATIONS);
+			Resource[] resources = pathResourcePatternResolver.getResources(configLocations);
 
 			PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
 			propertiesFactoryBean.setLocations(resources);
@@ -78,8 +85,8 @@ public class InitializingConfigureProperties {
 
 			this.properties = propertiesFactoryBean.getObject();
 
-			//properties.setProperty("config.profiles", StringUtils.join(profiles, ","));
-			//properties.setProperty("config.profile", profile);
+			properties.setProperty("config.profiles", StringUtils.join(profiles, ","));
+			properties.setProperty("config.profile", profile);
 			properties.setProperty("config.charset", fileEncoding);
 
 			properties.setProperty("config.timeZone", TimeZone.getDefault().getID());
@@ -95,6 +102,18 @@ public class InitializingConfigureProperties {
 
 	public Properties getProperties() {
 		return this.properties;
+	}
+
+	private String getProfile(Environment env) {
+		if (environment.acceptsProfiles(Profile.DEV.getValue())) {
+			return Profile.DEV.getValue();
+		} else if (environment.acceptsProfiles(Profile.TEST.getValue())) {
+			return Profile.TEST.getValue();
+		} else if (environment.acceptsProfiles(Profile.PROD.getValue())) {
+			return Profile.PROD.getValue();
+		} else {
+			return Profile.DEFAULT.getValue();
+		}
 	}
 
 	/**
