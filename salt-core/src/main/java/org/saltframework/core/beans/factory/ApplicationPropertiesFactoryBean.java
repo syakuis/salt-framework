@@ -5,6 +5,7 @@ import org.saltframework.core.properties.ApplicationProperties;
 import org.saltframework.core.properties.InitializingApplicationProperties;
 import org.saltframework.core.module.ModulePostProcessor;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.util.StringUtils;
 
 /**
  * 어플리케이션 영역의 모든 초기 설정 정보를 로드하여 설정 정보를 초기화한다.
@@ -14,20 +15,37 @@ import org.springframework.beans.factory.FactoryBean;
  * @since 2016. 11. 17.
  */
 public class ApplicationPropertiesFactoryBean implements FactoryBean<ApplicationProperties> {
+	private static final String PROPERTIES = "application.properties";
+	private final String[] basePackages;
+
+	public ApplicationPropertiesFactoryBean(String basePackages) {
+		this.basePackages = StringUtils.delimitedListToStringArray(basePackages, ",");
+	}
 
 	@Override
-	public ApplicationProperties getObject() throws Exception {
-		String[] locations = new String[]{
-				"classpath*:test/modules/**/application.properties"
-		};
+	public ApplicationProperties getObject() {
 
 		InitializingApplicationProperties initializingApplicationContext = new InitializingApplicationProperties(
 				new ModulePostProcessor(),
 				new AppPostProcessor()
 		);
-		initializingApplicationContext.setConfigLocations(locations);
+		initializingApplicationContext.setConfigLocations(createLocations());
 		initializingApplicationContext.afterPostProcessor();
 		return initializingApplicationContext.getApplicationProperties();
+	}
+
+	private String[] createLocations() {
+		String[] locations = {
+				String.format("classpath*:org/saltframework/apps/**/%s", PROPERTIES)
+		};
+
+		if (basePackages != null) {
+			for (int i = 0; i < basePackages.length; i++) {
+				StringUtils.addStringToArray(locations, String.format(basePackages[i], PROPERTIES));
+			}
+		}
+
+		return locations;
 	}
 
 	@Override
