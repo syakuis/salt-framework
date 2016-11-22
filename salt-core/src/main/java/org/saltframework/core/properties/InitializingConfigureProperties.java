@@ -74,6 +74,10 @@ public class InitializingConfigureProperties {
 			PathMatchingResourceResolver pathResourcePatternResolver = new PathMatchingResourceResolver();
 			Resource[] resources = pathResourcePatternResolver.getResources(configLocations);
 
+			for(Resource resource : resources) {
+				logger.warn("Load successful. {}", resource.getURI().toString());
+			}
+
 			PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
 			propertiesFactoryBean.setLocations(resources);
 			propertiesFactoryBean.setIgnoreResourceNotFound(true); // 프로퍼티 파일이 없는 경우 무시한다.

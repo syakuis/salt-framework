@@ -8,9 +8,9 @@ import org.saltframework.util.io.PathMatchingResourceResolver;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.core.io.Resource;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -21,21 +21,12 @@ import java.util.Properties;
  */
 public class ModuleCacheFactoryBean extends AbstractFactoryBean<ModuleContext> {
 	private static final String CACHE_NAME = "module";
-	private static final String PROPERTIES_NAME = ".module.properties";
 	private final CacheManager cacheManager;
-	private String configLocation;
-	private String[] configLocations;
+	private final List<Properties> properties;
 
-	public ModuleCacheFactoryBean(CacheManager cacheManager) {
+	public ModuleCacheFactoryBean(CacheManager cacheManager, List<Properties> properties) {
 		this.cacheManager = cacheManager;
-	}
-
-	public void setConfigLocation(String configLocation) {
-		this.setConfigLocations(StringUtils.tokenizeToStringArray(configLocation, ","));
-	}
-
-	public void setConfigLocations(String[] configLocations) {
-		this.configLocations = configLocations;
+		this.properties = properties;
 	}
 
 	@Override
@@ -44,15 +35,11 @@ public class ModuleCacheFactoryBean extends AbstractFactoryBean<ModuleContext> {
 	}
 
 	@Override
-	protected ModuleContext createInstance() throws IOException {
+	protected ModuleContext createInstance() {
 		ModuleContext moduleContext = new CacheModuleContext(cacheManager.getCache(CACHE_NAME));
-		PathMatchingResourceResolver pathResourcePatternResolver = new PathMatchingResourceResolver();
-		Resource[] resources = pathResourcePatternResolver.getResources(configLocations);
-		for (Resource resource : resources) {
-			Properties properties = new Properties();
-			properties.load(resource.getInputStream());
 
-			Module module = new ModuleMap(properties);
+		for (Properties property : this.properties) {
+			Module module = new ModuleMap(property);
 			String name = module.getModuleName();
 
 			moduleContext.save(name, module);

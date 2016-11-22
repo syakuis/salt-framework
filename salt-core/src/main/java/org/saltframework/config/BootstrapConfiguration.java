@@ -1,6 +1,6 @@
 package org.saltframework.config;
 
-import org.saltframework.core.beans.boot.BootstrapRegistryPostProcessor;
+import org.saltframework.core.beans.factory.config.ConfigurePropertiesConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.FilterType;
 )
 public class BootstrapConfiguration {
 	@Bean
-	public BootstrapRegistryPostProcessor bootstrapRegistryPostProcessor() {
-		return new BootstrapRegistryPostProcessor();
+	public static ConfigurePropertiesConfigurer configurePropertiesConfigurer() {
+		return new ConfigurePropertiesConfigurer();
 	}
 }

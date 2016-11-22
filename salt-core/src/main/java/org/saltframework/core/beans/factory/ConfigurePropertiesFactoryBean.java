@@ -45,7 +45,6 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Properties>, 
 				"classpath*:/**/_config-%s.properties"
 		};
 
-
 		InitializingConfigureProperties initializingGeneralProperties = new InitializingConfigureProperties(environment, locations);
 		initializingGeneralProperties.setFileEncoding(fileEncoding);
 		initializingGeneralProperties.afterPostProcessor();

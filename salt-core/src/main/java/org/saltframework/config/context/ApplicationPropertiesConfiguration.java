@@ -14,14 +14,14 @@ import java.util.Properties;
  * @since 2016. 11. 21.
  */
 @Configuration
-public class AppPropertiesConfiguration {
+public class ApplicationPropertiesConfiguration {
 
 	@Autowired
 	Properties config;
 
 	@Bean("app")
 	public ApplicationProperties applicationProperties() {
-		ApplicationPropertiesFactoryBean factoryBean = new ApplicationPropertiesFactoryBean(config.getProperty("application.basePackages"));
+		ApplicationPropertiesFactoryBean factoryBean = new ApplicationPropertiesFactoryBean(config.getProperty("application.packages"));
 		return factoryBean.getObject();
 	}
 }

@@ -69,7 +69,7 @@ public class InitializingApplicationProperties {
 				properties.load(resource.getInputStream());
 				result.add(properties);
 
-				logger.info("read the resources - @{}:{}", Integer.toHexString(properties.hashCode()), resource.getURI().toString());
+				logger.warn("Read the resources. {}", resource.getURI().toString());
 			}
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);

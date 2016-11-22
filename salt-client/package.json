@@ -1,6 +1,6 @@
 {
-  "name": "salt-web",
-  "description": "saltframework front-end library package",
+  "name": "salt-client",
+  "description": "saltframework javascript_library",
   "author": "Syaku (http://syaku.tistory.com)",
   "license": "MIT",
   "config": {

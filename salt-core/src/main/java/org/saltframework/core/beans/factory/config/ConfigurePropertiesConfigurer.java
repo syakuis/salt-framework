@@ -1,6 +1,5 @@
-package org.saltframework.core.beans.boot;
+package org.saltframework.core.beans.factory.config;
 
-import org.saltframework.core.beans.factory.ApplicationPropertiesFactoryBean;
 import org.saltframework.core.beans.factory.ConfigurePropertiesFactoryBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -13,7 +12,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
  * @site http://syaku.tistory.com
  * @since 2016. 11. 18.
  */
-public class BootstrapRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
+public class ConfigurePropertiesConfigurer implements BeanDefinitionRegistryPostProcessor {
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {

@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
  * @since 2016. 11. 17.
  */
 public class ApplicationPropertiesFactoryBean implements FactoryBean<ApplicationProperties> {
-	private static final String PROPERTIES = "application.properties";
+	private static final String PROPERTIES = "classpath*:%s/application.properties";
 	private final String[] basePackages;
 
 	public ApplicationPropertiesFactoryBean(String basePackages) {
@@ -36,12 +36,12 @@ public class ApplicationPropertiesFactoryBean implements FactoryBean<Application
 
 	private String[] createLocations() {
 		String[] locations = {
-				String.format("classpath*:org/saltframework/apps/**/%s", PROPERTIES)
+				String.format(PROPERTIES, "org/saltframework/apps/**")
 		};
 
 		if (basePackages != null) {
 			for (int i = 0; i < basePackages.length; i++) {
-				StringUtils.addStringToArray(locations, String.format(basePackages[i], PROPERTIES));
+				locations = StringUtils.addStringToArray(locations, String.format(PROPERTIES, basePackages[i]));
 			}
 		}
 
