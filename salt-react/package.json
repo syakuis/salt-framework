@@ -11,9 +11,15 @@
     "install": "npm run build & npm run bower & npm run npm",
     "npm": "npm update",
     "bower": "sudo bower update --allow-root",
-    "build": "grunt build"
+    "build": "grunt build",
+    "webpack": "webpack",
+    "server": "webpack-dev-server"
   },
   "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.8",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
     "grunt": "^0.4.5",
     "grunt-bower-task": "^0.4.0",
     "grunt-contrib-concat": "^1.0.1",
@@ -21,6 +27,14 @@
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-filerev": "^2.3.1",
-    "grunt-usemin": "^3.1.1"
+    "grunt-usemin": "^3.1.1",
+    "html-webpack-plugin": "^2.24.1",
+    "json-loader": "^0.5.4",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "dependencies": {
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
   }
 }
