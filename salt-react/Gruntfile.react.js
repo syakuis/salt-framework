@@ -10,20 +10,20 @@ module.exports = function(grunt) {
 
 		useminPrepare: {
 			options: {
-				dest: '<%= pkg.config.resourcesDir %>/dist'
+				dest: './dist'
 			},
-			html: 'index.html'
+			html: 'react.html'
 		},
 
 		usemin: {
-			html: ['<%= pkg.config.resourcesDir %>/dist/index.html']
+			html: ['./dist/react.html']
 		},
 
 		copy: {
 			main: {
 				expand: true,
 				src: ['bower_components/bootstrap/fonts/*','bower_components/font-awesome/fonts/*'],
-				dest: '<%= pkg.config.resourcesDir %>/fonts/',
+				dest: './dist/fonts/',
 				flatten: true,
 				filter: 'isFile'
 			},
@@ -41,11 +41,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('bower', ['bower']);
 
 	grunt.registerTask('default', [
+		'copy',
 		'useminPrepare',
 		'concat',
 		'cssmin',
-		'uglify',
-		'usemin',
-		'copy'
+		'usemin'
 	]);
 };

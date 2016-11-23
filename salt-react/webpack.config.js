@@ -3,18 +3,20 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	
-	entry: './src/js/HelloWorld.jsx',
+
+	entry: {
+		dashboardManager: './src/dashboard/DashboardManager.jsx'
+	},
 
 	output: {
 		path: './dist',
-		filename: 'bundle.js'
+		filename: '[name].js'
 	},
 
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
-			template: './src/bundle.html'
+			template: './src/index.html'
 		})
 	],
 
@@ -35,6 +37,6 @@ module.exports = {
 		inline: true, // 자동 리로드여부를 선택합니다.
 		hot: true, // html 자동 리로드여부를 선택합니다. (정확한 역활을 모르겠네요)
 		port:8888,
-		contentBase: './' // 서버 웹루트 경로를 설정합니다.
+		contentBase: './dist' // 서버 웹루트 경로를 설정합니다.
 	}
 };
