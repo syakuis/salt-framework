@@ -11,12 +11,20 @@ export default class Grid extends React.Component {
 		super(props);
 
         this.createBox = this.createBox.bind(this);
-        this.isAble = this.isAble.bind(this);
+        this.setValue = this.setValue.bind(this);
 	}
 
     state = {
+        default: {
+            x: 0,
+            y: 0,
+            w: 1,
+            h: 2,
+            static: false,
+            isDraggable: true,
+            isResizable: true
+        },
         box: {
-            i: '',
             x: 0,
             y: 0,
             w: 1,
@@ -31,22 +39,29 @@ export default class Grid extends React.Component {
 
     createBox() {
         let layouts = this.state.layouts;
+        console.log(this.state);
         this.setState({
+            box: this.state.default,
             layouts: [ 
                 ...layouts,
-                {x: 0, y: 0, w: 1, h: 2, static: true}
+                this.state.box
             ]
         });
     }
 
-    isAble(e) {
-        console.log(this.state.box[e.target.name]);
+    setValue(e) {
+        let value = e.target.value;
+        if (e.target.type === 'checkbox') {
+            value = (value === 'Y' && e.target.checked) ? true : false; 
+        }
+
+        this.setState(Object.assign(this.state.box, {[e.target.name]: value}));
     }
 
     render() {
         let body = this.state.layouts.map((data, i) => {
             return (
-                <div key={i}>
+                <div key={i} data-grid={data}>
                     <span className="text" title="This item is static and cannot be removed or resized.">Static - {i}</span>
                     <span className="text">{i}</span>
                 </div>
@@ -56,32 +71,33 @@ export default class Grid extends React.Component {
         let form = (
             <div className="container">
                 <form className="form-inline">
+
+                    <div className="form-group">
+                        <label htmlFor="width">width</label>
+                        <input type="number" className="form-control" placeholder="width" name="w" onChange={this.setValue} value={this.state.box.w} />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="height">height</label>
+                        <input type="number" className="form-control" placeholder="height" name="h" onChange={this.setValue} value={this.state.box.h} />
+                    </div>
                     
                     <div className="form-group">
                         <label htmlFor="static">static</label>
-                        <label className="radio-inline">
-                            <input type="radio" name="static" onChange={this.isAble} value="true" checked={this.state.box.static === true} /> 예
-                        </label>
-                        <label className="radio-inline">
-                            <input type="radio" name="static" onChange={this.isAble} value="false" checked={this.state.box.static === false} /> 아니오
+                        <label className="checkbox-inline">
+                            <input type="checkbox" name="static" onChange={this.setValue} value="Y" checked={this.state.box.static} /> 사용
                         </label>
                     </div>
                     <div className="form-group">
                         <label htmlFor="draggable">draggable</label>
-                        <label className="radio-inline">
-                            <input type="radio" name="draggable" onChange={this.isAble} value="true" checked={this.state.box.draggable === true} /> 예
-                        </label>
-                        <label className="radio-inline">
-                            <input type="radio" name="draggable" onChange={this.isAble} value="false" checked={this.state.box.draggable === false} /> 아니오
+                        <label className="checkbox-inline">
+                            <input type="checkbox" name="isDraggable" onChange={this.setValue} value="Y" checked={this.state.box.isDraggable} /> 사용
                         </label>
                     </div>
                     <div className="form-group">
                         <label htmlFor="resizable">resizable</label>
-                        <label className="radio-inline">
-                            <input type="radio" name="resizable" onChange={this.isAble} value="true" checked={this.state.box.resizable === true} /> 예
-                        </label>
-                        <label className="radio-inline">
-                            <input type="radio" name="resizable" onChange={this.isAble} value="false" checked={this.state.box.resizable === false} /> 아니오
+                        <label className="checkbox-inline">
+                            <input type="checkbox" name="isResizable" onChange={this.setValue} value="Y" checked={this.state.box.isResizable} /> 사용
                         </label>
                     </div>
                     <button className="btn btn-default" type="button" onClick={this.createBox}>생성</button>
@@ -92,6 +108,8 @@ export default class Grid extends React.Component {
         return (
             <div>
                 {form}
+                <hr />
+                <h1>{this.state.box.w}, {this.state.box.static}</h1>
                 <GridLayout className="layout">
                 {body}
                 </GridLayout>
