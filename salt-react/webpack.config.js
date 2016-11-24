@@ -24,10 +24,10 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.jsx$/, // 로더를 사용할 확장자를 추가합니다.
-				exclude: /node_modules/, // 로더 사용을 제외한 대상을 추가합니다.
+				include: [ /src/ ],
 				loader: 'babel', // 로더를 설정합니다.
 				query: {
-					presets: ['react', 'es2015']
+					presets: ['react', 'es2015', 'stage-1']
 				}
 			}
 		]
