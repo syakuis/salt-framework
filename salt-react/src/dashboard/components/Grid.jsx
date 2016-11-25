@@ -1,9 +1,12 @@
 import React from 'react';
 import LinkedStateMixin from 'react-addons-linked-state-mixin';
-
 import _ from 'lodash';
+
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const GridLayout = WidthProvider(Responsive);
+
+import Portlet from './Portlet.jsx';
+import * as P from 'portlets';
 
 export default class Grid extends React.Component {
 
@@ -15,14 +18,30 @@ export default class Grid extends React.Component {
 	}
 
     state = {
+        config: {
+            width: 120,
+            autoSize: true,
+            cols: 12,
+            draggableCancel: '',
+            draggableHandle: '',
+            verticalCompact: true,
+            layout: [],
+            margin: [10,10],
+            containerPadding: [10,10],
+            rowHeight: 150,
+            isDraggable: true,
+            isResizable: true,
+            useCSSTransforms: true
+        },
+        custom: 'Frame',
         box: {
             x: 0,
-            y: 0,
+            y: Infinity,
             w: 1,
             h: 2,
             static: false,
             isDraggable: true,
-            isResizable: true
+            isResizable: true,
         },
         layouts: [
         ]
@@ -75,11 +94,19 @@ export default class Grid extends React.Component {
     }
 
     render() {
+        let comm = {
+            'Frame': Frame
+        };
+
+        let pp = React.isValidElement('Frame');
+        React.component();
+
         let body = this.state.layouts.map((data, i) => {
             return (
                 <div key={i} data-grid={data}>
                     <span className="text" title="This item is static and cannot be removed or resized.">Static - {i}</span>
                     <span className="text">{i}</span>
+                    <Portlet component={{ tag: pp, body: '' }}/>
                 </div>
             );
         });
@@ -146,7 +173,7 @@ export default class Grid extends React.Component {
                 {form}
                 <hr />
                 <h3>{JSON.stringify(this.state.box)} {this.state.layouts.length}</h3>
-                <GridLayout className="layout">
+                <GridLayout className="layout" layout={this.state.config}>
                 {body}
                 </GridLayout>
             </div>
@@ -157,7 +184,7 @@ export default class Grid extends React.Component {
 Grid.defaultProps = {
     box: {
         x: 0,
-        y: 0,
+        y: Infinity,
         w: 1,
         h: 2,
         static: false,

@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 
 	entry: {
-		dashboardManager: './src/dashboard/DashboardManager.jsx'
+		dashboard: './src/dashboard/Dashboard.jsx'
 	},
 
 	output: {
@@ -23,7 +23,8 @@ module.exports = {
 	module: {
 		loaders: [
 			{
-				test: /\.jsx$/, // 로더를 사용할 확장자를 추가합니다.
+				//test: /\.jsx$/, // 로더를 사용할 확장자를 추가합니다.
+				test: [/\.jsx$/, /\.js$/],
 				include: [ /src/ ],
 				loader: 'babel', // 로더를 설정합니다.
 				query: {
@@ -32,6 +33,9 @@ module.exports = {
 			}
 		]
 	},
+	resolve: {
+    	extensions: ['', '.js', '.jsx'],
+  	},
 
 	devServer: {
 		inline: true, // 자동 리로드여부를 선택합니다.
