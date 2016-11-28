@@ -1,3 +1,6 @@
+var fs = require('fs');
+var glob = require("glob");
+var json = require('jsonfile');
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -17,7 +20,23 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			template: './src/index.html'
-		})
+		}),
+		function() {
+				fs.writeFile('./src/dashboard/portlets/Portlets.jsx', '', function(){console.log('done')})
+				glob('src/dashboard/portlets/**/config.json', null, function(err, files) {
+
+					for(var i in files) {
+						var file = __dirname + '/' + files[i];
+						fs.readFile(file, 'utf-8', function (err, data) {
+							var script = JSON.parse(data).script;
+							fs.appendFileSync("./src/dashboard/portlets/Portlets.jsx", script + "\n");
+							console.log('Portlets Export add: ' + script);
+						});
+
+					}
+
+				});
+		}
 	],
 
 	module: {

@@ -6,7 +6,7 @@ import {Responsive, WidthProvider} from 'react-grid-layout';
 const GridLayout = WidthProvider(Responsive);
 
 import Portlet from './Portlet.jsx';
-import * as P from 'portlets';
+import * as PS from '../portlets/Portlets.jsx';
 
 export default class Grid extends React.Component {
 
@@ -94,19 +94,16 @@ export default class Grid extends React.Component {
     }
 
     render() {
-        let comm = {
-            'Frame': Frame
-        };
 
-        let pp = React.isValidElement('Frame');
-        React.component();
+        let c = PS['Frame'];
 
         let body = this.state.layouts.map((data, i) => {
             return (
                 <div key={i} data-grid={data}>
                     <span className="text" title="This item is static and cannot be removed or resized.">Static - {i}</span>
                     <span className="text">{i}</span>
-                    <Portlet component={{ tag: pp, body: '' }}/>
+                    <Portlet component={{ tag: c, body: '' }} /> 
+
                 </div>
             );
         });

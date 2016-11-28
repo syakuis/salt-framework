@@ -7,11 +7,9 @@ export default class Portlet extends React.Component {
 
     render() {
         return (
-            <div>
-                <this.props.component.tag>
-                    {this.props.component.body}
-                </this.props.component.tag>
-            </div>
+            <this.props.component.tag>
+                {this.props.component.body}
+            </this.props.component.tag>
         )
     }
 }
