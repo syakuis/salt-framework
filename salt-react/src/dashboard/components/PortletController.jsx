@@ -61,7 +61,6 @@ export default class PortletController extends React.Component {
                 this.state.box
             ]
         });
-        console.log(this.props.box, this.state.box);
     }
 
     initDataBind(e) {
@@ -103,8 +102,6 @@ export default class PortletController extends React.Component {
         let body = this.state.layouts.map((data, i) => {
             return (
                 <div key={i} data-grid={data}>
-                    <span className="text" title="This item is static and cannot be removed or resized.">Static - {i}</span>
-                    <span className="text">{i}</span>
                     <CreatePortlet portlet={{ component: Portlets[data.portlet], body: '' }} /> 
                 </div>
             );
