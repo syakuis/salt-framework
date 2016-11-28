@@ -22,14 +22,14 @@ module.exports = {
 			template: './src/index.html'
 		}),
 		function() {
-				fs.writeFile('./src/dashboard/portlets/Portlets.jsx', '', function(){console.log('done')})
+				fs.writeFile('./src/dashboard/portlets/index.jsx', '');
 				glob('src/dashboard/portlets/**/config.json', null, function(err, files) {
 
 					for(var i in files) {
 						var file = __dirname + '/' + files[i];
 						fs.readFile(file, 'utf-8', function (err, data) {
 							var script = JSON.parse(data).script;
-							fs.appendFileSync("./src/dashboard/portlets/Portlets.jsx", script + "\n");
+							fs.appendFileSync("./src/dashboard/portlets/index.jsx", script + "\n");
 							console.log('Portlets Export add: ' + script);
 						});
 

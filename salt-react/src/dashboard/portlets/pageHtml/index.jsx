@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default class Frame extends React.Component {
+export default class PageHtml extends React.Component {
     render() {
         return (
             <div>
-                Frame
+                PageHtml
             </div>
         )
     }

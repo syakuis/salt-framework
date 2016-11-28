@@ -3,12 +3,12 @@ import LinkedStateMixin from 'react-addons-linked-state-mixin';
 import _ from 'lodash';
 
 import {Responsive, WidthProvider} from 'react-grid-layout';
-const GridLayout = WidthProvider(Responsive);
+const ReactGridLayout = WidthProvider(Responsive);
 
-import Portlet from './Portlet.jsx';
-import * as PS from '../portlets/Portlets.jsx';
+import CreatePortlet from './CreatePortlet';
+import * as Portlets from '../portlets';
 
-export default class Grid extends React.Component {
+export default class PortletController extends React.Component {
 
     constructor(props) {
 		super(props);
@@ -33,15 +33,15 @@ export default class Grid extends React.Component {
             isResizable: true,
             useCSSTransforms: true
         },
-        custom: 'Frame',
         box: {
+            portlet: '',
             x: 0,
             y: Infinity,
             w: 1,
             h: 2,
             static: false,
             isDraggable: true,
-            isResizable: true,
+            isResizable: true
         },
         layouts: [
         ]
@@ -77,7 +77,6 @@ export default class Grid extends React.Component {
                 value = e.target.checked;
             break;
             default:
-                
             break;
         }
 
@@ -95,15 +94,18 @@ export default class Grid extends React.Component {
 
     render() {
 
-        let c = PS['Frame'];
+        let selectBoxPortlet = this.props.portlets.map((name, i) => {
+            return (
+                <option key={i} value={name}>{name}</option>
+            );
+        });
 
         let body = this.state.layouts.map((data, i) => {
             return (
                 <div key={i} data-grid={data}>
                     <span className="text" title="This item is static and cannot be removed or resized.">Static - {i}</span>
                     <span className="text">{i}</span>
-                    <Portlet component={{ tag: c, body: '' }} /> 
-
+                    <CreatePortlet portlet={{ component: Portlets[data.portlet], body: '' }} /> 
                 </div>
             );
         });
@@ -111,6 +113,17 @@ export default class Grid extends React.Component {
         let form = (
             <div className="container">
                 <form className="form-inline">
+                    <div className="form-group">
+                        <label htmlFor="portlets">portlets</label>
+                        <select className="form-control"
+                                name="portlet" 
+                                datatype="string" 
+                                onChange={this.initDataBind} 
+                                value={this.state.portlet}>
+                            <option value="">포틀릿선택</option>
+                            {selectBoxPortlet}
+                        </select>
+                    </div>
 
                     <div className="form-group">
                         <label htmlFor="width">width</label>
@@ -170,16 +183,22 @@ export default class Grid extends React.Component {
                 {form}
                 <hr />
                 <h3>{JSON.stringify(this.state.box)} {this.state.layouts.length}</h3>
-                <GridLayout className="layout" layout={this.state.config}>
+                <ReactGridLayout className="layout" layout={this.state.config}>
                 {body}
-                </GridLayout>
+                </ReactGridLayout>
             </div>
         )
     }
 }
 
-Grid.defaultProps = {
+function getPortlets() {
+    return Object.keys(Portlets);
+}
+
+PortletController.defaultProps = {
+    portlets: getPortlets(),
     box: {
+        portlet: '',
         x: 0,
         y: Infinity,
         w: 1,

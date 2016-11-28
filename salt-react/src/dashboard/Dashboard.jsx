@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Grid from './components/Grid';
+import PortletController from './components/PortletController';
 
 class Dashboard {
 	static main() {
@@ -12,7 +12,7 @@ class Dashboard {
 		});
 
 		render(
-			<Grid />,
+			<PortletController />,
 			document.getElementById('app')
 		)
 	}
