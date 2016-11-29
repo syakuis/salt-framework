@@ -39,7 +39,14 @@ module.exports = {
 		}
 	],
 
-	module: {
+	module: {/*
+		preLoaders: [
+			{
+				test: [/\.jsx$/, /\.js$/],
+				loader: 'eslint-loader',
+				exclude: /(node_modules|bower_components)/
+			}
+		],*/
 		loaders: [
 			{
 				//test: /\.jsx$/, // 로더를 사용할 확장자를 추가합니다.

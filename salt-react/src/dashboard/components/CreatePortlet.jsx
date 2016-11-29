@@ -6,10 +6,11 @@ export default class CreatePortlet extends React.Component {
     }
 
     render() {
+        let { portlet, ...props } = this.props; 
         return (
-            <this.props.portlet.component>
+            <portlet.component {...props}>
                 {this.props.portlet.body}
-            </this.props.portlet.component>
+            </portlet.component>
         )
     }
 }

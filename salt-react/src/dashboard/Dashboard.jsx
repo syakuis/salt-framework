@@ -4,17 +4,11 @@ import PortletController from './components/PortletController';
 
 class Dashboard {
 	static main() {
-		let Dashboard = React.createClass({
-
-			render() {
-
-			}
-		});
 
 		render(
 			<PortletController />,
 			document.getElementById('app')
-		)
+		);
 	}
 }
 

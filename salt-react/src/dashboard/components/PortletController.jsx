@@ -13,7 +13,7 @@ export default class PortletController extends React.Component {
     constructor(props) {
 		super(props);
 
-        this.createBox = this.createBox.bind(this);
+        this.addPortlet = this.addPortlet.bind(this);
         this.initDataBind = this.initDataBind.bind(this);
 	}
 
@@ -21,9 +21,10 @@ export default class PortletController extends React.Component {
         config: {
             width: 120,
             autoSize: true,
-            cols: 12,
-            draggableCancel: '',
-            draggableHandle: '',
+            //cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
+            //breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
+            //draggableCancel: '',
+            draggableHandle: '.draggable-point',
             verticalCompact: true,
             layout: [],
             margin: [10,10],
@@ -51,16 +52,21 @@ export default class PortletController extends React.Component {
         return Object.assign({}, this.props.box);
     }
 
-    createBox() {
-        let layouts = this.state.layouts;
-        let box = this.getProps();
+    addPortlet() {
+        let layouts = this.state.layouts
+        let box = this.getProps()
         this.setState({
             box: box,
             layouts: [ 
                 ...layouts,
                 this.state.box
             ]
-        });
+        })
+    }
+
+    delPortlet(i) {
+
+        console.log(i, this.state);
     }
 
     initDataBind(e) {
@@ -102,7 +108,10 @@ export default class PortletController extends React.Component {
         let body = this.state.layouts.map((data, i) => {
             return (
                 <div key={i} data-grid={data}>
-                    <CreatePortlet portlet={{ component: Portlets[data.portlet], body: '' }} /> 
+                    <CreatePortlet
+                        onDelPortlet={this.delPortlet} 
+                        index={i} 
+                        portlet={{ component: Portlets[data.portlet], body: '' }} /> 
                 </div>
             );
         });
@@ -170,7 +179,7 @@ export default class PortletController extends React.Component {
                                 checked={this.state.box.isResizable} /> 사용
                         </label>
                     </div>
-                    <button className="btn btn-default" type="button" onClick={this.createBox}>생성</button>
+                    <button className="btn btn-default" type="button" onClick={this.addPortlet}>생성</button>
                 </form>
             </div>
         );
@@ -180,7 +189,7 @@ export default class PortletController extends React.Component {
                 {form}
                 <hr />
                 <h3>{JSON.stringify(this.state.box)} {this.state.layouts.length}</h3>
-                <ReactGridLayout className="layout" layout={this.state.config}>
+                <ReactGridLayout className="layout" {...this.state.config}>
                 {body}
                 </ReactGridLayout>
             </div>
