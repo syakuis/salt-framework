@@ -12,11 +12,11 @@ module.exports = function(grunt) {
 			options: {
 				dest: '<%= pkg.config.resourcesDir %>/dist'
 			},
-			html: 'index.html'
+			html: 'usemin.html'
 		},
 
 		usemin: {
-			html: ['<%= pkg.config.resourcesDir %>/dist/index.html']
+			html: ['<%= pkg.config.resourcesDir %>/dist/usemin.html']
 		},
 
 		copy: {

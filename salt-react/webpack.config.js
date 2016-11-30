@@ -19,7 +19,7 @@ module.exports = {
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
-			template: './src/index.html'
+			template: './index.html'
 		}),
 		function() {
 				fs.writeFile('./src/dashboard/portlets/index.jsx', '');
@@ -60,13 +60,13 @@ module.exports = {
 		]
 	},
 	resolve: {
-    	extensions: ['', '.js', '.jsx'],
+    	extensions: ['', '.js', '.jsx']
   	},
 
 	devServer: {
 		inline: true, // 자동 리로드여부를 선택합니다.
 		hot: true, // html 자동 리로드여부를 선택합니다. (정확한 역활을 모르겠네요)
 		port:8888,
-		contentBase: './dist' // 서버 웹루트 경로를 설정합니다.
+		contentBase: './' // 서버 웹루트 경로를 설정합니다.
 	}
 };

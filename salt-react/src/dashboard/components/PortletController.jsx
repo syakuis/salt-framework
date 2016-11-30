@@ -1,7 +1,6 @@
 import React from 'react';
-import LinkedStateMixin from 'react-addons-linked-state-mixin';
-import _ from 'lodash';
 
+import _ from 'lodash';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
 
@@ -15,6 +14,8 @@ export default class PortletController extends React.Component {
 
         this.addPortlet = this.addPortlet.bind(this);
         this.initDataBind = this.initDataBind.bind(this);
+        this.delPortlet = this.delPortlet.bind(this);
+        this.copyPortlet = this.copyPortlet.bind(this);   
 	}
 
     state = {
@@ -65,8 +66,19 @@ export default class PortletController extends React.Component {
     }
 
     delPortlet(i) {
+        let layouts = this.state.layouts;
+        layouts.splice(i, 1);
+        this.setState({ layouts: layouts });
+    }
 
-        console.log(i, this.state);
+    copyPortlet(i) {
+        let layout = this.state.layouts[i];
+        this.setState({
+            layouts: [ 
+                ...this.state.layouts,
+                layout
+            ]
+        })
     }
 
     initDataBind(e) {
@@ -110,6 +122,7 @@ export default class PortletController extends React.Component {
                 <div key={i} data-grid={data}>
                     <CreatePortlet
                         onDelPortlet={this.delPortlet} 
+                        onCopyPortlet={this.copyPortlet}
                         index={i} 
                         portlet={{ component: Portlets[data.portlet], body: '' }} /> 
                 </div>
@@ -124,8 +137,8 @@ export default class PortletController extends React.Component {
                         <select className="form-control"
                                 name="portlet" 
                                 datatype="string" 
-                                onChange={this.initDataBind} 
-                                value={this.state.portlet}>
+                                onChange={this.initDataBind}
+                                value={this.state.box.portlet}>
                             <option value="">포틀릿선택</option>
                             {selectBoxPortlet}
                         </select>
