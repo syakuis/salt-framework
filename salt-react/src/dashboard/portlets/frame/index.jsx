@@ -1,4 +1,5 @@
 import React from 'react';
+import {DraggableCore} from 'react-draggable';
 import ConfigModal from '../../components/ConfigModal.jsx';
 
 export default class Frame extends React.Component {
@@ -62,7 +63,7 @@ export default class Frame extends React.Component {
                     Frame
                 </div>
 
-                <ConfigModal opend={this.state.open}>
+                <ConfigModal isOpen={this.state.open}>
                     <div>aa</div>
                 </ConfigModal>
             </div>
