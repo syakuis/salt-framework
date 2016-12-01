@@ -8,7 +8,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 
 	entry: {
-		dashboard: './src/dashboard/Dashboard.jsx'
+		dashboard: './src/dashboard/'
 	},
 
 	output: {
