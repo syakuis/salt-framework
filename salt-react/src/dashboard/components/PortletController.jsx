@@ -3,6 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
+import Modal from 'react-modal';
 
 import CreatePortlet from './CreatePortlet';
 import * as Portlets from '../portlets';
@@ -86,7 +87,7 @@ export default class PortletController extends React.Component {
         let value = e.target.value;
 
         if (datatype != null) {
-            datatype = datatype.nodeValue;
+            datatype = datatype.value;
         }
 
         switch(e.target.type) {
@@ -225,5 +226,33 @@ PortletController.defaultProps = {
         static: false,
         isDraggable: true,
         isResizable: true
+    }
+}
+
+Modal.defaultStyles = {
+    overlay : {
+        position          : 'fixed',
+        top               : 0,
+        left              : 0,
+        right             : 0,
+        bottom            : 0,
+        backgroundColor   : 'rgba(255, 255, 255, 0.75)'
+    },
+    content : {
+        position                   : 'absolute',
+        border                     : '1px solid #ccc',
+        background                 : '#fff',
+        overflow                   : 'auto',
+        WebkitOverflowScrolling    : 'touch',
+        borderRadius               : '10px',
+        outline                    : 'none',
+        padding                    : '20px',
+
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
     }
 }

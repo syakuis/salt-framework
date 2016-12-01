@@ -1,6 +1,6 @@
 import React from 'react';
-import {DraggableCore} from 'react-draggable';
-import ConfigModal from '../../components/ConfigModal.jsx';
+//import Modal from 'react-modal';
+import Modals from '../../components/Modals.jsx';
 
 export default class Frame extends React.Component {
 
@@ -11,13 +11,20 @@ export default class Frame extends React.Component {
         this.evtMouseOut = this.evtMouseOut.bind(this);
         this.evtClick = this.evtClick.bind(this);
         this.evtCopy = this.evtCopy.bind(this);
-        this.onOpen = this.onOpen.bind(this);
+        this.onModalOpen = this.onModalOpen.bind(this);
+        this.onModalClose = this.onModalClose.bind(this);
+
+        this.onModalOpen2 = this.onModalOpen2.bind(this);
+        this.onModalClose2 = this.onModalClose2.bind(this);
 
     }
 
     state = {
         isMouse: false,
-        open: false
+        modal: {
+            open: false,
+            open2: false
+        }
     }
 
     evtMouseOver(e) {
@@ -36,9 +43,24 @@ export default class Frame extends React.Component {
         this.props.onCopyPortlet(this.props.index)
     }
 
-    onOpen(e) {
-        this.setState({open: true})
+    onModalOpen() {
+        this.setState({modal: { ...this.state.modal, open: true }})
     }
+
+    onModalClose() {
+        this.setState({modal: { ...this.state.modal, open: false }})
+    }
+
+    onModalOpen2() {
+        console.log('good');
+        this.setState({modal: { ...this.state.modal, open2: true }})
+    }
+
+    onModalClose2() {
+        console.log('good2');
+        this.setState({modal: { ...this.state.modal, open2: false }})
+    }
+
 
     render() {
         return (
@@ -49,7 +71,7 @@ export default class Frame extends React.Component {
                     
                     <div className="btn-toolbar" role="toolbar" style={{ display: this.state.isMouse ? '' : 'none' }}>
                         <button type="button" className="btn btn-default draggable-point"><i className="fa fa-arrows" aria-hidden="true"></i></button>
-                        <button type="button" className="btn btn-default" onClick={this.onOpen}>
+                        <button type="button" className="btn btn-default" onClick={this.onModalOpen}>
                             <i className="fa fa-cog" aria-hidden="true"></i>
                         </button>
                         <button type="button" className="btn btn-default"  onClick={this.evtCopy}>
@@ -63,9 +85,25 @@ export default class Frame extends React.Component {
                     Frame
                 </div>
 
-                <ConfigModal isOpen={this.state.open}>
-                    <div>aa</div>
-                </ConfigModal>
+                
+                <Modals 
+                    isOpen={this.state.modal.open} 
+                    onRequestClose={this.onModalClose} 
+                    shouldCloseOnOverlayClick={true}>
+                    <button onClick={this.onModalClose}>close</button>
+                    <button onClick={this.onModalOpen2}>open</button>
+                    qqqq
+
+                    <Modals
+                        isOpen={this.state.modal.open2} 
+                        onRequestClose={this.onModalClose2} 
+                        shouldCloseOnOverlayClick={true}>
+                        <button onClick={this.onModalClose2}>close</button>
+                        qqqqwqewqewq
+                    </Modals>
+
+                </Modals>
+                
             </div>
         )
     }
