@@ -22,7 +22,7 @@ export default class CreatePortlet extends React.Component {
     render() {
         let { portlet, ...props } = this.props; 
         return (
-            <div style={{ width: '100%', height: '100%', backgroundColor: '#f4f4f4'}}
+            <div style={{ width: '100%', backgroundColor: '#f4f4f4'}}
                 onMouseOver={this.contextMenuShow}
                 onMouseOut={this.contextMenuHidden}>
                 <portlet.component {...props} isContextMenuShow={this.state.isContextMenuShow}>

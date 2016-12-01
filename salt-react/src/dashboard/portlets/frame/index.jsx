@@ -43,7 +43,7 @@ export default class Frame extends React.Component {
 
     render() {
         return (
-            <div style={{ width: '90%', height: '90%', backgroundColor: 'rgb(119, 81, 81)'}}>
+            <div style={{ width: '100%', height: '100%', backgroundColor: 'rgb(119, 81, 81)'}}>
 
                 <ContextMenu 
                     onClickConfig={this.onModalOpen}

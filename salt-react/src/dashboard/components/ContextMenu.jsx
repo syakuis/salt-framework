@@ -30,7 +30,7 @@ export default class ContextMenu extends React.Component {
     render() {
         
         return (
-            <div className="btn-toolbar" role="toolbar" style={{ display: this.props.isShow ? '' : 'none' }}>
+            <div className="btn-toolbar" role="toolbar" style={{ position: 'absolute', display: this.props.isShow ? '' : 'none' }}>
                 <button type="button" className="btn btn-default draggable-point">
                     <i className="fa fa-arrows" aria-hidden="true"></i>
                 </button>
