@@ -1,26 +1,32 @@
 import React from 'react';
-
 import _ from 'lodash';
+
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
 import Modal from 'react-modal';
 
+import LayoutConfig from './LayoutConfig'
+import PortletForm from './PortletForm';
 import CreatePortlet from './CreatePortlet';
-import * as Portlets from '../portlets';
+import * as PortletComponents from '../portlets';
 
 export default class PortletController extends React.Component {
 
     constructor(props) {
 		super(props);
 
+        this.setLayoutConfigMargin = this.setLayoutConfigMargin.bind(this);
+
         this.addPortlet = this.addPortlet.bind(this);
         this.initDataBind = this.initDataBind.bind(this);
         this.delPortlet = this.delPortlet.bind(this);
-        this.copyPortlet = this.copyPortlet.bind(this);   
+        this.copyPortlet = this.copyPortlet.bind(this);
+        this.onShow = this.onShow.bind(this);   
 	}
 
     state = {
-        config: {
+        show: false,
+        layoutConfig: {
             width: 120,
             autoSize: true,
             //cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
@@ -30,14 +36,14 @@ export default class PortletController extends React.Component {
             verticalCompact: true,
             layout: [],
             margin: [10,10],
-            containerPadding: [10,10],
+            containerPadding: [30,30],
             rowHeight: 150,
             isDraggable: true,
             isResizable: true,
             useCSSTransforms: true
         },
-        box: {
-            portlet: '',
+        portlet: {
+            portletName: '',
             x: 0,
             y: Infinity,
             w: 1,
@@ -46,40 +52,58 @@ export default class PortletController extends React.Component {
             isDraggable: true,
             isResizable: true
         },
-        layouts: [
+        result: [
         ]
     }
 
     getProps() {
-        return Object.assign({}, this.props.box);
+        return Object.assign({}, this.props.portlet);
+    }
+
+    updateLayoutConfig(config) {
+        this.setState.layoutConfig = {
+            ...this.state.config,
+            config
+        };
+    }
+
+    setLayoutConfigMargin(x, y) {
+        this.setState({ 
+            layoutConfig: {
+                ...this.state.layoutConfig,
+                margin: [x, y]
+            }
+        });
     }
 
     addPortlet() {
-        let layouts = this.state.layouts
-        let box = this.getProps()
         this.setState({
-            box: box,
-            layouts: [ 
-                ...layouts,
-                this.state.box
+            portlet: this.getProps(),
+            result: [ 
+                ...this.state.result,
+                this.state.portlet
             ]
         })
     }
 
     delPortlet(i) {
-        let layouts = this.state.layouts;
-        layouts.splice(i, 1);
-        this.setState({ layouts: layouts });
+        let result = this.state.result;
+        result.splice(i, 1);
+        this.setState({ result: result });
     }
 
     copyPortlet(i) {
-        let layout = this.state.layouts[i];
+        let result = this.state.result[i];
         this.setState({
-            layouts: [ 
-                ...this.state.layouts,
-                layout
+            result: [ 
+                ...this.state.result,
+                result
             ]
         })
+    }
+
+    onShow() {
+        this.setState({ show: true });
     }
 
     initDataBind(e) {
@@ -107,39 +131,42 @@ export default class PortletController extends React.Component {
             break;
         }
 
-        this.setState(Object.assign(this.state.box, {[e.target.name]: value}));
+        this.setState(Object.assign(this.state.portlet, {[e.target.name]: value}));
     }
 
     render() {
 
-        let selectBoxPortlet = this.props.portlets.map((name, i) => {
+        let selectBoxPortlet = this.props.portletComponents.map((name, i) => {
             return (
                 <option key={i} value={name}>{name}</option>
             );
         });
 
-        let body = this.state.layouts.map((data, i) => {
+        let showPortlet = (this.state.show) ? <PortletForm /> : '';
+
+        let body = this.state.result.map((data, i) => {
             return (
-                <div key={i} data-grid={data}>
+                <div key={i} data-grid={data} onClick={this.onShow}>
                     <CreatePortlet
                         onDelPortlet={this.delPortlet} 
                         onCopyPortlet={this.copyPortlet}
                         index={i} 
-                        portlet={{ component: Portlets[data.portlet], body: '' }} /> 
+                        portlet={{ component: PortletComponents[data.portletName], body: '' }} /> 
+                        {showPortlet}
                 </div>
             );
         });
 
-        let form = (
+        let CreatePortletForm = (
             <div className="container">
                 <form className="form-inline">
                     <div className="form-group">
                         <label htmlFor="portlets">portlets</label>
                         <select className="form-control"
-                                name="portlet" 
+                                name="portletName" 
                                 datatype="string" 
                                 onChange={this.initDataBind}
-                                value={this.state.box.portlet}>
+                                value={this.state.portlet.portletName}>
                             <option value="">포틀릿선택</option>
                             {selectBoxPortlet}
                         </select>
@@ -151,7 +178,7 @@ export default class PortletController extends React.Component {
                             name="w" 
                             datatype="number"
                             onChange={this.initDataBind} 
-                            value={this.state.box.w} />
+                            value={this.state.portlet.w} />
                     </div>
 
                     <div className="form-group">
@@ -160,7 +187,7 @@ export default class PortletController extends React.Component {
                             name="h" 
                             datatype="number"
                             onChange={this.initDataBind} 
-                            value={this.state.box.h} />
+                            value={this.state.portlet.h} />
                     </div>
                     
                     <div className="form-group">
@@ -169,7 +196,7 @@ export default class PortletController extends React.Component {
                             <input type="checkbox" 
                             name="static"
                             datatype="boolean" 
-                            checked={this.state.box.static}
+                            checked={this.state.portlet.static}
                             onChange={this.initDataBind} /> 사용
                         </label>
                     </div>
@@ -180,7 +207,7 @@ export default class PortletController extends React.Component {
                                 name="isDraggable" 
                                 datatype="boolean" 
                                 onChange={this.initDataBind} 
-                                checked={this.state.box.isDraggable} /> 사용
+                                checked={this.state.portlet.isDraggable} /> 사용
                         </label>
                     </div>
                     <div className="form-group">
@@ -190,7 +217,7 @@ export default class PortletController extends React.Component {
                                 name="isResizable" 
                                 datatype="boolean" 
                                 onChange={this.initDataBind}  
-                                checked={this.state.box.isResizable} /> 사용
+                                checked={this.state.portlet.isResizable} /> 사용
                         </label>
                     </div>
                     <button className="btn btn-default" type="button" onClick={this.addPortlet}>생성</button>
@@ -200,10 +227,12 @@ export default class PortletController extends React.Component {
 
         return (
             <div>
-                {form}
+                <LayoutConfig {...this.state.layoutConfig} 
+                    setMargin={this.setLayoutConfigMargin} />
+                {CreatePortletForm}
                 <hr />
-                <h3>{JSON.stringify(this.state.box)} {this.state.layouts.length}</h3>
-                <ReactGridLayout className="layout" {...this.state.config}>
+                <h3>{JSON.stringify(this.state.layoutConfig)} {this.state.result.length}</h3>
+                <ReactGridLayout className="layout" {...this.state.layoutConfig}>
                 {body}
                 </ReactGridLayout>
             </div>
@@ -211,14 +240,15 @@ export default class PortletController extends React.Component {
     }
 }
 
-function getPortlets() {
-    return Object.keys(Portlets);
+function getPortletComponents() {
+    return Object.keys(PortletComponents);
 }
 
+// portal item setting
 PortletController.defaultProps = {
-    portlets: getPortlets(),
-    box: {
-        portlet: '',
+    portletComponents: getPortletComponents(),
+    portlet: {
+        portletName: '',
         x: 0,
         y: Infinity,
         w: 1,
@@ -229,6 +259,7 @@ PortletController.defaultProps = {
     }
 }
 
+// modal setting
 Modal.defaultStyles = {
     overlay : {
         position          : 'fixed',

@@ -1,6 +1,5 @@
 var fs = require('fs');
 var glob = require("glob");
-var json = require('jsonfile');
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');

@@ -1,5 +1,5 @@
 {
-  "name": "salt-client",
+  "name": "salt-react",
   "description": "saltframework javascript_library",
   "author": "Syaku (http://syaku.tistory.com)",
   "license": "MIT",
@@ -45,6 +45,7 @@
     "react-dom": "^15.4.0",
     "react-draggable": "^2.2.3",
     "react-grid-layout": "^0.13.9",
-    "react-modal": "^1.5.2"
+    "react-modal": "^1.5.2",
+    "webpack": "^1.13.3"
   }
 }
