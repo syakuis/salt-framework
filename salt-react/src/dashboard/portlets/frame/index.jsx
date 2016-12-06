@@ -51,7 +51,7 @@ export default class Frame extends React.Component {
                     onClickRemove={() => this.props.onDelPortlet(this.props.index)}
                     isShow={this.props.isContextMenuShow} />
                 
-                Frame
+                Frame {this.props.index}
 
                 <Modal 
                 isOpen={this.state.modal.open} 

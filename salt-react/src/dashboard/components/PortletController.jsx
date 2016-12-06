@@ -16,6 +16,9 @@ export default class PortletController extends React.Component {
 		super(props);
 
         this.setLayoutConfigMargin = this.setLayoutConfigMargin.bind(this);
+        this.setLayoutConfigContainerPadding = this.setLayoutConfigContainerPadding.bind(this);
+        this.setLayoutConfigRowHeight = this.setLayoutConfigRowHeight.bind(this);
+        this.onLayoutChange = this.onLayoutChange.bind(this);
 
         this.addPortlet = this.addPortlet.bind(this);
         this.initDataBind = this.initDataBind.bind(this);
@@ -27,7 +30,7 @@ export default class PortletController extends React.Component {
     state = {
         show: false,
         layoutConfig: {
-            width: 120,
+            className: "layout",
             autoSize: true,
             //cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
             //breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
@@ -44,6 +47,7 @@ export default class PortletController extends React.Component {
         },
         portlet: {
             portletName: '',
+            index: 0,
             x: 0,
             y: Infinity,
             w: 1,
@@ -58,6 +62,10 @@ export default class PortletController extends React.Component {
 
     getProps() {
         return Object.assign({}, this.props.portlet);
+    }
+
+    getIndex() {
+        return this.state.result.length + 1;
     }
 
     updateLayoutConfig(config) {
@@ -76,30 +84,56 @@ export default class PortletController extends React.Component {
         });
     }
 
+    setLayoutConfigContainerPadding(x, y) {
+        this.setState({ 
+            layoutConfig: {
+                ...this.state.layoutConfig,
+                containerPadding: [x, y]
+            }
+        });
+    }
+
+    setLayoutConfigRowHeight(height) {
+        this.setState({ 
+            layoutConfig: {
+                ...this.state.layoutConfig,
+                rowHeight: height
+            }
+        });
+    }
+
+    onLayoutChange(layout) {
+        console.log(layout);
+    }
+
     addPortlet() {
+        let portlet = {
+            ...this.state.portlet,
+            index: this.getIndex()
+        };
+
         this.setState({
             portlet: this.getProps(),
             result: [ 
                 ...this.state.result,
-                this.state.portlet
+                portlet
             ]
-        })
+        });
     }
 
-    delPortlet(i) {
-        let result = this.state.result;
-        result.splice(i, 1);
-        this.setState({ result: result });
+    delPortlet(index) {
+        this.setState({ result: _.reject(this.state.result, { index: index }) });
     }
 
-    copyPortlet(i) {
-        let result = this.state.result[i];
+    copyPortlet(index) {
+        let layout = Object.assign({}, _.find(this.state.result, {index: index}), { index: this.getIndex()});
+
         this.setState({
             result: [ 
                 ...this.state.result,
-                result
+                layout
             ]
-        })
+        });
     }
 
     onShow() {
@@ -150,9 +184,9 @@ export default class PortletController extends React.Component {
                     <CreatePortlet
                         onDelPortlet={this.delPortlet} 
                         onCopyPortlet={this.copyPortlet}
-                        index={i} 
+                        index={data.index} 
                         portlet={{ component: PortletComponents[data.portletName], body: '' }} /> 
-                        {showPortlet}
+
                 </div>
             );
         });
@@ -228,11 +262,15 @@ export default class PortletController extends React.Component {
         return (
             <div>
                 <LayoutConfig {...this.state.layoutConfig} 
-                    setMargin={this.setLayoutConfigMargin} />
+                    setMargin={this.setLayoutConfigMargin}
+                    setPadding={this.setLayoutConfigContainerPadding}
+                    setRowHeight={this.setLayoutConfigRowHeight}
+                    />
                 {CreatePortletForm}
                 <hr />
-                <h3>{JSON.stringify(this.state.layoutConfig)} {this.state.result.length}</h3>
-                <ReactGridLayout className="layout" {...this.state.layoutConfig}>
+                <h3>{JSON.stringify(this.state.result)} {this.state.result.length}</h3>
+                <ReactGridLayout className="layout" {...this.state.layoutConfig}
+                    onLayoutChange={this.onLayoutChange}>
                 {body}
                 </ReactGridLayout>
             </div>
