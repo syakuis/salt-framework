@@ -45,8 +45,8 @@ export default class PortletController extends React.Component {
             isResizable: true,
             useCSSTransforms: true
         },
-        portlet: {
-            portletName: '',
+        context: {
+            portlet: '',
             index: 0,
             x: 0,
             y: Infinity,
@@ -60,8 +60,8 @@ export default class PortletController extends React.Component {
         ]
     }
 
-    getProps() {
-        return Object.assign({}, this.props.portlet);
+    getPropsContext() {
+        return Object.assign({}, this.props.context);
     }
 
     getIndex() {
@@ -107,16 +107,16 @@ export default class PortletController extends React.Component {
     }
 
     addPortlet() {
-        let portlet = {
-            ...this.state.portlet,
+        let context = {
+            ...this.state.context,
             index: this.getIndex()
         };
 
         this.setState({
-            portlet: this.getProps(),
+            context: this.getPropsContext(),
             result: [ 
                 ...this.state.result,
-                portlet
+                context
             ]
         });
     }
@@ -165,7 +165,7 @@ export default class PortletController extends React.Component {
             break;
         }
 
-        this.setState(Object.assign(this.state.portlet, {[e.target.name]: value}));
+        this.setState(Object.assign(this.state.context, {[e.target.name]: value}));
     }
 
     render() {
@@ -178,14 +178,14 @@ export default class PortletController extends React.Component {
 
         let showPortlet = (this.state.show) ? <PortletForm /> : '';
 
-        let body = this.state.result.map((data, i) => {
+        let body = this.state.result.map((context, i) => {
             return (
-                <div key={i} data-grid={data} onClick={this.onShow}>
+                <div key={i} data-grid={context} onClick={this.onShow}>
                     <CreatePortlet
                         onDelPortlet={this.delPortlet} 
                         onCopyPortlet={this.copyPortlet}
-                        index={data.index} 
-                        portlet={{ component: PortletComponents[data.portletName], body: '' }} /> 
+                        index={context.index} 
+                        portlet={{ component: PortletComponents[context.portlet], body: '' }} /> 
 
                 </div>
             );
@@ -195,12 +195,12 @@ export default class PortletController extends React.Component {
             <div className="container">
                 <form className="form-inline">
                     <div className="form-group">
-                        <label htmlFor="portlets">portlets</label>
+                        <label htmlFor="portlet">portlet</label>
                         <select className="form-control"
-                                name="portletName" 
+                                name="portlet" 
                                 datatype="string" 
                                 onChange={this.initDataBind}
-                                value={this.state.portlet.portletName}>
+                                value={this.state.context.portlet}>
                             <option value="">포틀릿선택</option>
                             {selectBoxPortlet}
                         </select>
@@ -212,7 +212,7 @@ export default class PortletController extends React.Component {
                             name="w" 
                             datatype="number"
                             onChange={this.initDataBind} 
-                            value={this.state.portlet.w} />
+                            value={this.state.context.w} />
                     </div>
 
                     <div className="form-group">
@@ -221,7 +221,7 @@ export default class PortletController extends React.Component {
                             name="h" 
                             datatype="number"
                             onChange={this.initDataBind} 
-                            value={this.state.portlet.h} />
+                            value={this.state.context.h} />
                     </div>
                     
                     <div className="form-group">
@@ -230,7 +230,7 @@ export default class PortletController extends React.Component {
                             <input type="checkbox" 
                             name="static"
                             datatype="boolean" 
-                            checked={this.state.portlet.static}
+                            checked={this.state.context.static}
                             onChange={this.initDataBind} /> 사용
                         </label>
                     </div>
@@ -241,7 +241,7 @@ export default class PortletController extends React.Component {
                                 name="isDraggable" 
                                 datatype="boolean" 
                                 onChange={this.initDataBind} 
-                                checked={this.state.portlet.isDraggable} /> 사용
+                                checked={this.state.context.isDraggable} /> 사용
                         </label>
                     </div>
                     <div className="form-group">
@@ -251,7 +251,7 @@ export default class PortletController extends React.Component {
                                 name="isResizable" 
                                 datatype="boolean" 
                                 onChange={this.initDataBind}  
-                                checked={this.state.portlet.isResizable} /> 사용
+                                checked={this.state.context.isResizable} /> 사용
                         </label>
                     </div>
                     <button className="btn btn-default" type="button" onClick={this.addPortlet}>생성</button>
@@ -285,8 +285,9 @@ function getPortletComponents() {
 // portal item setting
 PortletController.defaultProps = {
     portletComponents: getPortletComponents(),
-    portlet: {
-        portletName: '',
+    context: {
+        portlet: '',
+        index: 0,
         x: 0,
         y: Infinity,
         w: 1,
