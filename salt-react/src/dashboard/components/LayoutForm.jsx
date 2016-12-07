@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class LayoutConfig extends React.Component {
+export default class LayoutForm extends React.Component {
 	constructor(props) {
 		super(props);
 

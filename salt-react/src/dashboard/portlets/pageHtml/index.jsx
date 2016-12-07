@@ -8,8 +8,8 @@ export default class PageHtml extends React.Component {
             <div>
                 <ContextMenu 
                     onClickConfig={this.onModalOpen}
-                    onClickClone={() => this.props.onCopyPortlet(this.props.index)}
-                    onClickRemove={() => this.props.onDelPortlet(this.props.index)}
+                    onClickClone={() => this.props.clonePortlet(this.props.idx)}
+                    onClickRemove={() => this.props.deletePortlet(this.props.idx)}
                     isShow={this.props.isContextMenuShow} />
 
                 <AlloyEditorComponent container="editable"/>

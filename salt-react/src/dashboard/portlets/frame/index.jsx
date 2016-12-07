@@ -47,11 +47,11 @@ export default class Frame extends React.Component {
 
                 <ContextMenu 
                     onClickConfig={this.onModalOpen}
-                    onClickClone={() => this.props.onCopyPortlet(this.props.index)}
-                    onClickRemove={() => this.props.onDelPortlet(this.props.index)}
+                    onClickClone={() => this.props.clonePortlet(this.props.idx)}
+                    onClickRemove={() => this.props.deletePortlet(this.props.idx)}
                     isShow={this.props.isContextMenuShow} />
                 
-                Frame {this.props.index}
+                Frame {this.props.idx}
 
                 <Modal 
                 isOpen={this.state.modal.open} 
