@@ -133,9 +133,8 @@ export default class PortletController extends React.Component {
                 <LayoutForm {...this.state.layoutConfig} 
                     setMargin={this.setLayoutConfigMargin}
                     setPadding={this.setLayoutConfigContainerPadding}
-                    setRowHeight={this.setLayoutConfigRowHeight}
-                    />
-                <PortletForm addPortlet={this.addPortlet} portletComponents={this.props.portletComponents} portlet={this.props.portlet}/>
+                    setRowHeight={this.setLayoutConfigRowHeight} />
+                <PortletForm addPortlet={this.addPortlet} portletComponents={this.props.portletComponents} portlet={this.props.portlet} />
                 <hr />
                 <p>{JSON.stringify(this.state)} ( {this.state.dashboard.length} )</p>
                 <ReactGridLayout {...this.state.layoutConfig} onLayoutChange={this.onLayoutChange}>
