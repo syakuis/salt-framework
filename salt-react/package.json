@@ -42,6 +42,7 @@
     "alloyeditor": "^1.2.5",
     "lodash": "^4.17.2",
     "react": "^15.4.0",
+    "react-addons-update": "^15.4.1",
     "react-dom": "^15.4.0",
     "react-draggable": "^2.2.3",
     "react-grid-layout": "^0.13.9",

@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
-import ContextMenu from '../../components/ContextMenu.jsx';
+import ContextMenu from '../../components/ContextMenu';
+import PortletUpdate from '../../components/PortletUpdate';
 
 export default class Frame extends React.Component {
 
@@ -8,42 +9,25 @@ export default class Frame extends React.Component {
         super(props)
 
         this.onModalOpen = this.onModalOpen.bind(this);
-        this.onModalClose = this.onModalClose.bind(this);
-
-        this.onModalOpen2 = this.onModalOpen2.bind(this);
-        this.onModalClose2 = this.onModalClose2.bind(this);
-
+        this.onUpdatePortlet = this.onUpdatePortlet.bind(this);
     }
 
     state = {
-        modal: {
-            open: false,
-            open2: false
-        }
+        modalOpen: false
     }
 
     onModalOpen() {
-        this.setState({modal: { ...this.state.modal, open: true }})
+        this.setState({ modalOpen: true });
     }
 
-    onModalClose() {
-        this.setState({modal: { ...this.state.modal, open: false }})
+    onUpdatePortlet(portlet) {
+        this.props.updatePortlet(portlet);
+        this.setState({ modalOpen: false });
     }
-
-    onModalOpen2() {
-        console.log('good');
-        this.setState({modal: { ...this.state.modal, open2: true }})
-    }
-
-    onModalClose2() {
-        console.log('good2');
-        this.setState({modal: { ...this.state.modal, open2: false }})
-    }
-
 
     render() {
         return (
-            <div style={{ width: '100%', height: '100%', backgroundColor: 'rgb(119, 81, 81)'}}>
+            <div style={{ width: '100%', height: '100%', backgroundColor: 'rgb(119, 81, 81)', padding: this.props.padding }}>
 
                 <ContextMenu 
                     onClickConfig={this.onModalOpen}
@@ -54,21 +38,12 @@ export default class Frame extends React.Component {
                 Frame {this.props.idx}
 
                 <Modal 
-                isOpen={this.state.modal.open} 
-                onRequestClose={this.onModalClose} 
-                shouldCloseOnOverlayClick={true}>
-                <button onClick={this.onModalClose}>close</button>
-                <button onClick={this.onModalOpen2}>open</button>
-                qqqq
-
-                <Modal
-                    isOpen={this.state.modal.open2} 
-                    onRequestClose={this.onModalClose2} 
+                    isOpen={this.state.modalOpen} 
+                    onRequestClose={this.onModalClose} 
                     shouldCloseOnOverlayClick={true}>
-                    <button onClick={this.onModalClose2}>close</button>
-                    qqqqwqewqewq
-                </Modal>
-
+                    <PortletUpdate 
+                        portlet={this.props.portlet}
+                        updatePortlet={this.onUpdatePortlet} />
                 </Modal>
             </div>
         )

@@ -35,7 +35,7 @@ export default class ContextMenu extends React.Component {
                     <i className="fa fa-arrows" aria-hidden="true"></i>
                 </button>
                 <button type="button" className="btn btn-default" onClick={this.onClickConfig}>
-                    <i className="fa fa-cog" aria-hidden="true"></i>
+                    <i className="fa fa-crop" aria-hidden="true"></i>
                 </button>
                 <button type="button" className="btn btn-default"  onClick={this.onClickClone}>
                     <i className="fa fa-clone" aria-hidden="true"></i>

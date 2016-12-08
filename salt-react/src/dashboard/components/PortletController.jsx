@@ -1,4 +1,5 @@
 import React from 'react';
+import update from 'react-addons-update';
 import _ from 'lodash';
 
 import {Responsive, WidthProvider} from 'react-grid-layout';
@@ -21,8 +22,11 @@ export default class PortletController extends React.Component {
         this.onLayoutChange = this.onLayoutChange.bind(this);
 
         this.addPortlet = this.addPortlet.bind(this);
+        this.updatePortlet = this.updatePortlet.bind(this);
         this.deletePortlet = this.deletePortlet.bind(this);
         this.clonePortlet = this.clonePortlet.bind(this);
+
+        this.onTest = this.onTest.bind(this);
 	}
 
     state = {
@@ -31,8 +35,7 @@ export default class PortletController extends React.Component {
         },
         layout: [],
         layouts: {},
-        dashboard: [],
-        show: false,
+        dashboard: {},
         portletCount: 0
     }
 
@@ -85,78 +88,100 @@ export default class PortletController extends React.Component {
     }
 
     addPortlet(portlet) {
+        let idx = this.createPortletIdx();
+        portlet['idx'] = idx;
+
         this.setState({
-            dashboard: this.state.dashboard.concat({
-                ...portlet,
-                idx: this.createPortletIdx()
-            })
+            dashboard: update(this.state.dashboard, {$merge: { [idx]: portlet }})
         });
+    }
+
+    updatePortlet(portlet) {
+        let newPortlet = Object.assign({}, this.state.dashboard[portlet.idx], portlet);
+        this.setState({
+            dashboard: update(this.state.dashboard, {$merge: { [portlet.idx]: newPortlet }})
+        });
+
     }
 
     deletePortlet(idx) {
-        this.setState({ dashboard: _.reject(this.state.dashboard, { idx: idx }) });
+        this.setState({ dashboard: _.omit(this.state.dashboard, [idx]) });
     }
 
     clonePortlet(idx) {
-        let portlet = Object.assign(
-            {}, _.find(this.state.dashboard, { idx: idx }),
-            { 
-                x: this.state.dashboard.length * 2 % (this.state.cols || 12),
-                idx: this.createPortletIdx() 
-            });
+        let newIdx = this.createPortletIdx();
+        let portlet = Object.assign({}, this.state.dashboard[idx], { idx: newIdx });
 
         this.setState({
-            dashboard: [ 
-                ...this.state.dashboard,
-                portlet
-            ]
+           dashboard: update(this.state.dashboard, {$merge: { [newIdx]: portlet }}) 
         });
     }
 
-    render() {
+    onTest() {
 
-        let body = this.state.dashboard.map((portlet, i) => {
+    }
+
+    render() {
+        let dashboard = this.state.dashboard;
+        let PortletList = Object.keys(dashboard).map((key) => {
+            let portlet = dashboard[key];
             return (
-                <div key={portlet.idx} data-grid={portlet} onClick={this.onShow}>
+                <div key={portlet.idx} data-grid={portlet}>
                     <CreatePortletComponent
+                        updatePortlet={this.updatePortlet}
                         deletePortlet={this.deletePortlet} 
                         clonePortlet={this.clonePortlet}
+                        portlet={portlet}
                         idx={portlet.idx} 
+                        padding={portlet.padding}
                         portletComponent={PortletComponents[portlet.componentName]} /> 
-
+                    
                 </div>
             );
-        });
+        }); 
+        /*let PortletList = this.state.dashboard.map((portlet, i) => {
+            return (
+                <div key={portlet.idx} data-grid={portlet}>
+                    <CreatePortletComponent
+                        updatePortlet={this.updatePortlet}
+                        deletePortlet={this.deletePortlet} 
+                        clonePortlet={this.clonePortlet}
+                        portlet={portlet}
+                        idx={portlet.idx} 
+                        padding={portlet.padding}
+                        portletComponent={PortletComponents[portlet.componentName]} /> 
+                    
+                </div>
+            );
+        });*/
 
         return (
             <div>
+                <button onClick={this.onTest}>test</button>
                 <LayoutForm {...this.state.layoutConfig} 
                     setMargin={this.setLayoutConfigMargin}
                     setPadding={this.setLayoutConfigContainerPadding}
                     setRowHeight={this.setLayoutConfigRowHeight} />
                 <PortletForm addPortlet={this.addPortlet} portletComponents={this.props.portletComponents} portlet={this.props.portlet} />
-                <hr />
-                <p>{JSON.stringify(this.state)} ( {this.state.dashboard.length} )</p>
-                <ReactGridLayout {...this.state.layoutConfig} onLayoutChange={this.onLayoutChange}>
-                {body}
+                <ReactGridLayout {...this.state.layoutConfig}
+                    layout={this.state.layout}
+                    layouts={this.state.layouts} 
+                    onLayoutChange={this.onLayoutChange}>
+                    {PortletList}
                 </ReactGridLayout>
             </div>
         )
     }
 }
 
-function getPortletComponents() {
-    return Object.keys(PortletComponents);
-}
-
 // portal item setting
 PortletController.defaultProps = {
-    portletComponents: getPortletComponents(),
+    portletComponents: Object.keys(PortletComponents),
     layoutConfig: {
         className: "layout",
-        autoSize: false,
+        autoSize: true,
         cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
-        //breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
+        breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
         //draggableCancel: '',
         draggableHandle: '.draggable-point',
         verticalCompact: true,
@@ -172,6 +197,7 @@ PortletController.defaultProps = {
     portlet: {
         componentName: '',
         idx: '',
+        padding: 0,
         w: 1,
         h: 2,
         x: 0,

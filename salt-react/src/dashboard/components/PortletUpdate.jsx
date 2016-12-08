@@ -1,18 +1,18 @@
 import React from 'react';
+import Draggable from 'react-draggable';
 
-export default class PortletFrom extends React.Component {
+export default class PortletUpdate extends React.Component {
 
 	constructor(props) {
 		super(props);
 
 		this.initDataBind = this.initDataBind.bind(this);
-		this.onAddPortlet = this.onAddPortlet.bind(this);
+		this.onUpdatePortlet = this.onUpdatePortlet.bind(this);
 	}
 
 	state = {
 		...this.props.portlet
 	}
-
 
     initDataBind(e) {
         let datatype = e.target.attributes.getNamedItem('datatype');
@@ -42,29 +42,16 @@ export default class PortletFrom extends React.Component {
         this.setState(Object.assign(this.state, {[e.target.name]: value}));
     }
 
-	onAddPortlet() {
-		this.setState({ ...this.props.portlet });
-		this.props.addPortlet(this.state);
+	onUpdatePortlet() {
+		this.props.updatePortlet(this.state);
 	}
 
 	render() {
-
+		
 		return (
 			<div className="panel panel-default">
 				<div className="panel-body">
 					<form>
-
-						<div className="form-group">
-							<label htmlFor="componentName">componentName</label>
-							<select className="form-control"
-									name="componentName" 
-									datatype="string" 
-									onChange={this.initDataBind}
-									value={this.state.componentName}>
-								<option value="">포틀릿선택</option>
-								{ this.props.portletComponents.map((name, i) => <option key={i} value={name}>{name}</option> )}
-							</select>
-						</div>
 
 						<div className="form-group">
 							<label htmlFor="padding">padding</label>
@@ -106,7 +93,7 @@ export default class PortletFrom extends React.Component {
 									checked={this.state.isResizable} /> 사용
 							</label>
 						</div>
-						<button className="btn btn-default" type="button" onClick={this.onAddPortlet}>생성</button>
+						<button className="btn btn-default" type="button" onClick={this.onUpdatePortlet}>수정</button>
 					</form>
 				</div>
 			</div>
