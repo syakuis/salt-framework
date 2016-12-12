@@ -9,7 +9,7 @@ export default class Frame extends React.Component {
 
     render() {
         return (
-            <div style={{ width: '100%', height: '100%', backgroundColor: 'rgb(119, 81, 81)', padding: this.props.padding }}>
+            <div style={this.props.style}>
                 <ContextMenu {...this.props} />
                 Frame {this.props.idx}
             </div>
