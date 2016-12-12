@@ -6,7 +6,8 @@ import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
 import Modal from 'react-modal';
 
-import LayoutForm from './LayoutForm'
+import Navbar from './Navbar';
+import LayoutForm from './LayoutForm';
 import PortletForm from './PortletForm';
 import CreatePortletComponent from './CreatePortletComponent';
 import * as PortletComponents from '../portlets';
@@ -22,11 +23,10 @@ export default class PortletController extends React.Component {
         this.onLayoutChange = this.onLayoutChange.bind(this);
 
         this.addPortlet = this.addPortlet.bind(this);
+        this.addPortlet2 = this.addPortlet2.bind(this);
         this.updatePortlet = this.updatePortlet.bind(this);
         this.deletePortlet = this.deletePortlet.bind(this);
         this.clonePortlet = this.clonePortlet.bind(this);
-
-        this.onTest = this.onTest.bind(this);
 	}
 
     state = {
@@ -96,6 +96,18 @@ export default class PortletController extends React.Component {
         });
     }
 
+    addPortlet2(portletName) {
+        let portlet = PortletComponents[portletName];
+        portlet = portlet.getDefault();
+        let idx = this.createPortletIdx();
+        portlet['idx'] = idx;
+        portlet['componentName'] = portletName;
+
+        this.setState({
+            dashboard: update(this.state.dashboard, {$merge: { [idx]: portlet }})
+        });
+    }
+
     updatePortlet(portlet) {
         let newPortlet = Object.assign({}, this.state.dashboard[portlet.idx], portlet);
         this.setState({
@@ -115,10 +127,6 @@ export default class PortletController extends React.Component {
         this.setState({
            dashboard: update(this.state.dashboard, {$merge: { [newIdx]: portlet }}) 
         });
-    }
-
-    onTest() {
-
     }
 
     render() {
@@ -156,8 +164,8 @@ export default class PortletController extends React.Component {
         });*/
 
         return (
-            <div>
-                <button onClick={this.onTest}>test</button>
+            <div className="container">
+                <Navbar portletComponents={this.props.portletComponents} addPortlet={this.addPortlet2}/>
                 <LayoutForm {...this.state.layoutConfig} 
                     setMargin={this.setLayoutConfigMargin}
                     setPadding={this.setLayoutConfigContainerPadding}

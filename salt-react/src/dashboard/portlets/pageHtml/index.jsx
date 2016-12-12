@@ -7,6 +7,19 @@ export default class PageHtml extends React.Component {
         super(props);
     }
 
+    static getDefault() {
+        return {
+            padding: 5,
+            w: 4,
+            h: 4,
+            x: 0,
+            y: Infinity,
+            static: false,
+            isDraggable: true,
+            isResizable: true
+        };
+    }
+
     render() {
         let {padding, ...styles} = this.props.style;
         if (padding <= 0) {

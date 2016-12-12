@@ -7,6 +7,19 @@ export default class Frame extends React.Component {
         super(props)
     }
 
+    static getDefault() {
+        return {
+            padding: 0,
+            w: 1,
+            h: 2,
+            x: 0,
+            y: Infinity,
+            static: false,
+            isDraggable: true,
+            isResizable: true
+        };
+    }
+
     render() {
         return (
             <div style={this.props.style}>
@@ -15,4 +28,4 @@ export default class Frame extends React.Component {
             </div>
         )
     }
-} 
+}
