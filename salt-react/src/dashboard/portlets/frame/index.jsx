@@ -7,11 +7,15 @@ export default class Frame extends React.Component {
         super(props)
     }
 
+    state={
+        iframeSrc: '',
+    }
+
     static getDefault() {
         return {
             padding: 0,
-            w: 1,
-            h: 2,
+            w: 5,
+            h: 5,
             x: 0,
             y: Infinity,
             static: false,
@@ -23,8 +27,13 @@ export default class Frame extends React.Component {
     render() {
         return (
             <div style={this.props.style}>
-                <ContextMenu {...this.props} />
-                Frame {this.props.idx}
+                <ContextMenu {...this.props}>
+                    <button type="button" className="btn btn-default">
+                        <i className="fa fa-cog" aria-hidden="true"></i>
+                    </button>
+                </ContextMenu>
+                <iframe src="http://aintop.co.kr" width="100%" height="100%"
+                 style={{ border: 'none', overflow: 'hidden' }}></iframe>
             </div>
         )
     }

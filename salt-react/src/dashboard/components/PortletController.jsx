@@ -165,12 +165,14 @@ export default class PortletController extends React.Component {
 
         return (
             <div className="container">
-                <Navbar portletComponents={this.props.portletComponents} addPortlet={this.addPortlet2}/>
-                <LayoutForm {...this.state.layoutConfig} 
-                    setMargin={this.setLayoutConfigMargin}
-                    setPadding={this.setLayoutConfigContainerPadding}
-                    setRowHeight={this.setLayoutConfigRowHeight} />
-                <PortletForm addPortlet={this.addPortlet} portletComponents={this.props.portletComponents} portlet={this.props.portlet} />
+                <Navbar portletComponents={this.props.portletComponents} addPortlet={this.addPortlet2}>
+                    <LayoutForm {...this.state.layoutConfig} 
+                        setMargin={this.setLayoutConfigMargin}
+                        setPadding={this.setLayoutConfigContainerPadding}
+                        setRowHeight={this.setLayoutConfigRowHeight} />
+                </Navbar>
+
+                <div style={{ height: 60 }}></div>
                 <ReactGridLayout {...this.state.layoutConfig}
                     layout={this.state.layout}
                     layouts={this.state.layouts} 
@@ -195,8 +197,8 @@ PortletController.defaultProps = {
         verticalCompact: true,
         //layout: [],
         //layouts: {},
-        margin: [10,10],
-        containerPadding: [30,30],
+        margin: [5,5],
+        containerPadding: [0,0],
         rowHeight: 30,
         isDraggable: true,
         isResizable: true,

@@ -43,44 +43,48 @@ export default class LayoutForm extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<div className="panel panel-default">
-					<div className="panel-body">
-						<form>
-							<div className="form-group">
-								<label htmlFor="margin">margin</label>
+			<div className="panel panel-default">
+				<div className="panel-body">
+					<div className="form-group">
+						<label htmlFor="margin">margin</label>
+						<div className="row">
+							<div className="col-md-6">
 								<input type="text" className="form-control" placeholder="marginX"
-									name="marginX"
-									onChange={this.setMargin}
-									value={this.state.marginX} 
-									/>
-								<input type="text" className="form-control" placeholder="marginY"
-									name="marginY"
-									onChange={this.setMargin}
-									value={this.state.marginY}
-									/>
+								name="marginX"
+								onChange={this.setMargin}
+								value={this.state.marginX} />
 							</div>
-							<div className="form-group">
-								<label htmlFor="padding">padding</label>
+							<div className="col-md-6">
+								<input type="text" className="form-control" placeholder="marginY"
+								name="marginY"
+								onChange={this.setMargin}
+								value={this.state.marginY} />
+							</div>
+						</div>
+					</div>
+					<div className="form-group">
+						<label htmlFor="padding">padding</label>
+						<div className="row">
+							<div className="col-md-6">
 								<input type="text" className="form-control" placeholder="paddingX"
 									name="paddingX"
 									onChange={this.setPadding}
-									value={this.state.paddingX} 
-									/>
+									value={this.state.paddingX} />
+							</div>
+							<div className="col-md-6">
 								<input type="text" className="form-control" placeholder="paddingY"
 									name="paddingY"
 									onChange={this.setPadding}
-									value={this.state.paddingY} 
-									/>
+									value={this.state.paddingY} />
 							</div>
-							<div className="form-group">
-								<label htmlFor="height">height</label>
-								<input type="text" className="form-control" placeholder="height" 
-								onChange={this.setRowHeight}
-								value={this.state.rowHeight}
-								/>
-							</div>
-						</form>
+						</div>
+					</div>
+					<div className="form-group">
+						<label htmlFor="height">height</label>
+						<input type="text" className="form-control" placeholder="height" 
+						onChange={this.setRowHeight}
+						value={this.state.rowHeight}
+						/>
 					</div>
 				</div>
 			</div>
