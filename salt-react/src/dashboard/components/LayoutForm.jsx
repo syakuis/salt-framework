@@ -19,24 +19,24 @@ export default class LayoutForm extends React.Component {
 
 	setMargin(e) {
 		let name = e.target.name;
-		let value = Number.parseFloat(e.target.value);
+		let value = parseFloat(e.target.value);
 
-		let margin = Object.assign({}, this.state, {[name]: value});
-		this.setState(margin);
+		let margin = { ...this.state, [name]: value };
+		this.setState({ [name]: value });
 		this.props.setMargin(margin.marginX, margin.marginY);
 	}
 
 	setPadding(e) {
 		let name = e.target.name;
-		let value = Number.parseFloat(e.target.value);
+		let value = parseFloat(e.target.value);
 
-		let result = Object.assign({}, this.state, {[name]: value});
-		this.setState(result);
+		let result = { ...this.state, [name]: value };
+		this.setState({ [name]: value });
 		this.props.setPadding(result.paddingX, result.paddingY);
 	}
 
 	setRowHeight(e) {
-		let value = Number.parseFloat(e.target.value);
+		let value = parseFloat(e.target.value);
 		this.setState({ rowHeight: value });
 		this.props.setRowHeight(value);
 	}

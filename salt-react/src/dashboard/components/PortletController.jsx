@@ -109,7 +109,7 @@ export default class PortletController extends React.Component {
     }
 
     updatePortlet(portlet) {
-        let newPortlet = Object.assign({}, this.state.dashboard[portlet.idx], portlet);
+        let newPortlet = {...this.state.dashboard[portlet.idx], ...portlet};
         this.setState({
             dashboard: update(this.state.dashboard, {$merge: { [portlet.idx]: newPortlet }})
         });
@@ -122,7 +122,7 @@ export default class PortletController extends React.Component {
 
     clonePortlet(idx) {
         let newIdx = this.createPortletIdx();
-        let portlet = Object.assign({}, this.state.dashboard[idx], { idx: newIdx });
+        let portlet = { ...this.state.dashboard[idx], idx: newIdx };
 
         this.setState({
            dashboard: update(this.state.dashboard, {$merge: { [newIdx]: portlet }}) 

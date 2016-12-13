@@ -31,14 +31,14 @@ export default class PortletUpdate extends React.Component {
 
         switch(datatype) {
             case 'number':
-                value = Number.parseFloat(value);
+                value = parseFloat(value);
             break;
             case 'boolean':
                 if (typeof value === 'boolean') value = Boolean(value);
             break;
         }
 
-        this.setState(Object.assign(this.state, {[e.target.name]: value}));
+        this.setState({[e.target.name]: value });
     }
 
 	onUpdatePortlet() {
