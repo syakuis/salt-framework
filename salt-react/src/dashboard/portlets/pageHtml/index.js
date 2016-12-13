@@ -1,6 +1,6 @@
 import React from 'react';
-import ContextMenu from '../../components/ContextMenu.jsx';
-import AlloyEditorComponent from '../../components/AlloyEditorComponent.jsx';
+import ContextMenu from '../../components/ContextMenu';
+import AlloyEditorComponent from '../../components/AlloyEditorComponent';
 
 export default class PageHtml extends React.Component {
     constructor(props) {

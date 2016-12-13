@@ -21,14 +21,14 @@ module.exports = {
 			template: './index.html'
 		}),
 		function() {
-				fs.writeFile('./src/dashboard/portlets/index.jsx', '');
+				fs.writeFile('./src/dashboard/portlets/index.js', '');
 				glob('src/dashboard/portlets/**/config.json', null, function(err, files) {
 
 					for(var i in files) {
 						var file = __dirname + '/' + files[i];
 						fs.readFile(file, 'utf-8', function (err, data) {
 							var script = JSON.parse(data).script;
-							fs.appendFileSync("./src/dashboard/portlets/index.jsx", script + "\n");
+							fs.appendFileSync("./src/dashboard/portlets/index.js", script + "\n");
 							console.log('Portlets Export add: ' + script);
 						});
 
@@ -59,9 +59,9 @@ module.exports = {
 			}
 		]
 	},
-	resolve: {
+	/*resolve: {
     	extensions: ['', '.js', '.jsx']
-  	},
+  	},*/
 
 	devServer: {
 		inline: true, // 자동 리로드여부를 선택합니다.

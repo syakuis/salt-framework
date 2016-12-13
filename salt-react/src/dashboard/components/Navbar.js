@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { Modal as bsModal } from 'react-bootstrap';
 
 import LayoutForm from './LayoutForm';
 

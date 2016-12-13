@@ -1,4 +1,4 @@
 {
     "name": "PageHtml",
-    "script": "export PageHtml from './pageHtml/index.jsx';"
+    "script": "export PageHtml from './pageHtml/index.js';"
 }
