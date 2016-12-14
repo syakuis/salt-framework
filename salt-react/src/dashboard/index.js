@@ -1,12 +1,21 @@
 import React from 'react';
 import { render } from 'react-dom';
-import PortletController from './components/PortletController';
+
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import portletReducer from './reducers'
+
+import PortletContainer from './containers/PortletContainer';
 
 class Dashboard {
 	static main() {
 
+		let store = createStore(portletReducer);
+
 		render(
-			<PortletController />,
+			<Provider store = {store}>
+				<PortletContainer />
+			</Provider>,
 			document.getElementById('app')
 		);
 	}

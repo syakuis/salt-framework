@@ -2,17 +2,20 @@ import React from 'react';
 import update from 'react-addons-update';
 import _ from 'lodash';
 
+import { connect } from 'react-redux';
+import { addPortlet } from '../actions';
+
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
 import Modal from 'react-modal';
 
-import Navbar from './Navbar';
-import LayoutForm from './LayoutForm';
-import PortletForm from './PortletForm';
-import CreatePortletComponent from './CreatePortletComponent';
+import Navbar from '../components/Navbar';
+import LayoutForm from '../components/LayoutForm';
+import PortletForm from '../components/PortletForm';
+import CreatePortletComponent from '../components/CreatePortletComponent';
 import * as PortletComponents from '../portlets';
 
-export default class PortletController extends React.Component {
+class PortletContainer extends React.Component {
 
     constructor(props) {
 		super(props);
@@ -88,7 +91,7 @@ export default class PortletController extends React.Component {
     }
 
     addPortlet(portlet) {
-        let idx = this.createPortletIdx();
+        let idx = this.props.createPortletIdx();
         portlet['idx'] = idx;
 
         this.setState({
@@ -99,13 +102,10 @@ export default class PortletController extends React.Component {
     addPortlet2(portletName) {
         let portlet = PortletComponents[portletName];
         portlet = portlet.getDefault();
-        let idx = this.createPortletIdx();
-        portlet['idx'] = idx;
         portlet['componentName'] = portletName;
+        console.log(portlet);
 
-        this.setState({
-            dashboard: update(this.state.dashboard, {$merge: { [idx]: portlet }})
-        });
+        this.props.addPortlet(portlet);
     }
 
     updatePortlet(portlet) {
@@ -130,7 +130,7 @@ export default class PortletController extends React.Component {
     }
 
     render() {
-        let dashboard = this.state.dashboard;
+        let dashboard = this.props.dashboard;
         let PortletList = Object.keys(dashboard).map((key) => {
             let portlet = dashboard[key];
             return (
@@ -185,7 +185,7 @@ export default class PortletController extends React.Component {
 }
 
 // portal item setting
-PortletController.defaultProps = {
+PortletContainer.defaultProps = {
     portletComponents: Object.keys(PortletComponents),
     layoutConfig: {
         className: "layout",
@@ -246,3 +246,20 @@ Modal.defaultStyles = {
         transform             : 'translate(-50%, -50%)'
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        ...state.portlet
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+      addPortlet: (portlet) => dispatch(addPortlet(portlet))
+	}
+}
+
+export default PortletContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PortletContainer);

@@ -48,6 +48,8 @@
     "react-draggable": "^2.2.3",
     "react-grid-layout": "^0.13.9",
     "react-modal": "^1.5.2",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
     "webpack": "^1.13.3"
   }
 }
