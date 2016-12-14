@@ -3,7 +3,7 @@ import update from 'react-addons-update';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
-import { addPortlet, updatePortlet, deletePortlet, clonePortlet, updateLayout, getPortletComponents} from '../actions';
+import { addPortlet, updatePortlet, deletePortlet, clonePortlet, updateLayout } from '../actions';
 
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
@@ -30,7 +30,6 @@ class PortletContainer extends React.Component {
 	}
 
     state = {
-        portletComponents: this.props.getPortletComponents(),
         layoutConfig: {
             ...this.props.layoutConfig
         },
@@ -55,7 +54,7 @@ class PortletContainer extends React.Component {
     }
 
     addPortlet2(portletName) {
-        let portlet = this.state.portletComponents[portletName];
+        let portlet = this.props.portletComponents[portletName];
         portlet = portlet.getDefault();
         portlet['componentName'] = portletName;
 
@@ -85,7 +84,7 @@ class PortletContainer extends React.Component {
                         portlet={portlet}
                         idx={portlet.idx} 
                         padding={portlet.padding}
-                        portletComponent={this.state.portletComponents[portlet.componentName]} /> 
+                        portletComponent={this.props.portletComponents[portlet.componentName]} /> 
                     
                 </div>
             );
@@ -182,8 +181,7 @@ const mapDispatchToProps = (dispatch) => {
         updatePortlet: (portlet) => dispatch(updatePortlet(portlet)),
         deletePortlet: (idx) => dispatch(deletePortlet(idx)),
         clonePortlet: (idx) => dispatch(clonePortlet(idx)),
-        updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts)),
-        getPortletComponents: () => dispatch(getPortletComponents())
+        updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts))
     }
 }
 

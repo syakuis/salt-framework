@@ -49,10 +49,6 @@ const portlet = (state = defaultState, action) => {
     let newIdx = 'idx_' + portletCount;
 
     switch(action.type) {
-        case actions.GET_PORTLET_COMPONENTS:
-        console.log(portletComponents);
-            return Object.assign({}, state, state.portletComponents);
-
         case actions.ADD_PORTLET:
             return Object.assign({}, state, {
                 portletCount: portletCount,

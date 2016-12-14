@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { addPortlet, getPortletComponents } from '../actions';
+import { addPortlet } from '../actions';
 
 import LayoutForm from './LayoutForm';
 
@@ -90,14 +90,17 @@ class Navbar extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return state.portletComponents;
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        addPortlet: (portlet) => dispatch(addPortlet(portlet)),
-        getPortletComponents: () => dispatch(getPortletComponents())
+        addPortlet: (portlet) => dispatch(addPortlet(portlet))
     }
 }
 
 export default Navbar = connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(Navbar);
