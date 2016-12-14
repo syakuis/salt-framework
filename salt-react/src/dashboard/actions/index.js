@@ -1,3 +1,4 @@
+export const GET_PORTLET_COMPONENTS = 'GET_PORTLET_COMPONENTS';
 export const ADD_PORTLET = 'ADD_PORTLET';
 export const UPDATE_PORTLET = 'UPDATE_PORTLET';
 export const DELETE_PORTLET = 'DELETE_PORTLET';
@@ -7,6 +8,9 @@ export const SET_LAYOUT_CONFIG_MARGIN = 'SET_LAYOUT_CONFIG_MARGIN';
 export const SET_LAYOUT_CONFIG_CONTAINER_PADDING = 'SET_LAYOUT_CONFIG_CONTAINER_PADDING';
 export const SET_LAYOUT_CONFIG_ROW_HEIGHT = 'SET_LAYOUT_CONFIG_ROW_HEIGHT';
 
+export const getPortletComponents = () => {
+    return { type: GET_PORTLET_COMPONENTS };
+}
 export const addPortlet = (portlet) => {
     return { type: ADD_PORTLET, portlet };
 }

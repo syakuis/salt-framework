@@ -3,7 +3,7 @@ import update from 'react-addons-update';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
-import { addPortlet, updatePortlet, deletePortlet, clonePortlet, updateLayout, setLayoutConfigMargin, setLayoutConfigContainerPadding, setLayoutConfigRowHeight} from '../actions';
+import { addPortlet, updatePortlet, deletePortlet, clonePortlet, updateLayout, getPortletComponents} from '../actions';
 
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
@@ -20,9 +20,6 @@ class PortletContainer extends React.Component {
     constructor(props) {
 		super(props);
 
-        this.setLayoutConfigMargin = this.setLayoutConfigMargin.bind(this);
-        this.setLayoutConfigContainerPadding = this.setLayoutConfigContainerPadding.bind(this);
-        this.setLayoutConfigRowHeight = this.setLayoutConfigRowHeight.bind(this);
         this.onLayoutChange = this.onLayoutChange.bind(this);
 
         this.addPortlet = this.addPortlet.bind(this);
@@ -33,6 +30,7 @@ class PortletContainer extends React.Component {
 	}
 
     state = {
+        portletComponents: this.props.getPortletComponents(),
         layoutConfig: {
             ...this.props.layoutConfig
         },
@@ -40,18 +38,6 @@ class PortletContainer extends React.Component {
         layouts: {},
         dashboard: {},
         portletCount: 0
-    }
-
-    setLayoutConfigMargin(x, y) {
-        this.props.setLayoutConfigMargin(x, y);
-    }
-
-    setLayoutConfigContainerPadding(x, y) {
-        this.props.setLayoutConfigContainerPadding(x, y);
-    }
-
-    setLayoutConfigRowHeight(height) {
-        this.props.setLayoutConfigRowHeight(height);
     }
 
     onLayoutChange(layout, layouts) {
@@ -69,7 +55,7 @@ class PortletContainer extends React.Component {
     }
 
     addPortlet2(portletName) {
-        let portlet = PortletComponents[portletName];
+        let portlet = this.state.portletComponents[portletName];
         portlet = portlet.getDefault();
         portlet['componentName'] = portletName;
 
@@ -96,12 +82,10 @@ class PortletContainer extends React.Component {
                 <div key={portlet.idx} data-grid={portlet}>
                     <CreatePortletComponent
                         updatePortlet={this.updatePortlet}
-                        deletePortlet={this.deletePortlet} 
-                        clonePortlet={this.clonePortlet}
                         portlet={portlet}
                         idx={portlet.idx} 
                         padding={portlet.padding}
-                        portletComponent={PortletComponents[portlet.componentName]} /> 
+                        portletComponent={this.state.portletComponents[portlet.componentName]} /> 
                     
                 </div>
             );
@@ -124,11 +108,8 @@ class PortletContainer extends React.Component {
 
         return (
             <div className="container">
-                <Navbar portletComponents={this.props.portletComponents} addPortlet={this.addPortlet2}>
-                    <LayoutForm {...this.state.layoutConfig} 
-                        setMargin={this.setLayoutConfigMargin}
-                        setPadding={this.setLayoutConfigContainerPadding}
-                        setRowHeight={this.setLayoutConfigRowHeight} />
+                <Navbar>
+                    <LayoutForm {...this.props.layoutConfig} />
                 </Navbar>
 
                 <div style={{ height: 60 }}></div>
@@ -145,7 +126,6 @@ class PortletContainer extends React.Component {
 
 // portal item setting
 PortletContainer.defaultProps = {
-    portletComponents: Object.keys(PortletComponents),
     portlet: {
         componentName: '',
         idx: '',
@@ -198,14 +178,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setLayoutConfigMargin: (x,y) => dispatch(setLayoutConfigMargin(x,y)),
-        setLayoutConfigContainerPadding: (x,y) => dispatch(setLayoutConfigContainerPadding(x,y)),
-        setLayoutConfigRowHeight: (height) => dispatch(setLayoutConfigRowHeight(height)),
         addPortlet: (portlet) => dispatch(addPortlet(portlet)),
         updatePortlet: (portlet) => dispatch(updatePortlet(portlet)),
         deletePortlet: (idx) => dispatch(deletePortlet(idx)),
         clonePortlet: (idx) => dispatch(clonePortlet(idx)),
-        updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts))
+        updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts)),
+        getPortletComponents: () => dispatch(getPortletComponents())
     }
 }
 

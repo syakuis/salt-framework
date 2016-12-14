@@ -1,9 +1,11 @@
 import React from 'react';
-import Modal from 'react-modal';
+
+import { connect } from 'react-redux';
+import { addPortlet, getPortletComponents } from '../actions';
 
 import LayoutForm from './LayoutForm';
 
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,7 +28,12 @@ export default class Navbar extends React.Component {
     }
 
     onAddPortlet(portletName) {
-        this.props.addPortlet(portletName);
+        let portletComponents = this.props.getPortletComponents();
+        let portlet = portletComponents[portletName];
+        portlet = portlet.getDefault();
+        portlet['componentName'] = portletName;
+
+        this.props.addPortlet(portlet);
     }
 
 
@@ -41,7 +48,7 @@ export default class Navbar extends React.Component {
             showLayoutFormStyle['display'] = 'none';
         }
 
-        let portletComponents = this.props.portletComponents.map((portletName, i) => {
+        let portletComponents = Object.keys(this.props.getPortletComponents()).map((portletName, i) => {
 
             return (
                 <div key={i} onClick={() => this.onAddPortlet(portletName)}>
@@ -82,3 +89,15 @@ export default class Navbar extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addPortlet: (portlet) => dispatch(addPortlet(portlet)),
+        getPortletComponents: () => dispatch(getPortletComponents())
+    }
+}
+
+export default Navbar = connect(
+  undefined,
+  mapDispatchToProps
+)(Navbar);

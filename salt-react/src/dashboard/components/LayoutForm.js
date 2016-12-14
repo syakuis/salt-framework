@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setLayoutConfigMargin, setLayoutConfigContainerPadding, setLayoutConfigRowHeight} from '../actions';
 
-export default class LayoutForm extends React.Component {
+class LayoutForm extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -23,7 +25,7 @@ export default class LayoutForm extends React.Component {
 
 		let margin = { ...this.state, [name]: value };
 		this.setState({ [name]: value });
-		this.props.setMargin(margin.marginX, margin.marginY);
+		this.props.setLayoutConfigMargin(margin.marginX, margin.marginY);
 	}
 
 	setPadding(e) {
@@ -32,13 +34,13 @@ export default class LayoutForm extends React.Component {
 
 		let result = { ...this.state, [name]: value };
 		this.setState({ [name]: value });
-		this.props.setPadding(result.paddingX, result.paddingY);
+		this.props.setLayoutConfigContainerPadding(result.paddingX, result.paddingY);
 	}
 
 	setRowHeight(e) {
 		let value = parseFloat(e.target.value);
 		this.setState({ rowHeight: value });
-		this.props.setRowHeight(value);
+		this.props.setLayoutConfigRowHeight(value);
 	}
 
 	render() {
@@ -91,3 +93,16 @@ export default class LayoutForm extends React.Component {
 		);
 	}
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setLayoutConfigMargin: (x,y) => dispatch(setLayoutConfigMargin(x,y)),
+        setLayoutConfigContainerPadding: (x,y) => dispatch(setLayoutConfigContainerPadding(x,y)),
+        setLayoutConfigRowHeight: (height) => dispatch(setLayoutConfigRowHeight(height))
+    }
+}
+
+export default LayoutForm = connect(
+  undefined,
+  mapDispatchToProps
+)(LayoutForm);

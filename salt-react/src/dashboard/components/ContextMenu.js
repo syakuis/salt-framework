@@ -1,9 +1,12 @@
 import React from 'react';
 import Modal from 'react-modal';
 
+import { connect } from 'react-redux';
+import { updatePortlet, deletePortlet, clonePortlet, getPortletComponents} from '../actions';
+
 import PortletUpdate from './PortletUpdate';
 
-export default class ContextMenu extends React.Component {
+class ContextMenu extends React.Component {
     constructor(props) {
         super(props)
 
@@ -76,3 +79,18 @@ export default class ContextMenu extends React.Component {
 ContextMenu.defaultProps = {
     isContextMenuShow: false
 }
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updatePortlet: (portlet) => dispatch(updatePortlet(portlet)),
+        deletePortlet: (idx) => dispatch(deletePortlet(idx)),
+        clonePortlet: (idx) => dispatch(clonePortlet(idx)),
+        getPortletComponents: () => dispatch(getPortletComponents())
+    }
+}
+
+export default ContextMenu = connect(
+  undefined,
+  mapDispatchToProps
+)(ContextMenu);

@@ -3,6 +3,7 @@ import update from 'react-addons-update';
 import _ from 'lodash';
 
 import * as actions from '../actions';
+import * as portletComponents from '../portlets';
 
 const defaultLayoutConfig = {
     className: "layout",
@@ -23,6 +24,7 @@ const defaultLayoutConfig = {
 };
 
 const defaultState = {
+    portletComponents: portletComponents,
     layout: [],
     layouts: {},
     dashboard: {},
@@ -47,6 +49,10 @@ const portlet = (state = defaultState, action) => {
     let newIdx = 'idx_' + portletCount;
 
     switch(action.type) {
+        case actions.GET_PORTLET_COMPONENTS:
+        console.log(portletComponents);
+            return Object.assign({}, state, state.portletComponents);
+
         case actions.ADD_PORTLET:
             return Object.assign({}, state, {
                 portletCount: portletCount,
