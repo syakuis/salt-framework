@@ -3,7 +3,7 @@ import update from 'react-addons-update';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
-import { addPortlet } from '../actions';
+import { addPortlet, updatePortlet, deletePortlet, clonePortlet, updateLayout, setLayoutConfigMargin, setLayoutConfigContainerPadding, setLayoutConfigRowHeight} from '../actions';
 
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
@@ -43,45 +43,19 @@ class PortletContainer extends React.Component {
     }
 
     setLayoutConfigMargin(x, y) {
-        this.setState({ 
-            layoutConfig: {
-                ...this.state.layoutConfig,
-                margin: [x, y]
-            }
-        });
+        this.props.setLayoutConfigMargin(x, y);
     }
 
     setLayoutConfigContainerPadding(x, y) {
-        this.setState({ 
-            layoutConfig: {
-                ...this.state.layoutConfig,
-                containerPadding: [x, y]
-            }
-        });
+        this.props.setLayoutConfigContainerPadding(x, y);
     }
 
     setLayoutConfigRowHeight(height) {
-        this.setState({ 
-            layoutConfig: {
-                ...this.state.layoutConfig,
-                rowHeight: height
-            }
-        });
+        this.props.setLayoutConfigRowHeight(height);
     }
-
-    updateLayoutConfig(config) {
-        this.setState.layoutConfig = {
-            ...this.state.layoutConfig,
-            config
-        };
-    }
-
 
     onLayoutChange(layout, layouts) {
-        this.setState({
-            layout: layout,
-            layouts: layouts
-        });
+        this.props.updateLayout(layout, layouts);
     }
 
     createPortletIdx() {
@@ -91,42 +65,27 @@ class PortletContainer extends React.Component {
     }
 
     addPortlet(portlet) {
-        let idx = this.props.createPortletIdx();
-        portlet['idx'] = idx;
-
-        this.setState({
-            dashboard: update(this.state.dashboard, {$merge: { [idx]: portlet }})
-        });
+        this.props.addPortlet(portlet);
     }
 
     addPortlet2(portletName) {
         let portlet = PortletComponents[portletName];
         portlet = portlet.getDefault();
         portlet['componentName'] = portletName;
-        console.log(portlet);
 
         this.props.addPortlet(portlet);
     }
 
     updatePortlet(portlet) {
-        let newPortlet = {...this.state.dashboard[portlet.idx], ...portlet};
-        this.setState({
-            dashboard: update(this.state.dashboard, {$merge: { [portlet.idx]: newPortlet }})
-        });
-
+        this.props.updatePortlet(portlet);
     }
 
     deletePortlet(idx) {
-        this.setState({ dashboard: _.omit(this.state.dashboard, [idx]) });
+        this.props.deletePortlet(idx);
     }
 
     clonePortlet(idx) {
-        let newIdx = this.createPortletIdx();
-        let portlet = { ...this.state.dashboard[idx], idx: newIdx };
-
-        this.setState({
-           dashboard: update(this.state.dashboard, {$merge: { [newIdx]: portlet }}) 
-        });
+        this.props.clonePortlet(idx);
     }
 
     render() {
@@ -173,9 +132,9 @@ class PortletContainer extends React.Component {
                 </Navbar>
 
                 <div style={{ height: 60 }}></div>
-                <ReactGridLayout {...this.state.layoutConfig}
-                    layout={this.state.layout}
-                    layouts={this.state.layouts} 
+                <ReactGridLayout {...this.props.layoutConfig}
+                    layout={this.props.layout}
+                    layouts={this.props.layouts} 
                     onLayoutChange={this.onLayoutChange}>
                     {PortletList}
                 </ReactGridLayout>
@@ -187,23 +146,6 @@ class PortletContainer extends React.Component {
 // portal item setting
 PortletContainer.defaultProps = {
     portletComponents: Object.keys(PortletComponents),
-    layoutConfig: {
-        className: "layout",
-        autoSize: true,
-        cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
-        breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
-        //draggableCancel: '',
-        draggableHandle: '.draggable-point',
-        verticalCompact: true,
-        //layout: [],
-        //layouts: {},
-        margin: [5,5],
-        containerPadding: [0,0],
-        rowHeight: 30,
-        isDraggable: true,
-        isResizable: true,
-        useCSSTransforms: true
-    },
     portlet: {
         componentName: '',
         idx: '',
@@ -249,14 +191,22 @@ Modal.defaultStyles = {
 
 const mapStateToProps = (state) => {
     return {
-        ...state.portlet
+        ...state.portlet,
+        layoutConfig: state.layoutConfig
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {
-      addPortlet: (portlet) => dispatch(addPortlet(portlet))
-	}
+    return {
+        setLayoutConfigMargin: (x,y) => dispatch(setLayoutConfigMargin(x,y)),
+        setLayoutConfigContainerPadding: (x,y) => dispatch(setLayoutConfigContainerPadding(x,y)),
+        setLayoutConfigRowHeight: (height) => dispatch(setLayoutConfigRowHeight(height)),
+        addPortlet: (portlet) => dispatch(addPortlet(portlet)),
+        updatePortlet: (portlet) => dispatch(updatePortlet(portlet)),
+        deletePortlet: (idx) => dispatch(deletePortlet(idx)),
+        clonePortlet: (idx) => dispatch(clonePortlet(idx)),
+        updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts))
+    }
 }
 
 export default PortletContainer = connect(
