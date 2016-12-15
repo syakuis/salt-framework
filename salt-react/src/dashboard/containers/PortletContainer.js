@@ -1,9 +1,6 @@
 import React from 'react';
-import update from 'react-addons-update';
-import _ from 'lodash';
-
 import { connect } from 'react-redux';
-import { addPortlet, updatePortlet, deletePortlet, clonePortlet, updateLayout } from '../actions';
+import { updateLayout } from '../actions';
 
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
@@ -11,9 +8,7 @@ import Modal from 'react-modal';
 
 import Navbar from '../components/Navbar';
 import LayoutForm from '../components/LayoutForm';
-import PortletForm from '../components/PortletForm';
 import CreatePortletComponent from '../components/CreatePortletComponent';
-import * as PortletComponents from '../portlets';
 
 class PortletContainer extends React.Component {
 
@@ -21,53 +16,10 @@ class PortletContainer extends React.Component {
 		super(props);
 
         this.onLayoutChange = this.onLayoutChange.bind(this);
-
-        this.addPortlet = this.addPortlet.bind(this);
-        this.addPortlet2 = this.addPortlet2.bind(this);
-        this.updatePortlet = this.updatePortlet.bind(this);
-        this.deletePortlet = this.deletePortlet.bind(this);
-        this.clonePortlet = this.clonePortlet.bind(this);
 	}
-
-    state = {
-        layoutConfig: {
-            ...this.props.layoutConfig
-        },
-        portletComponents: PortletComponents,
-        layout: [],
-        layouts: {},
-        dashboard: {},
-        portletCount: 0
-    }
 
     onLayoutChange(layout, layouts) {
         this.props.updateLayout(layout, layouts);
-    }
-
-    createPortletIdx() {
-        let idx = 'idx_' + this.state.portletCount;
-        this.setState({ portletCount: this.state.portletCount + 1 });
-        return idx;
-    }
-
-    addPortlet(portlet) {
-        this.props.addPortlet(portlet);
-    }
-
-    addPortlet2(portletName) {
-        
-    }
-
-    updatePortlet(portlet) {
-        this.props.updatePortlet(portlet);
-    }
-
-    deletePortlet(idx) {
-        this.props.deletePortlet(idx);
-    }
-
-    clonePortlet(idx) {
-        this.props.clonePortlet(idx);
     }
 
     render() {
@@ -85,21 +37,6 @@ class PortletContainer extends React.Component {
                 </div>
             );
         }); 
-        /*let PortletList = this.state.dashboard.map((portlet, i) => {
-            return (
-                <div key={portlet.idx} data-grid={portlet}>
-                    <CreatePortletComponent
-                        updatePortlet={this.updatePortlet}
-                        deletePortlet={this.deletePortlet} 
-                        clonePortlet={this.clonePortlet}
-                        portlet={portlet}
-                        idx={portlet.idx} 
-                        padding={portlet.padding}
-                        portletComponent={PortletComponents[portlet.componentName]} /> 
-                    
-                </div>
-            );
-        });*/
 
         return (
             <div className="container">
@@ -173,10 +110,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addPortlet: (portlet) => dispatch(addPortlet(portlet)),
-        updatePortlet: (portlet) => dispatch(updatePortlet(portlet)),
-        deletePortlet: (idx) => dispatch(deletePortlet(idx)),
-        clonePortlet: (idx) => dispatch(clonePortlet(idx)),
         updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts))
     }
 }

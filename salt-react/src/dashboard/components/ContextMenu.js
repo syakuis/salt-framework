@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 
 import { connect } from 'react-redux';
-import { updatePortlet, deletePortlet, clonePortlet } from '../actions';
+import { deletePortlet, clonePortlet } from '../actions';
 
 import PortletUpdate from './PortletUpdate';
 
@@ -12,10 +12,6 @@ class ContextMenu extends React.Component {
 
         this.onModalOpen = this.onModalOpen.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
-
-        this.onUpdatePortlet = this.onUpdatePortlet.bind(this);
-        this.onClonePortlet = this.onClonePortlet.bind(this);
-        this.onDeletePortlet = this.onDeletePortlet.bind(this);
     }
 
     state = {
@@ -30,19 +26,6 @@ class ContextMenu extends React.Component {
         this.setState({ modalOpen: false });
     }
 
-    onUpdatePortlet(portlet) {
-        this.props.updatePortlet(portlet);
-        this.onModalClose();
-    }
-
-    onClonePortlet() {
-        this.props.clonePortlet(this.props.idx);
-    }
-
-    onDeletePortlet() {
-        this.props.deletePortlet(this.props.idx);
-    }
-
     render() {
         
         return (
@@ -53,22 +36,21 @@ class ContextMenu extends React.Component {
                 <button type="button" className="btn btn-default" onClick={this.onModalOpen}>
                     <i className="fa fa-crop" aria-hidden="true"></i>
                 </button>
-                <button type="button" className="btn btn-default"  onClick={this.onClonePortlet}>
+                <button type="button" className="btn btn-default"  onClick={() => this.props.clonePortlet(this.props.idx)}>
                     <i className="fa fa-clone" aria-hidden="true"></i>
                 </button>
-                <button type="button" className="btn btn-default" onClick={this.onDeletePortlet}>
+                <button type="button" className="btn btn-default" onClick={() => this.props.deletePortlet(this.props.idx)}>
                     <i className="fa fa-times" aria-hidden="true"></i>
                 </button>
                 {this.props.children}
 
                 
                 <Modal 
+                    contentLabel={this.props.idx}
                     isOpen={this.state.modalOpen} 
                     onRequestClose={this.onModalClose} 
                     shouldCloseOnOverlayClick={true}>
-                    <PortletUpdate 
-                        portlet={this.props.portlet}
-                        updatePortlet={this.onUpdatePortlet} />
+                    <PortletUpdate idx={this.props.idx} onModalClose={this.onModalClose}/>
                 </Modal>
                 
             </div>
@@ -83,7 +65,6 @@ ContextMenu.defaultProps = {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updatePortlet: (portlet) => dispatch(updatePortlet(portlet)),
         deletePortlet: (idx) => dispatch(deletePortlet(idx)),
         clonePortlet: (idx) => dispatch(clonePortlet(idx))
     }

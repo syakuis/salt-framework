@@ -26,8 +26,8 @@ export default class Frame extends React.Component {
 
     render() {
         return (
-            <div style={this.props.style}>
-                <ContextMenu {...this.props}>
+            <div style={{ width: '100%', height: '100%', padding: this.props.padding }}>
+                <ContextMenu idx={this.props.idx} isContextMenuShow={this.props.isContextMenuShow}>
                     <button type="button" className="btn btn-default">
                         <i className="fa fa-cog" aria-hidden="true"></i>
                     </button>

@@ -21,17 +21,15 @@ export default class PageHtml extends React.Component {
     }
 
     render() {
-        let {padding, ...styles} = this.props.style;
+        let padding = this.props.padding;
         if (padding <= 0) {
             padding = 5;
         }
 
         return (
-            <div style={{...styles, padding: padding}}>
-                <ContextMenu {...this.props} />
-                <div>
+            <div style={{ width: '100%', height: '100%', padding: padding }}>
+                <ContextMenu idx={this.props.idx} isContextMenuShow={this.props.isContextMenuShow} />
                 <AlloyEditorComponent container="editable"/>
-                </div>
             </div>
         )
     }

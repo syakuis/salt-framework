@@ -1,6 +1,9 @@
 import React from 'react';
 
-export default class PortletUpdate extends React.Component {
+import { connect } from 'react-redux';
+import { updatePortlet } from '../actions';
+
+class PortletUpdate extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -10,7 +13,7 @@ export default class PortletUpdate extends React.Component {
 	}
 
 	state = {
-		...this.props.portlet
+		...this.props.dashboard[this.props.idx]
 	}
 
     initDataBind(e) {
@@ -43,6 +46,7 @@ export default class PortletUpdate extends React.Component {
 
 	onUpdatePortlet() {
 		this.props.updatePortlet(this.state);
+		this.props.onModalClose();
 	}
 
 	render() {
@@ -94,3 +98,20 @@ export default class PortletUpdate extends React.Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+    return {
+		dashboard: state.portlet.dashboard
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updatePortlet: (portlet) => dispatch(updatePortlet(portlet))
+    }
+}
+
+export default PortletUpdate = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PortletUpdate);
