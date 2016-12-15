@@ -12,6 +12,8 @@ class Navbar extends React.Component {
 
         this.onShowPortletList = this.onShowPortletList.bind(this);
         this.onShowLayoutForm = this.onShowLayoutForm.bind(this);
+
+        this.onAddPortlet = this.onAddPortlet.bind(this);
     }
 
     state = {
@@ -28,7 +30,7 @@ class Navbar extends React.Component {
     }
 
     onAddPortlet(portletName) {
-        let portletComponents = this.props.getPortletComponents();
+        let portletComponents = this.props.portletComponents;
         let portlet = portletComponents[portletName];
         portlet = portlet.getDefault();
         portlet['componentName'] = portletName;
@@ -48,7 +50,7 @@ class Navbar extends React.Component {
             showLayoutFormStyle['display'] = 'none';
         }
 
-        let portletComponents = Object.keys(this.props.getPortletComponents()).map((portletName, i) => {
+        let portletComponents = Object.keys(this.props.portletComponents).map((portletName, i) => {
 
             return (
                 <div key={i} onClick={() => this.onAddPortlet(portletName)}>
@@ -91,13 +93,15 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return state.portletComponents;
+    return {
+        portletComponents: state.portlet.portletComponents
+    };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         addPortlet: (portlet) => dispatch(addPortlet(portlet))
-    }
+    };
 }
 
 export default Navbar = connect(

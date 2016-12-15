@@ -33,6 +33,7 @@ class PortletContainer extends React.Component {
         layoutConfig: {
             ...this.props.layoutConfig
         },
+        portletComponents: PortletComponents,
         layout: [],
         layouts: {},
         dashboard: {},
@@ -54,11 +55,7 @@ class PortletContainer extends React.Component {
     }
 
     addPortlet2(portletName) {
-        let portlet = this.props.portletComponents[portletName];
-        portlet = portlet.getDefault();
-        portlet['componentName'] = portletName;
-
-        this.props.addPortlet(portlet);
+        
     }
 
     updatePortlet(portlet) {
@@ -74,17 +71,16 @@ class PortletContainer extends React.Component {
     }
 
     render() {
+        
         let dashboard = this.props.dashboard;
         let PortletList = Object.keys(dashboard).map((key) => {
             let portlet = dashboard[key];
             return (
                 <div key={portlet.idx} data-grid={portlet}>
                     <CreatePortletComponent
-                        updatePortlet={this.updatePortlet}
-                        portlet={portlet}
+                        componentName={portlet.componentName}
                         idx={portlet.idx} 
-                        padding={portlet.padding}
-                        portletComponent={this.props.portletComponents[portlet.componentName]} /> 
+                        padding={portlet.padding} /> 
                     
                 </div>
             );

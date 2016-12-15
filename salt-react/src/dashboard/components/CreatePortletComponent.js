@@ -1,7 +1,9 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-class CreatePortletComponent extends React.Component {
+import * as PortletComponents from '../portlets';
+
+export default class CreatePortletComponent extends React.Component {
     constructor(props) {
         super(props)
 
@@ -21,14 +23,14 @@ class CreatePortletComponent extends React.Component {
     }
 
     render() {
-        let { portletComponent, padding, ...props } = this.props;
-        let style = { width: '100%', height: '100%', padding: padding };
+        let style = { width: '100%', height: '100%', padding: this.props.padding };
+        let component = PortletComponents[this.props.componentName];
 
         return (
             <div style={{ width: '100%', height: '100%', borderStyle: 'dashed', borderWidth: 1 }}
                 onMouseOver={this.contextMenuShow}
                 onMouseOut={this.contextMenuHidden}>
-                <this.props.portletComponent {...props} style={style} isContextMenuShow={this.state.isContextMenuShow} />
+                <component style={style} isContextMenuShow={this.state.isContextMenuShow} />
             </div>
         )
     }
