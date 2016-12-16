@@ -1,7 +1,7 @@
 package egovmei.apps.modules.demo.web;
 
-import org.saltframework.core.module.CacheModuleContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -11,8 +11,9 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class DemoController {
+
 	@Autowired
-	private CacheModuleContext moduleCache;
+	private CacheManager cacheManager;
 
 	public String dispDemoList() {
 		return null;
