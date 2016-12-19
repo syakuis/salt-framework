@@ -2,16 +2,16 @@ var fs = require('fs');
 var glob = require("glob");
 var path = require('path');
 var webpack = require('webpack');
+var entry = require('webpack-glob-entry')
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var pkg = require("./package.json");
 
 module.exports = {
 
-	entry: {
-		dashboard: './src/dashboard/'
-	},
+	entry: entry("./src/*/*.js"),
 
 	output: {
-		path: './dist',
+		path: pkg.config.dist + '/react',
 		filename: '[name].js'
 	},
 
@@ -20,6 +20,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: './index.html'
 		}),
+		new webpack.optimize.CommonsChunkPlugin("commons.js"),
 		function() {
 				fs.writeFile('./src/dashboard/portlets/index.js', '');
 				glob('src/dashboard/portlets/**/config.json', null, function(err, files) {

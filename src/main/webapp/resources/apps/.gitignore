@@ -1,5 +1,0 @@
-bower_components/
-.tmp/
-.vscode/
-dist/
-src/dashboard/portlets/index.jsx

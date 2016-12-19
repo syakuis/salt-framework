@@ -1,4 +1,0 @@
-{
-    "name": "Frame",
-    "script": "export Frame from './frame/index.js';"
-}

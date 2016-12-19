@@ -5,13 +5,9 @@
   "license": "MIT",
   "config": {
     "version": "1.0.0.RELEASE",
-    "resourcesDir": "../src/main/webapp/resources"
+    "dist": "../src/main/webapp/resources/dist"
   },
   "scripts": {
-    "install": "npm run build & npm run bower & npm run npm",
-    "npm": "npm update",
-    "bower": "sudo bower update --allow-root",
-    "build": "grunt build",
     "webpack": "webpack",
     "server": "webpack-dev-server"
   },
@@ -27,17 +23,10 @@
     "eslint-loader": "^1.6.1",
     "eslint-plugin-react": "^6.7.1",
     "glob": "^7.1.1",
-    "grunt": "^0.4.5",
-    "grunt-bower-task": "^0.4.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^1.0.2",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-filerev": "^2.3.1",
-    "grunt-usemin": "^3.1.1",
     "html-webpack-plugin": "^2.24.1",
     "webpack": "^1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-glob-entry": "^2.1.0"
   },
   "dependencies": {
     "alloyeditor": "^1.2.5",
