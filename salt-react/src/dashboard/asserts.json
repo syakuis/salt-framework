@@ -1,0 +1,5 @@
+[
+	{ "context": "node_modules/react-grid-layout/css/", "from": "styles.css", "to": "relative/dir" },
+	{ "context": "node_modules", "from": "react-resizable/css/styles.css", "to": "./" },
+	{ "context": "node_modules", "from": "alloyeditor/dist/alloy-editor/assets/alloy-editor-ocean-min.css", "to": "./" }
+]

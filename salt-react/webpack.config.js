@@ -2,41 +2,51 @@ var fs = require('fs');
 var glob = require("glob");
 var path = require('path');
 var webpack = require('webpack');
-var entry = require('webpack-glob-entry')
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var pkg = require("./package.json");
 
+function entries(target) {
+	var entries = {};
+	var files = glob.sync(target);
+
+	for (var i in files) {
+		var entry = files[i];
+
+		var name = path.dirname(entry).replace(/\.\/src\/(.*)\/src/, '$1');
+
+		entries[name] = entry;
+	}
+
+	return entries;
+}
+
+function assertsPlugin() {
+	var asserts = [];
+
+	var files = glob.sync("./src/*/asserts.json");
+	for (var i in files) {
+		var file = files[i];
+		var data = require(file);
+
+		asserts = asserts.concat(data);
+	}
+	return asserts;
+}
+assertsPlugin();
 module.exports = {
 
-	entry: entry("./src/*/*.js"),
+	entry: entries("./src/*/src/index.js"),
 
 	output: {
-		path: pkg.config.dist + '/react',
-		filename: '[name].js'
+		path: pkg.config.asserts,
+		filename: './[name]/[name].js'
 	},
 
 	plugins: [
+		new CopyWebpackPlugin(assertsPlugin()),
 		new webpack.HotModuleReplacementPlugin(),
-		new HtmlWebpackPlugin({
-			template: './index.html'
-		}),
-		new webpack.optimize.CommonsChunkPlugin("commons.js"),
-		function() {
-				fs.writeFile('./src/dashboard/portlets/index.js', '');
-				glob('src/dashboard/portlets/**/config.json', null, function(err, files) {
-
-					for(var i in files) {
-						var file = __dirname + '/' + files[i];
-						fs.readFile(file, 'utf-8', function (err, data) {
-							var script = JSON.parse(data).script;
-							fs.appendFileSync("./src/dashboard/portlets/index.js", script + "\n");
-							console.log('Portlets Export add: ' + script);
-						});
-
-					}
-
-				});
-		}
+		new webpack.optimize.CommonsChunkPlugin("./commons/commons.js")
 	],
 
 	module: {/*
@@ -50,7 +60,7 @@ module.exports = {
 		loaders: [
 			{
 				//test: /\.jsx$/, // 로더를 사용할 확장자를 추가합니다.
-				test: [/\.jsx$/, /\.js$/],
+				test: [/\.js$/],
 				include: [ /src/ ],
 				loader: 'babel', // 로더를 설정합니다.
 				query: {

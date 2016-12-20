@@ -4,13 +4,13 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		clean: [
-			'<%= pkg.config.dist %>/dist'
+			'<%= pkg.config.dist %>'
 		],
 
 		copy: {
 			fonts: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>/dist/',
+				dest: '<%= pkg.config.dist %>',
 				src: [
 					'bower_components/**/*.otf',
 					'bower_components/**/*.eot',
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 			},
 			images: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>/dist/',
+				dest: '<%= pkg.config.dist %>',
 				src: [
 					'bower_components/**/*.jpg',
 					'bower_components/**/*.gif',
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 			},
 			css: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>/dist/',
+				dest: '<%= pkg.config.dist %>',
 				src: [
 					'bower_components/bootstrap/dist/css/bootstrap.css',
 					'bower_components/font-awesome/css/font-awesome.css'
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 			},
 			js: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>/dist/',
+				dest: '<%= pkg.config.dist %>',
 				src: [
 					'bower_components/jquery/dist/jquery.js',
 					'bower_components/jquery-migrate/jquery-migrate.js'
@@ -54,8 +54,8 @@ module.exports = function(grunt) {
 			},
 			target: {
 				files: {
-					'<%= pkg.config.dist %>/dist/css/assets.min.css': [
-						'<%= pkg.config.dist %>/dist/bower_components/**/*.css'
+					'<%= pkg.config.dist %>/css/assets.min.css': [
+						'<%= pkg.config.dist %>/bower_components/**/*.css'
 					]
 				}
 			}
@@ -63,8 +63,8 @@ module.exports = function(grunt) {
 		uglify: {
 			target: {
 				files: {
-					'<%= pkg.config.dist %>/dist/js/assets.min.js': [
-						'<%= pkg.config.dist %>/dist/bower_components/**/*.js'
+					'<%= pkg.config.dist %>/js/assets.min.js': [
+						'<%= pkg.config.dist %>/bower_components/**/*.js'
 					]
 				}
 			}
