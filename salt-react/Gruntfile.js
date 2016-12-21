@@ -1,4 +1,34 @@
+var glob = require("glob");
+var path = require('path');
+var _ = require('lodash');
+var pkg = require("./package.json");
+
+function assertsPlugin() {
+	var files = glob.sync("./src/*/asserts.json");
+	var asserts = [];
+
+	_.forEach(files, function(file) {
+		var dir = path.dirname(file);
+		var data = require(file);
+		var dest = _.isEmpty(data.dest) ? pkg.config.dist : pkg.config.dist + data.dest;
+
+		_.assign(asserts, data, { expand: true, dest: dest });
+	});
+
+	console.log(asserts);
+
+	return asserts;
+}
+
+assertsPlugin();
+
+
 module.exports = function(grunt) {
+
+	grunt.registerTask('bower', 'install the backend and frontend dependencies', function() {
+		var bower = require("bower");
+		console.log("good");
+	});
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -68,6 +98,18 @@ module.exports = function(grunt) {
 					]
 				}
 			}
+		},
+		bower: {
+			install: {
+				options: {
+					targetDir: "./lib",
+					bowerOptions: {
+						"dependencies": {
+							"jquery": "1.12.4"
+						}
+					}
+				}
+			}
 		}
 	});
 
@@ -84,6 +126,7 @@ module.exports = function(grunt) {
 		'copy:css',
 		'copy:js',
 		'cssmin',
-		'uglify'
+		'uglify',
+		'bower:install'
 	]);
 };

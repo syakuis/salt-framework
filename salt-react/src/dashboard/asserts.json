@@ -1,5 +1,10 @@
 [
-	{ "context": "node_modules/react-grid-layout/css/", "from": "styles.css", "to": "relative/dir" },
-	{ "context": "node_modules", "from": "react-resizable/css/styles.css", "to": "./" },
-	{ "context": "node_modules", "from": "alloyeditor/dist/alloy-editor/assets/alloy-editor-ocean-min.css", "to": "./" }
+	{
+		"cwd": "node_modules",
+		"src": [
+			"./node_modules/react-grid-layout/css/styles.css",
+			"./node_modules/react-resizable/css/styles.css",
+			"./node_modules/alloyeditor/dist/alloy-editor/assets/alloy-editor-ocean-min.css"
+		]
+	}
 ]
