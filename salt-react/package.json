@@ -6,7 +6,9 @@
   "config": {
     "version": "1.0.0.RELEASE",
     "dist": "./dist",
-    "asserts": "./dist/asserts"
+    "react": "./dist/react",
+    "deploy_dist": "../src/main/webapp/resources/dist",
+    "deploy_react": "../src/main/webapp/resources/dist/react"
   },
   "scripts": {
     "npm": "npm update",

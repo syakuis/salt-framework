@@ -14,7 +14,10 @@
     "tests"
   ],
   "dependencies": {
-
+    "jquery": "1.12.4",
+    "jquery-migrate": "1.4.0",
+    "font-awesome": "4.7.0",
+    "bootstrap": "3.3.7",
     "jquery-ui": "1.12.1"
   }
 }

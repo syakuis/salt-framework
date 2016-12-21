@@ -1,0 +1,10 @@
+[
+	{
+	  "from": "node_modules/react-grid-layout/css/styles.css",
+	  "to": "./dashboard/react-grid-layout/css/styles.css"
+	},
+	{
+	  "from": "node_modules/react-resizable/css/styles.css",
+	  "to": "./dashboard/react-resizable/css/styles.css"
+	}
+]

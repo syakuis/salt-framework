@@ -1,46 +1,33 @@
-var glob = require("glob");
-var path = require('path');
-var _ = require('lodash');
-var pkg = require("./package.json");
-
-function assertsPlugin() {
-	var files = glob.sync("./src/*/asserts.json");
-	var asserts = [];
-
-	_.forEach(files, function(file) {
-		var dir = path.dirname(file);
-		var data = require(file);
-		var dest = _.isEmpty(data.dest) ? pkg.config.dist : pkg.config.dist + data.dest;
-
-		_.assign(asserts, data, { expand: true, dest: dest });
-	});
-
-	console.log(asserts);
-
-	return asserts;
-}
-
-assertsPlugin();
-
-
 module.exports = function(grunt) {
+	var pkg = require('./package.json');
 
-	grunt.registerTask('bower', 'install the backend and frontend dependencies', function() {
-		var bower = require("bower");
-		console.log("good");
-	});
+
+	var dist = pkg.config.dist;
+	var react = pkg.config.react;
+
+	var mod = grunt.option('mod') || '';
+
+	if (mod === 'deploy') {
+		dist = pkg.config.deploy_dist;
+		react = pkg.config.deploy_react;
+	}
+
+	console.log(dist);
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+		dist: dist,
 
-		clean: [
-			'<%= pkg.config.dist %>'
-		],
+		clean: {
+			options: { force: true },
+			src: [
+				'<%= dist %>/bower_components/*','<%= dist %>/css/*','<%= dist %>/js/*'
+			]
+		},
 
 		copy: {
 			fonts: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>',
+				dest: '<%= dist %>',
 				src: [
 					'bower_components/**/*.otf',
 					'bower_components/**/*.eot',
@@ -52,7 +39,7 @@ module.exports = function(grunt) {
 			},
 			images: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>',
+				dest: '<%= dist %>',
 				src: [
 					'bower_components/**/*.jpg',
 					'bower_components/**/*.gif',
@@ -62,7 +49,7 @@ module.exports = function(grunt) {
 			},
 			css: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>',
+				dest: '<%= dist %>',
 				src: [
 					'bower_components/bootstrap/dist/css/bootstrap.css',
 					'bower_components/font-awesome/css/font-awesome.css'
@@ -70,7 +57,7 @@ module.exports = function(grunt) {
 			},
 			js: {
 				expand: true,
-				dest: '<%= pkg.config.dist %>',
+				dest: '<%= dist %>',
 				src: [
 					'bower_components/jquery/dist/jquery.js',
 					'bower_components/jquery-migrate/jquery-migrate.js'
@@ -84,8 +71,8 @@ module.exports = function(grunt) {
 			},
 			target: {
 				files: {
-					'<%= pkg.config.dist %>/css/assets.min.css': [
-						'<%= pkg.config.dist %>/bower_components/**/*.css'
+					'<%= dist %>/css/assets.min.css': [
+						'<%= dist %>/bower_components/**/*.css'
 					]
 				}
 			}
@@ -93,21 +80,10 @@ module.exports = function(grunt) {
 		uglify: {
 			target: {
 				files: {
-					'<%= pkg.config.dist %>/js/assets.min.js': [
-						'<%= pkg.config.dist %>/bower_components/**/*.js'
+					'<%= dist %>/js/assets.min.js': [
+						'<%= dist %>/bower_components/jquery/**/*.js',
+						'<%= dist %>/bower_components/**/*.js'
 					]
-				}
-			}
-		},
-		bower: {
-			install: {
-				options: {
-					targetDir: "./lib",
-					bowerOptions: {
-						"dependencies": {
-							"jquery": "1.12.4"
-						}
-					}
 				}
 			}
 		}
@@ -126,7 +102,6 @@ module.exports = function(grunt) {
 		'copy:css',
 		'copy:js',
 		'cssmin',
-		'uglify',
-		'bower:install'
+		'uglify'
 	]);
 };

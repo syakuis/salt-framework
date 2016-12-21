@@ -1,3 +1,4 @@
+<#assign RESOURCES_PATH><@spring.url '/resources' /></#assign>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,8 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=10">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<script type="text/javascript" src="<@spring.url '/resources/dist/packages.min.js'/>"></script>
-	<link rel="stylesheet" href="<@spring.url '/resources/dist/packages.min.css'/>">
+	<link rel="stylesheet" href="${RESOURCES_PATH}/dist/css/assets.min.css">
+	<script src="${RESOURCES_PATH}/dist/js/assets.min.js" /></script>
 </head>
 <body>
 	<#include template>

@@ -1,10 +1,19 @@
 var fs = require('fs');
 var glob = require("glob");
 var path = require('path');
+var _ = require('lodash');
+
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 var pkg = require("./package.json");
+var deploy = process.argv.indexOf('--mod') !== -1;
+
+var dist = pkg.config.react;
+if (deploy) {
+	dist = pkg.config.deploy_react;
+}
 
 function entries(target) {
 	var entries = {};
@@ -13,7 +22,7 @@ function entries(target) {
 	for (var i in files) {
 		var entry = files[i];
 
-		var name = path.dirname(entry).replace(/\.\/src\/(.*)\/src/, '$1');
+		var name = path.dirname(entry).replace(/\.\/react\/(.*)\/src/, '$1');
 
 		entries[name] = entry;
 	}
@@ -21,30 +30,30 @@ function entries(target) {
 	return entries;
 }
 
-function assertsPlugin() {
-	var asserts = [];
+function assetsPlugin() {
+	var assets = [];
 
-	var files = glob.sync("./src/*/asserts.json");
-	for (var i in files) {
-		var file = files[i];
+	var files = glob.sync("./react/*/assets.json");
+
+	_.forEach(files, function(file) {
 		var data = require(file);
+		assets = assets.concat(data);
+	});
 
-		asserts = asserts.concat(data);
-	}
-	return asserts;
+	return assets;
 }
-assertsPlugin();
+
 module.exports = {
 
-	entry: entries("./src/*/src/index.js"),
+	entry: entries("./react/*/src/index.js"),
 
 	output: {
-		path: pkg.config.asserts,
+		path: dist,
 		filename: './[name]/[name].js'
 	},
 
 	plugins: [
-		new CopyWebpackPlugin(assertsPlugin()),
+		new CopyWebpackPlugin(assetsPlugin()),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.optimize.CommonsChunkPlugin("./commons/commons.js")
 	],
