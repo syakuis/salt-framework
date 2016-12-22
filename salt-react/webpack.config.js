@@ -55,6 +55,8 @@ module.exports = {
 	plugins: [
 		new CopyWebpackPlugin(assetsPlugin()),
 		new webpack.HotModuleReplacementPlugin(),
+		new HtmlWebpackPlugin(),
+		new webpack.NoErrorsPlugin(),
 		new webpack.optimize.CommonsChunkPlugin("./commons/commons.js")
 	],
 

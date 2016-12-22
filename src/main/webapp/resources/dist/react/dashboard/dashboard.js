@@ -20,7 +20,7 @@ webpackJsonp([0,1],[
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _PortletContainer = __webpack_require__(230);
+	var _PortletContainer = __webpack_require__(231);
 
 	var _PortletContainer2 = _interopRequireDefault(_PortletContainer);
 
@@ -23229,11 +23229,13 @@ webpackJsonp([0,1],[
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _actions = __webpack_require__(212);
+	__webpack_require__(212);
+
+	var _actions = __webpack_require__(213);
 
 	var actions = _interopRequireWildcard(_actions);
 
-	var _portlets = __webpack_require__(213);
+	var _portlets = __webpack_require__(214);
 
 	var portletComponents = _interopRequireWildcard(_portlets);
 
@@ -23293,6 +23295,27 @@ webpackJsonp([0,1],[
 	    var newIdx = 'idx_' + portletCount;
 
 	    switch (action.type) {
+	        case actions.INIT:
+	            var dashboard = {};
+	            var layout = [];
+	            var layouts = {};
+	            console.log('181818188181');
+	            fetch('http://localhost:8080/dashboard/list', {
+	                method: 'GET',
+	                headers: {
+	                    'Content-Type': 'application/json',
+	                    'Accept': 'application/json'
+	                }
+	            }).then(function (res) {
+	                console.log(res);
+	            });
+
+	            return Object.assign({}, state, {
+	                portletCount: dashboard.length | 0,
+	                dashboard: dashboard,
+	                layout: layout,
+	                layouts: layouts
+	            });
 	        case actions.ADD_PORTLET:
 	            return Object.assign({}, state, {
 	                portletCount: portletCount,
@@ -40529,11 +40552,476 @@ webpackJsonp([0,1],[
 /* 212 */
 /***/ function(module, exports) {
 
+	(function(self) {
+	  'use strict';
+
+	  if (self.fetch) {
+	    return
+	  }
+
+	  var support = {
+	    searchParams: 'URLSearchParams' in self,
+	    iterable: 'Symbol' in self && 'iterator' in Symbol,
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob()
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+
+	  if (support.arrayBuffer) {
+	    var viewClasses = [
+	      '[object Int8Array]',
+	      '[object Uint8Array]',
+	      '[object Uint8ClampedArray]',
+	      '[object Int16Array]',
+	      '[object Uint16Array]',
+	      '[object Int32Array]',
+	      '[object Uint32Array]',
+	      '[object Float32Array]',
+	      '[object Float64Array]'
+	    ]
+
+	    var isDataView = function(obj) {
+	      return obj && DataView.prototype.isPrototypeOf(obj)
+	    }
+
+	    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
+	      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
+	    }
+	  }
+
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+
+	  // Build a destructive iterator for the value list
+	  function iteratorFor(items) {
+	    var iterator = {
+	      next: function() {
+	        var value = items.shift()
+	        return {done: value === undefined, value: value}
+	      }
+	    }
+
+	    if (support.iterable) {
+	      iterator[Symbol.iterator] = function() {
+	        return iterator
+	      }
+	    }
+
+	    return iterator
+	  }
+
+	  function Headers(headers) {
+	    this.map = {}
+
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var oldValue = this.map[name]
+	    this.map[name] = oldValue ? oldValue+','+value : value
+	  }
+
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+
+	  Headers.prototype.get = function(name) {
+	    name = normalizeName(name)
+	    return this.has(name) ? this.map[name] : null
+	  }
+
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = normalizeValue(value)
+	  }
+
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    for (var name in this.map) {
+	      if (this.map.hasOwnProperty(name)) {
+	        callback.call(thisArg, this.map[name], name, this)
+	      }
+	    }
+	  }
+
+	  Headers.prototype.keys = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push(name) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.values = function() {
+	    var items = []
+	    this.forEach(function(value) { items.push(value) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.entries = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push([name, value]) })
+	    return iteratorFor(items)
+	  }
+
+	  if (support.iterable) {
+	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+	  }
+
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    var promise = fileReaderReady(reader)
+	    reader.readAsArrayBuffer(blob)
+	    return promise
+	  }
+
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    var promise = fileReaderReady(reader)
+	    reader.readAsText(blob)
+	    return promise
+	  }
+
+	  function readArrayBufferAsText(buf) {
+	    var view = new Uint8Array(buf)
+	    var chars = new Array(view.length)
+
+	    for (var i = 0; i < view.length; i++) {
+	      chars[i] = String.fromCharCode(view[i])
+	    }
+	    return chars.join('')
+	  }
+
+	  function bufferClone(buf) {
+	    if (buf.slice) {
+	      return buf.slice(0)
+	    } else {
+	      var view = new Uint8Array(buf.byteLength)
+	      view.set(new Uint8Array(buf))
+	      return view.buffer
+	    }
+	  }
+
+	  function Body() {
+	    this.bodyUsed = false
+
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (!body) {
+	        this._bodyText = ''
+	      } else if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	        this._bodyText = body.toString()
+	      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
+	        this._bodyArrayBuffer = bufferClone(body.buffer)
+	        // IE 10-11 can't handle a DataView body.
+	        this._bodyInit = new Blob([this._bodyArrayBuffer])
+	      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
+	        this._bodyArrayBuffer = bufferClone(body)
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+
+	      if (!this.headers.get('content-type')) {
+	        if (typeof body === 'string') {
+	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+	        } else if (this._bodyBlob && this._bodyBlob.type) {
+	          this.headers.set('content-type', this._bodyBlob.type)
+	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+	        }
+	      }
+	    }
+
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyArrayBuffer) {
+	          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+
+	      this.arrayBuffer = function() {
+	        if (this._bodyArrayBuffer) {
+	          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
+	        } else {
+	          return this.blob().then(readBlobAsArrayBuffer)
+	        }
+	      }
+	    }
+
+	    this.text = function() {
+	      var rejected = consumed(this)
+	      if (rejected) {
+	        return rejected
+	      }
+
+	      if (this._bodyBlob) {
+	        return readBlobAsText(this._bodyBlob)
+	      } else if (this._bodyArrayBuffer) {
+	        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
+	      } else if (this._bodyFormData) {
+	        throw new Error('could not read FormData body as text')
+	      } else {
+	        return Promise.resolve(this._bodyText)
+	      }
+	    }
+
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+
+	    return this
+	  }
+
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+
+	    if (typeof input === 'string') {
+	      this.url = input
+	    } else {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body && input._bodyInit != null) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    }
+
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+
+	  Request.prototype.clone = function() {
+	    return new Request(this, { body: this._bodyInit })
+	  }
+
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+
+	  function parseHeaders(rawHeaders) {
+	    var headers = new Headers()
+	    rawHeaders.split('\r\n').forEach(function(line) {
+	      var parts = line.split(':')
+	      var key = parts.shift().trim()
+	      if (key) {
+	        var value = parts.join(':').trim()
+	        headers.append(key, value)
+	      }
+	    })
+	    return headers
+	  }
+
+	  Body.call(Request.prototype)
+
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+
+	    this.type = 'default'
+	    this.status = 'status' in options ? options.status : 200
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = 'statusText' in options ? options.statusText : 'OK'
+	    this.headers = new Headers(options.headers)
+	    this.url = options.url || ''
+	    this._initBody(bodyInit)
+	  }
+
+	  Body.call(Response.prototype)
+
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+
+	  self.Headers = Headers
+	  self.Request = Request
+	  self.Response = Response
+
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request = new Request(input, init)
+	      var xhr = new XMLHttpRequest()
+
+	      xhr.onload = function() {
+	        var options = {
+	          status: xhr.status,
+	          statusText: xhr.statusText,
+	          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
+	        }
+	        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText
+	        resolve(new Response(body, options))
+	      }
+
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.ontimeout = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.open(request.method, request.url, true)
+
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+/* 213 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	var INIT = exports.INIT = 'INIT';
 	var ADD_PORTLET = exports.ADD_PORTLET = 'ADD_PORTLET';
 	var UPDATE_PORTLET = exports.UPDATE_PORTLET = 'UPDATE_PORTLET';
 	var DELETE_PORTLET = exports.DELETE_PORTLET = 'DELETE_PORTLET';
@@ -40543,6 +41031,9 @@ webpackJsonp([0,1],[
 	var SET_LAYOUT_CONFIG_CONTAINER_PADDING = exports.SET_LAYOUT_CONFIG_CONTAINER_PADDING = 'SET_LAYOUT_CONFIG_CONTAINER_PADDING';
 	var SET_LAYOUT_CONFIG_ROW_HEIGHT = exports.SET_LAYOUT_CONFIG_ROW_HEIGHT = 'SET_LAYOUT_CONFIG_ROW_HEIGHT';
 
+	var init = exports.init = function init() {
+	    return { type: INIT };
+	};
 	var addPortlet = exports.addPortlet = function addPortlet(portlet) {
 	    return { type: ADD_PORTLET, portlet: portlet };
 	};
@@ -40569,7 +41060,7 @@ webpackJsonp([0,1],[
 	};
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40579,11 +41070,11 @@ webpackJsonp([0,1],[
 	});
 	exports.PageHtml = exports.Frame = undefined;
 
-	var _index = __webpack_require__(214);
+	var _index = __webpack_require__(215);
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _index3 = __webpack_require__(227);
+	var _index3 = __webpack_require__(228);
 
 	var _index4 = _interopRequireDefault(_index3);
 
@@ -40593,7 +41084,7 @@ webpackJsonp([0,1],[
 	exports.PageHtml = _index4.default;
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40608,7 +41099,7 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ContextMenu = __webpack_require__(215);
+	var _ContextMenu = __webpack_require__(216);
 
 	var _ContextMenu2 = _interopRequireDefault(_ContextMenu);
 
@@ -40675,7 +41166,7 @@ webpackJsonp([0,1],[
 	exports.default = Frame;
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40690,15 +41181,15 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactModal = __webpack_require__(216);
+	var _reactModal = __webpack_require__(217);
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
 	var _reactRedux = __webpack_require__(178);
 
-	var _actions = __webpack_require__(212);
+	var _actions = __webpack_require__(213);
 
-	var _PortletUpdate = __webpack_require__(226);
+	var _PortletUpdate = __webpack_require__(227);
 
 	var _PortletUpdate2 = _interopRequireDefault(_PortletUpdate);
 
@@ -40805,25 +41296,25 @@ webpackJsonp([0,1],[
 	exports.default = ContextMenu = (0, _reactRedux.connect)(undefined, mapDispatchToProps)(ContextMenu);
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(217);
+	module.exports = __webpack_require__(218);
 
 
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(32);
-	var ExecutionEnvironment = __webpack_require__(218);
-	var ModalPortal = React.createFactory(__webpack_require__(219));
-	var ariaAppHider = __webpack_require__(224);
-	var elementClass = __webpack_require__(225);
+	var ExecutionEnvironment = __webpack_require__(219);
+	var ModalPortal = React.createFactory(__webpack_require__(220));
+	var ariaAppHider = __webpack_require__(225);
+	var elementClass = __webpack_require__(226);
 	var renderSubtreeIntoContainer = __webpack_require__(32).unstable_renderSubtreeIntoContainer;
-	var Assign = __webpack_require__(223);
+	var Assign = __webpack_require__(224);
 
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
 	var AppElement = ExecutionEnvironment.canUseDOM ? document.body : {appendChild: function() {}};
@@ -40956,7 +41447,7 @@ webpackJsonp([0,1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -41001,14 +41492,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(220);
-	var scopeTab = __webpack_require__(222);
-	var Assign = __webpack_require__(223);
+	var focusManager = __webpack_require__(221);
+	var scopeTab = __webpack_require__(223);
+	var Assign = __webpack_require__(224);
 
 	// so that our CSS is statically analyzable
 	var CLASS_NAMES = {
@@ -41220,10 +41711,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(221);
+	var findTabbable = __webpack_require__(222);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -41294,7 +41785,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports) {
 
 	/*!
@@ -41350,10 +41841,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(221);
+	var findTabbable = __webpack_require__(222);
 
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -41375,7 +41866,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports) {
 
 	/**
@@ -42018,7 +42509,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -42066,7 +42557,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -42131,7 +42622,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42150,7 +42641,7 @@ webpackJsonp([0,1],[
 
 	var _reactRedux = __webpack_require__(178);
 
-	var _actions = __webpack_require__(212);
+	var _actions = __webpack_require__(213);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42321,7 +42812,7 @@ webpackJsonp([0,1],[
 	exports.default = PortletUpdate = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PortletUpdate);
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42336,11 +42827,11 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ContextMenu = __webpack_require__(215);
+	var _ContextMenu = __webpack_require__(216);
 
 	var _ContextMenu2 = _interopRequireDefault(_ContextMenu);
 
-	var _AlloyEditorComponent = __webpack_require__(228);
+	var _AlloyEditorComponent = __webpack_require__(229);
 
 	var _AlloyEditorComponent2 = _interopRequireDefault(_AlloyEditorComponent);
 
@@ -42398,7 +42889,7 @@ webpackJsonp([0,1],[
 	exports.default = PageHtml;
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42413,7 +42904,7 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _alloyeditor = __webpack_require__(229);
+	var _alloyeditor = __webpack_require__(230);
 
 	var _alloyeditor2 = _interopRequireDefault(_alloyeditor);
 
@@ -42461,7 +42952,7 @@ webpackJsonp([0,1],[
 	exports.default = AlloyEditorComponent;
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -58813,7 +59304,7 @@ webpackJsonp([0,1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58832,23 +59323,23 @@ webpackJsonp([0,1],[
 
 	var _reactRedux = __webpack_require__(178);
 
-	var _actions = __webpack_require__(212);
+	var _actions = __webpack_require__(213);
 
-	var _reactGridLayout = __webpack_require__(231);
+	var _reactGridLayout = __webpack_require__(232);
 
-	var _reactModal = __webpack_require__(216);
+	var _reactModal = __webpack_require__(217);
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Navbar = __webpack_require__(244);
+	var _Navbar = __webpack_require__(245);
 
 	var _Navbar2 = _interopRequireDefault(_Navbar);
 
-	var _LayoutForm = __webpack_require__(245);
+	var _LayoutForm = __webpack_require__(246);
 
 	var _LayoutForm2 = _interopRequireDefault(_LayoutForm);
 
-	var _CreatePortletComponent = __webpack_require__(246);
+	var _CreatePortletComponent = __webpack_require__(247);
 
 	var _CreatePortletComponent2 = _interopRequireDefault(_CreatePortletComponent);
 
@@ -58875,6 +59366,11 @@ webpackJsonp([0,1],[
 	    }
 
 	    _createClass(PortletContainer, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.props.init();
+	        }
+	    }, {
 	        key: 'onLayoutChange',
 	        value: function onLayoutChange(layout, layouts) {
 	            this.props.updateLayout(layout, layouts);
@@ -58882,7 +59378,6 @@ webpackJsonp([0,1],[
 	    }, {
 	        key: 'render',
 	        value: function render() {
-
 	            var dashboard = this.props.dashboard;
 	            var PortletList = Object.keys(dashboard).map(function (key) {
 	                var portlet = dashboard[key];
@@ -58977,6 +59472,9 @@ webpackJsonp([0,1],[
 	    return {
 	        updateLayout: function updateLayout(layout, layouts) {
 	            return dispatch((0, _actions.updateLayout)(layout, layouts));
+	        },
+	        init: function init() {
+	            return dispatch((0, _actions.init)());
 	        }
 	    };
 	};
@@ -58984,18 +59482,18 @@ webpackJsonp([0,1],[
 	exports.default = PortletContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PortletContainer);
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(232).default;
-	module.exports.utils = __webpack_require__(234);
-	module.exports.Responsive = __webpack_require__(241).default;
-	module.exports.Responsive.utils = __webpack_require__(242);
-	module.exports.WidthProvider = __webpack_require__(243).default;
+	module.exports = __webpack_require__(233).default;
+	module.exports.utils = __webpack_require__(235);
+	module.exports.Responsive = __webpack_require__(242).default;
+	module.exports.Responsive.utils = __webpack_require__(243);
+	module.exports.WidthProvider = __webpack_require__(244).default;
 
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59008,13 +59506,13 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _lodash = __webpack_require__(233);
+	var _lodash = __webpack_require__(234);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _utils = __webpack_require__(234);
+	var _utils = __webpack_require__(235);
 
-	var _GridItem = __webpack_require__(235);
+	var _GridItem = __webpack_require__(236);
 
 	var _GridItem2 = _interopRequireDefault(_GridItem);
 
@@ -59536,7 +60034,7 @@ webpackJsonp([0,1],[
 	exports.default = ReactGridLayout;
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -61192,7 +61690,7 @@ webpackJsonp([0,1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(199)(module)))
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -61223,7 +61721,7 @@ webpackJsonp([0,1],[
 	exports.validateLayout = validateLayout;
 	exports.autoBindHandlers = autoBindHandlers;
 
-	var _lodash = __webpack_require__(233);
+	var _lodash = __webpack_require__(234);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -61662,7 +62160,7 @@ webpackJsonp([0,1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61675,11 +62173,11 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDraggable = __webpack_require__(236);
+	var _reactDraggable = __webpack_require__(237);
 
-	var _reactResizable = __webpack_require__(237);
+	var _reactResizable = __webpack_require__(238);
 
-	var _utils = __webpack_require__(234);
+	var _utils = __webpack_require__(235);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -62154,7 +62652,7 @@ webpackJsonp([0,1],[
 	exports.default = GridItem;
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -63766,7 +64264,7 @@ webpackJsonp([0,1],[
 	//# sourceMappingURL=react-draggable.js.map
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -63774,12 +64272,12 @@ webpackJsonp([0,1],[
 	  throw new Error("Don't instantiate Resizable directly! Use require('react-resizable').Resizable");
 	};
 
-	module.exports.Resizable = __webpack_require__(238).default;
-	module.exports.ResizableBox = __webpack_require__(240).default;
+	module.exports.Resizable = __webpack_require__(239).default;
+	module.exports.ResizableBox = __webpack_require__(241).default;
 
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -63792,9 +64290,9 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDraggable = __webpack_require__(236);
+	var _reactDraggable = __webpack_require__(237);
 
-	var _cloneElement = __webpack_require__(239);
+	var _cloneElement = __webpack_require__(240);
 
 	var _cloneElement2 = _interopRequireDefault(_cloneElement);
 
@@ -64040,7 +64538,7 @@ webpackJsonp([0,1],[
 	exports.default = Resizable;
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64065,7 +64563,7 @@ webpackJsonp([0,1],[
 	};
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64078,7 +64576,7 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Resizable = __webpack_require__(238);
+	var _Resizable = __webpack_require__(239);
 
 	var _Resizable2 = _interopRequireDefault(_Resizable);
 
@@ -64176,7 +64674,7 @@ webpackJsonp([0,1],[
 	exports.default = ResizableBox;
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64189,15 +64687,15 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _lodash = __webpack_require__(233);
+	var _lodash = __webpack_require__(234);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _utils = __webpack_require__(234);
+	var _utils = __webpack_require__(235);
 
-	var _responsiveUtils = __webpack_require__(242);
+	var _responsiveUtils = __webpack_require__(243);
 
-	var _ReactGridLayout = __webpack_require__(232);
+	var _ReactGridLayout = __webpack_require__(233);
 
 	var _ReactGridLayout2 = _interopRequireDefault(_ReactGridLayout);
 
@@ -64404,7 +64902,7 @@ webpackJsonp([0,1],[
 	exports.default = ResponsiveReactGridLayout;
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64415,7 +64913,7 @@ webpackJsonp([0,1],[
 	exports.findOrGenerateResponsiveLayout = findOrGenerateResponsiveLayout;
 	exports.sortBreakpoints = sortBreakpoints;
 
-	var _utils = __webpack_require__(234);
+	var _utils = __webpack_require__(235);
 
 	/**
 	 * Given a width, find the highest breakpoint that matches is valid for it (width > breakpoint).
@@ -64496,7 +64994,7 @@ webpackJsonp([0,1],[
 	}
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64584,7 +65082,7 @@ webpackJsonp([0,1],[
 	exports.default = WidthProvider;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64601,9 +65099,9 @@ webpackJsonp([0,1],[
 
 	var _reactRedux = __webpack_require__(178);
 
-	var _actions = __webpack_require__(212);
+	var _actions = __webpack_require__(213);
 
-	var _LayoutForm = __webpack_require__(245);
+	var _LayoutForm = __webpack_require__(246);
 
 	var _LayoutForm2 = _interopRequireDefault(_LayoutForm);
 
@@ -64773,7 +65271,7 @@ webpackJsonp([0,1],[
 	exports.default = Navbar = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Navbar);
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64792,7 +65290,7 @@ webpackJsonp([0,1],[
 
 	var _reactRedux = __webpack_require__(178);
 
-	var _actions = __webpack_require__(212);
+	var _actions = __webpack_require__(213);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64959,7 +65457,7 @@ webpackJsonp([0,1],[
 	exports.default = LayoutForm = (0, _reactRedux.connect)(undefined, mapDispatchToProps)(LayoutForm);
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64974,7 +65472,7 @@ webpackJsonp([0,1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _portlets = __webpack_require__(213);
+	var _portlets = __webpack_require__(214);
 
 	var PortletComponents = _interopRequireWildcard(_portlets);
 

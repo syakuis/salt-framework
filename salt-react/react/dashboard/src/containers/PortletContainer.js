@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateLayout } from '../actions';
+import { init, updateLayout } from '../actions';
 
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ReactGridLayout = WidthProvider(Responsive);
@@ -14,16 +14,18 @@ class PortletContainer extends React.Component {
 
     constructor(props) {
 		super(props);
-
         this.onLayoutChange = this.onLayoutChange.bind(this);
 	}
+
+    componentDidMount() {
+        this.props.init();
+    }
 
     onLayoutChange(layout, layouts) {
         this.props.updateLayout(layout, layouts);
     }
 
     render() {
-        
         let dashboard = this.props.dashboard;
         let PortletList = Object.keys(dashboard).map((key) => {
             let portlet = dashboard[key];
@@ -110,7 +112,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts))
+        updateLayout: (layout, layouts) => dispatch(updateLayout(layout, layouts)),
+        init: () => dispatch(init())
     }
 }
 

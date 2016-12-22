@@ -1,3 +1,4 @@
+export const INIT = 'INIT';
 export const ADD_PORTLET = 'ADD_PORTLET';
 export const UPDATE_PORTLET = 'UPDATE_PORTLET';
 export const DELETE_PORTLET = 'DELETE_PORTLET';
@@ -7,6 +8,9 @@ export const SET_LAYOUT_CONFIG_MARGIN = 'SET_LAYOUT_CONFIG_MARGIN';
 export const SET_LAYOUT_CONFIG_CONTAINER_PADDING = 'SET_LAYOUT_CONFIG_CONTAINER_PADDING';
 export const SET_LAYOUT_CONFIG_ROW_HEIGHT = 'SET_LAYOUT_CONFIG_ROW_HEIGHT';
 
+export const init = () => {
+    return { type: INIT };
+}
 export const addPortlet = (portlet) => {
     return { type: ADD_PORTLET, portlet };
 }

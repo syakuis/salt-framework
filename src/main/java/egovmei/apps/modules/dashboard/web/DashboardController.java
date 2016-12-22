@@ -28,6 +28,14 @@ public class DashboardController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/dashboard/list", method = RequestMethod.GET)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	public SuccessHandler procDashboardList() {
+		SuccessHandler<String> successHandler = new SuccessHandler<>();
+		successHandler.setData("s");
+		return successHandler;
+	}
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
 	@ResponseBody

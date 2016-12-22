@@ -17,5 +17,11 @@
 		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation" />
 	</context:component-scan>
 
+	<mvc:interceptors>
+		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+			<property name="cacheSeconds" value="0" />
+		</bean>
+	</mvc:interceptors>
+
 
 </beans>

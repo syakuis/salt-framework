@@ -52,6 +52,8 @@
     "react-modal": "^1.5.2",
     "react-redux": "^4.4.6",
     "redux": "^3.6.0",
-    "webpack": "^1.13.3"
+    "request": "^2.79.0",
+    "webpack": "^1.13.3",
+    "whatwg-fetch": "^2.0.1"
   }
 }

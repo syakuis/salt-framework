@@ -12,8 +12,6 @@ module.exports = function(grunt) {
 		react = pkg.config.deploy_react;
 	}
 
-	console.log(dist);
-
 	grunt.initConfig({
 		dist: dist,
 
