@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import update from 'react-addons-update';
 import _ from 'lodash';
-import 'whatwg-fetch';
+import axios from 'axios';
 
 import * as actions from '../actions';
 import * as portletComponents from '../portlets';
@@ -54,15 +54,9 @@ const portlet = (state = defaultState, action) => {
             let dashboard = {};
             let layout = [];
             let layouts = {};
-console.log('181818188181');
-            fetch('http://localhost:8080/dashboard/list', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            }).then(function(res) {
-                console.log(res);
+
+            axios.get('http://localhost:8080/dashboard/list').then(function(res) {
+
             });
 
             return Object.assign({}, state, {

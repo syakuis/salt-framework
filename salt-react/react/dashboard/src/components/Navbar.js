@@ -1,4 +1,5 @@
 import React from 'react';
+import aixos from 'axios';
 
 import { connect } from 'react-redux';
 import { addPortlet } from '../actions';
@@ -14,6 +15,7 @@ class Navbar extends React.Component {
         this.onShowLayoutForm = this.onShowLayoutForm.bind(this);
 
         this.onAddPortlet = this.onAddPortlet.bind(this);
+	    this.onSave = this.onSave.bind(this);
     }
 
     state = {
@@ -36,6 +38,14 @@ class Navbar extends React.Component {
         portlet['componentName'] = portletName;
 
         this.props.addPortlet(portlet);
+    }
+
+    onSave() {
+
+        aixos.post('/dashboard/save', function(res) {
+
+        });
+        console.log();
     }
 
 
@@ -94,6 +104,9 @@ class Navbar extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        layout: state.portlet.layout,
+        layouts: state.portlet.layouts,
+        dashboard: state.portlet.dashboard,
         portletComponents: state.portlet.portletComponents
     };
 }

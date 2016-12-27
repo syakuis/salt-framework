@@ -37,7 +37,7 @@ public class DashboardController {
 		return successHandler;
 	}
 
-	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
+	@RequestMapping(value = "/dashboard/save", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public SuccessHandler procDashboardSave(@RequestBody Dashboard dashboard) {

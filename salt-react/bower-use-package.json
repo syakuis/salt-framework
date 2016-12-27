@@ -1,0 +1,273 @@
+{
+  "font-awesome" : {
+    "css": [
+      "bower_components/font-awesome/css/font-awesome.css"
+    ],
+    "js": [
+
+    ]
+  },
+  "ionicons" : {
+    "css": [
+      "bower_components/ionicons/css/ionicons.css"
+    ],
+    "js": [
+
+    ]
+  },
+  "hover" : {
+    "css": [
+      "bower_components/hover/css/hover.css"
+    ],
+    "js": [
+
+    ]
+  },
+  "select2" : {
+    "css": [
+      "bower_components/select2/dist/css/select2.css"
+    ],
+    "js": [
+      "bower_components/select2/dist/js/select2.full.js"
+    ]
+  },
+  "datetimepicker" : {
+    "css": [
+      "bower_components/datetimepicker/jquery.datetimepicker.css"
+    ],
+    "js": [
+      "bower_components/datetimepicker/jquery.datetimepicker.js"
+    ]
+  },
+  "toastr" : {
+    "css": [
+      "bower_components/toastr/toastr.css"
+    ],
+    "js": [
+      "bower_components/toastr/toastr.js"
+    ]
+  },
+  "blueimp-file-upload" : {
+    "css": [
+      "bower_components/blueimp-file-upload/css/jquery.fileupload.css"
+    ],
+    "js": [
+      "bower_components/blueimp-file-upload/js/vendor/jquery.ui.widget.js",
+      "bower_components/blueimp-file-upload/js/jquery.iframe-transport.js",
+      "bower_components/blueimp-file-upload/js/jquery.fileupload.js",
+      "bower_components/blueimp-file-upload/js/jquery.fileupload-process.js",
+      "bower_components/blueimp-file-upload/js/jquery.fileupload-image.js",
+      "bower_components/blueimp-file-upload/js/jquery.fileupload-audio.js",
+      "bower_components/blueimp-file-upload/js/jquery.fileupload-video.js",
+      "bower_components/blueimp-file-upload/js/jquery.fileupload-validate.js"
+
+    ]
+  },
+  "blueimp-load-image" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/blueimp-load-image/js/load-image.js",
+      "bower_components/blueimp-load-image/js/load-image-orientation.js",
+      "bower_components/blueimp-load-image/js/load-image-meta.js",
+      "bower_components/blueimp-load-image/js/load-image-exif.js",
+      "bower_components/blueimp-load-image/js/load-image-exif-map.js"
+    ]
+  },
+  "jstree" : {
+    "css": [
+      "bower_components/jstree/dist/themes/default/style.min.css"
+    ],
+    "js": [
+      "bower_components/jstree/dist/jstree.js"
+    ]
+  },
+  "spectrum" : {
+    "css": [
+      "bower_components/spectrum/spectrum.css"
+    ],
+    "js": [
+      "bower_components/spectrum/spectrum.js"
+    ]
+  },
+  "bootstrap" : {
+    "css": [
+      "bower_components/bootstrap/dist/css/bootstrap.css"
+    ],
+    "js": [
+      "bower_components/bootstrap/dist/js/bootstrap.js"
+    ]
+  },
+  "select2-bootstrap-theme" : {
+    "css": [
+      "bower_components/select2-bootstrap-theme/dist/select2-bootstrap.css"
+    ],
+    "js": [
+
+    ]
+  },
+  "jstree-bootstrap-theme" : {
+    "css": [
+      "bower_components/jstree-bootstrap-theme/dist/themes/proton/style.css"
+    ],
+    "js": [
+
+    ]
+  },
+  "modernizr" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/modernizr/modernizr.js"
+    ]
+  },
+  "jquery" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/jquery/dist/jquery.js"
+    ]
+  },
+  "jquery-migrate" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/jquery-migrate/jquery-migrate.js"
+    ]
+  },
+  "moment" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/moment/moment.js",
+      "bower_components/moment/min/moment-with-locales.js"
+    ]
+  },
+  "moment-range" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/moment-range/dist/moment-range.js"
+    ]
+  },
+  "underscore" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/underscore/underscore.js"
+    ]
+  },
+  "handlebars" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/handlebars/handlebars.js"
+    ]
+  },
+  "jquery-ui" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/jquery-ui/jquery-ui.js"
+    ]
+  },
+  "jquery.serializeJSON" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/jquery.serializeJSON/jquery.serializejson.js"
+    ]
+  },
+  "HideSeek" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/HideSeek/jquery.hideseek.js"
+    ]
+  },
+  "qtip" : {
+    "css": [
+      "bower_components/qtip2/jquery.qtip.css"
+    ],
+    "js": [
+      "bower_components/qtip2/jquery.qtip.js"
+    ]
+  },
+  "jquery-validation" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/jquery-validation/dist/jquery.validate.js",
+      "bower_components/jquery-validation/dist/additional-methods.js"
+    ]
+  },
+  "is-loading" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/is-loading/jquery.isloading.js"
+    ]
+  },
+
+  "ScrollToFixed" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/ScrollToFixed/jquery-scrolltofixed.js"
+    ]
+  },
+  "html5shiv" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/html5shiv/dist/html5shiv.js"
+    ]
+  },
+  "respond" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/respond/dest/respond.src.js"
+    ]
+  },
+  "es5-shim" : {
+    "css": [
+
+    ],
+    "js": [
+      "bower_components/es5-shim/es5-shim.js"
+    ]
+  },
+  "Buttons" : {
+    "css": [
+      "bower_components/Buttons/css/buttons.css"
+    ],
+    "js": [
+      "bower_components/Buttons/js/buttons.js"
+    ]
+  },
+  "jquery-modal" : {
+    "css": [
+      "bower_components/jquery-modal/jquery.modal.css"
+    ],
+    "js": [
+      "bower_components/jquery-modal/jquery.modal.js"
+    ]
+  }
+}
