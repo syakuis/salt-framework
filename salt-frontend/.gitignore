@@ -1,0 +1,7 @@
+bower_components/
+node_modules/
+.tmp/
+.vscode/
+assets/
+bower.json
+package.json
