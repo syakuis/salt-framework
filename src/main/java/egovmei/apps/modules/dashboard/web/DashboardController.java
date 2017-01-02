@@ -1,8 +1,11 @@
 package egovmei.apps.modules.dashboard.web;
 
 import egovmei.apps.modules.dashboard.domain.Dashboard;
+import egovmei.apps.modules.dashboard.domain.DashboardVO;
 import egovmei.apps.modules.dashboard.service.DashboardService;
 import org.saltframework.web.handler.SuccessHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import javax.annotation.Resource;
  */
 @Controller
 public class DashboardController {
+	private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
 	@Resource(name = "dashboardEgovService")
 	DashboardService dashboardService;
@@ -40,9 +44,12 @@ public class DashboardController {
 	@RequestMapping(value = "/dashboard/save", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public SuccessHandler procDashboardSave(@RequestBody Dashboard dashboard) {
+	public SuccessHandler procDashboardSave(@RequestBody DashboardVO dashboardVO) {
 		SuccessHandler<Void> successHandler = new SuccessHandler<>();
-		dashboardService.save(dashboard);
+
+		logger.debug(dashboardVO.toString());
+
+		dashboardService.save(dashboardVO.getDashboard());
 		return successHandler;
 	}
 }

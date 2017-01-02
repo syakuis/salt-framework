@@ -9,6 +9,9 @@
     "react": "assets/react",
     "deployPath": "../src/main/webapp/resources"
   },
+  "scripts": {
+    "server": "webpack-dev-server --config webpack.dev.config.js"
+  },
   "devDependencies": {
     "glob": "^7.1.1",
     "grunt": "^0.4.5",
@@ -23,11 +26,13 @@
 
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2",
-    "babel-core": "^6.18.2",
+    "babel-core": "^6.21.0",
     "babel-loader": "^6.2.8",
     "babel-plugin-transform-object-assign": "^6.8.0",
     "babel-preset-es2015": "^6.18.0",
+    "babel-polyfill": "^6.0.16",
     "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
     "babel-preset-stage-1": "^6.16.0",
     "babel-preset-stage-2": "^6.18.0",
     "css-loader": "^0.26.1",

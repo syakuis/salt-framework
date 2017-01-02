@@ -25,7 +25,7 @@ _.forEach(entries, function(value, key) {
 	html = _.concat(html,
 		new HtmlWebpackPlugin({
 			// webpack-dev-server 와 경로가 다름.
-			filename: './' + key + '.html',
+			filename: 'react/' + key + '.html',
 			template: './react/index.html'
 		})
 	);
@@ -81,5 +81,28 @@ module.exports = {
 	},
 	/*resolve: {
     	extensions: ['', '.js', '.jsx']
-  	}*/
+  	},*/
+/*
+	devServer: {
+		inline: true, // 자동 리로드여부를 선택합니다.
+		hot: true, // html 자동 리로드여부를 선택합니다. (정확한 역활을 모르겠네요)
+		port:8088,
+		host: '0.0.0.0',
+		contentBase: './assets' // 서버 웹루트 경로를 설정합니다.
+	},*/
+
+	devServer: {
+		proxy: {
+			'/dashboard': {
+				target: 'http://localhost:8080',
+				secure: false,
+				prependPath: false
+			}
+		},
+		inline: true, // 자동 리로드여부를 선택합니다.
+		hot: true, // html 자동 리로드여부를 선택합니다. (정확한 역활을 모르겠네요)
+		port:8088,
+		host: '0.0.0.0',
+		contentBase: './assets' // 서버 웹루트 경로를 설정합니다.
+	}
 };

@@ -72,4 +72,17 @@ public class Dashboard {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+
+	@Override
+	public String toString() {
+		return "Dashboard{" +
+				"dashboardIdx='" + dashboardIdx + '\'' +
+				", title='" + title + '\'' +
+				", marginX=" + marginX +
+				", marginY=" + marginY +
+				", paddingX=" + paddingX +
+				", paddingY=" + paddingY +
+				", height=" + height +
+				'}';
+	}
 }

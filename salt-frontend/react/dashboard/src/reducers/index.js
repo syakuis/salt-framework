@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import update from 'react-addons-update';
 import _ from 'lodash';
-import axios from 'axios';
 
 import * as actions from '../actions';
 import * as portletComponents from '../portlets';
+import { getDashboard } from '../services';
 
 const defaultLayoutConfig = {
     className: "layout",
@@ -55,9 +55,7 @@ const portlet = (state = defaultState, action) => {
             let layout = [];
             let layouts = {};
 
-            axios.get('http://localhost:8080/dashboard/list').then(function(res) {
-
-            });
+            console.log(getDashboard());
 
             return Object.assign({}, state, {
                 portletCount: dashboard.length | 0,
@@ -72,7 +70,7 @@ const portlet = (state = defaultState, action) => {
             });
 
         case actions.UPDATE_PORTLET:
-            let newPortlet = Object.assign({}, state.dashboard[action.portlet.idx], portlet);
+            let newPortlet = Object.assign({}, state.dashboard[action.portlet.idx], action.portlet);
             return Object.assign({}, state, {
                 dashboard: update(state.dashboard, {$merge: { [action.portlet.idx]: newPortlet }})
             });

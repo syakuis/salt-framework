@@ -4,10 +4,9 @@ var path = require('path');
 var _ = require('lodash');
 
 /**
- npm install -g grunt-cli
- npm install -g bower
+ sudo npm install -g grunt-cli bower webpack webpack-dev-server
 
- npm install lodash grunt webpack webpack-dev-server extract-text-webpack-plugin grunt-contrib-copy grunt-contrib-concat grunt-contrib-uglify grunt-contrib-cssmin grunt-contrib-clean grunt-webpack grunt-install-dependencies grunt-bower-install-simple
+ npm install lodash grunt html-webpack-plugin extract-text-webpack-plugin grunt-contrib-copy grunt-contrib-concat grunt-contrib-uglify grunt-contrib-cssmin grunt-contrib-clean grunt-webpack grunt-install-dependencies grunt-bower-install-simple
 
  grunt install
 
@@ -304,37 +303,52 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-install-dependencies');
 	grunt.loadNpmTasks("grunt-bower-install-simple");
 
+	// 1. delete package.json
+	// 2. create package.json
+	// 3. npm update
 	grunt.registerTask('npm-install', [
 		'clean:npm',
 		'create-json:npm',
 		'install-dependencies'
 	]);
 
+	// 1. create package.json
+	// 2. npm update
 	grunt.registerTask('npm-update', [
 		'create-json:npm',
 		'install-dependencies'
 	]);
 
+	// 1. delete bower_components
+	// 2. delete bower.json
+	// 3. create bower.json
+	// 4. bower install
 	grunt.registerTask('bower-install', [
 		'clean:bower',
 		'create-json:bower',
 		'bower-install-simple:install'
 	]);
 
+	// 1. create bower.json
+	// 2. bower update
 	grunt.registerTask('bower-update', [
 		'create-json:bower',
 		'bower-install-simple:update'
 	]);
 
+	// 1. delete react
+	// 2. webpack
 	// webpack can't use task name.
 	grunt.registerTask('react', [
 		'clean:webpack', 'rereact'
 	]);
 
+	// 1. webpack
 	grunt.registerTask('rereact', [
 		'webpack'
 	]);
 
+	// file copy
 	grunt.registerTask('assets', [
 		'copy:fonts',
 		'copy:images',
@@ -342,6 +356,7 @@ module.exports = function(grunt) {
 	]);
 
 
+	// file copy and js & css minify and temp delete
 	grunt.registerTask('basic', [
 		'copy:cssBasic',
 		'cssmin:basic',
@@ -350,12 +365,14 @@ module.exports = function(grunt) {
 		'clean:temp'
 	]);
 
+	// file copy and js & css minify and temp delete
 	grunt.registerTask('bootstrap', [
 		'copy:cssBoostrap',
 		'cssmin:bootstrap',
 		'clean:temp'
 	]);
 
+	// file copy and js & css minify and temp delete
 	grunt.registerTask('ie9', [
 		'copy:jsIE9',
 		'uglify:ie9',
@@ -384,10 +401,10 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('redeploy', [
-		'copy:deploy'
+		'rereact', 'copy:deploy'
 	]);
 
 	grunt.registerTask('deploy', [
-		'clean:deploy', 'copy:deploy'
+		'react', 'clean:deploy', 'copy:deploy'
 	]);
 };

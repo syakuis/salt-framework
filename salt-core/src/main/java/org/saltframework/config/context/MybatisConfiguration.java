@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -26,6 +27,7 @@ import java.util.Properties;
  * @since 2016. 10. 31.
  */
 @Configuration
+@Profile("!jpa")
 @EnableTransactionManagement
 @MapperScan(basePackages = "org.saltframework.apps", annotationClass = Mapper.class)
 public class MybatisConfiguration {

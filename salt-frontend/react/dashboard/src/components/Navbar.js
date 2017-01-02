@@ -1,10 +1,10 @@
 import React from 'react';
-import aixos from 'axios';
+
+import "babel-polyfill";
 
 import { connect } from 'react-redux';
 import { addPortlet } from '../actions';
-
-import LayoutForm from './LayoutForm';
+import { saveDashboard } from '../services';
 
 class Navbar extends React.Component {
 
@@ -40,12 +40,15 @@ class Navbar extends React.Component {
         this.props.addPortlet(portlet);
     }
 
-    onSave() {
-
-        aixos.post('/dashboard/save', function(res) {
-
+    async onSave() {
+        let res = await saveDashboard({
+	        layoutConfig: this.props.layoutConfig,
+	        layout: this.props.layout,
+	        layouts: this.props.layouts,
+	        dashboard: this.props.dashboard
         });
-        console.log();
+
+        console.log(res);
     }
 
 
@@ -93,7 +96,7 @@ class Navbar extends React.Component {
                                     {this.props.children}
                                 </div>
                             </li>
-                            <li><a href="#"><i className="fa fa-check"></i> 저장</a></li>
+                            <li><a href="#" onClick={this.onSave}><i className="fa fa-check"></i> 저장</a></li>
                         </ul>
                     </div>
                 </div>
@@ -104,6 +107,7 @@ class Navbar extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+	    layoutConfig: state.layoutConfig,
         layout: state.portlet.layout,
         layouts: state.portlet.layouts,
         dashboard: state.portlet.dashboard,
