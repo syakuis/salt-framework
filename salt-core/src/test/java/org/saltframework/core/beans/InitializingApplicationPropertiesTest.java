@@ -9,6 +9,8 @@ import org.saltframework.core.properties.ApplicationType;
 import org.saltframework.core.properties.InitializingApplicationProperties;
 import org.saltframework.core.module.ModuleMap;
 import org.saltframework.core.module.ModulePostProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Properties;
@@ -19,6 +21,8 @@ import java.util.Properties;
  * @since 2016. 11. 15.
  */
 public class InitializingApplicationPropertiesTest {
+	private static final Logger logger = LoggerFactory.getLogger(InitializingApplicationPropertiesTest.class);
+
 
 	private ApplicationProperties applicationProperties;
 	private String[] locations = new String[]{
@@ -42,6 +46,7 @@ public class InitializingApplicationPropertiesTest {
 			Map<String, Object> module = new ModuleMap(properties).toMap();
 
 			for(Map.Entry<Object, Object> item : properties.entrySet()) {
+				logger.debug("{} : {}", item.getKey(), item.getValue());
 				Assert.assertEquals(module.get(item.getKey()), item.getValue());
 			}
 		}

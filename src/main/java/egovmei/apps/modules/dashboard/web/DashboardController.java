@@ -47,7 +47,7 @@ public class DashboardController {
 	public SuccessHandler procDashboardSave(@RequestBody DashboardVO dashboardVO) {
 		SuccessHandler<Void> successHandler = new SuccessHandler<>();
 
-		logger.debug(dashboardVO.toString());
+
 
 		dashboardService.save(dashboardVO.getDashboard());
 		return successHandler;

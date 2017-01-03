@@ -1,6 +1,8 @@
 package org.saltframework.web.handler;
 
 /**
+ * Controller 처리가 완료되었을 때 응답하기 위한 클래스
+ *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2016. 12. 16.

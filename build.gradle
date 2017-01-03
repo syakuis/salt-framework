@@ -52,7 +52,8 @@ configure(allprojects) {
 		runtime('ch.qos.logback:logback-classic:1.1.7') {
 			exclude group: 'org.slf4j', module: 'slf4j-api'
 		}
-		testCompile "junit:junit:$junitVersion"
+		testCompile "junit:junit:$junitVersion",
+					"org.jmock:jmock:2.6.0-RC2"
 
 		compile 'org.apache.commons:commons-lang3:3.4',
 				'org.apache.commons:commons-collections4:4.1',

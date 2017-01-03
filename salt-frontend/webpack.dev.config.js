@@ -93,7 +93,7 @@ module.exports = {
 
 	devServer: {
 		proxy: {
-			'/dashboard': {
+			'/dashboard/**': {
 				target: 'http://localhost:8080',
 				secure: false,
 				prependPath: false

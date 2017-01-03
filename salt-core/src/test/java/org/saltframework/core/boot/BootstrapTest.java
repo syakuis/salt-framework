@@ -35,7 +35,7 @@ public class BootstrapTest extends BootstrapTestCase {
 		while (iterator.hasNext()) {
 			String name = iterator.next();
 
-			logger.debug(name + " : " + config.getProperty(name));
+			logger.debug("{} : {}", name, config.getProperty(name));
 		}
 
 		List<Properties> modules = app.getProperties(ApplicationType.MODULE);
