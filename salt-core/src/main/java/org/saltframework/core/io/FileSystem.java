@@ -12,6 +12,7 @@ public class FileSystem {
 	private final String relativePath;
 
 	private File file;
+	private String filePath;
 	private String dirPath;
 	private String datePath;
 	private String fileName;
@@ -37,6 +38,14 @@ public class FileSystem {
 
 	protected void setFile(File file) {
 		this.file = file;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public String getDirPath() {

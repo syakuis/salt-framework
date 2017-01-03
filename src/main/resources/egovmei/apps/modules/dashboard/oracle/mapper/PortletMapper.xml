@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovmei.apps.modules.dashboard.mapper.PortletEgovMapper">
+
+	<resultMap id="portlet" type="egovmei.apps.modules.dashboard.domain.Portlet">
+		<id property="dashboardIdx" column="dashboard_idx" />
+		<result property="portletIdx" column="portlet_idx" />
+		<result property="portletName" column="portlet_name" />
+		<result property="portletId" column="portlet_id" />
+		<result property="width" column="width" />
+		<result property="height" column="height" />
+		<result property="padding" column="padding" />
+		<result property="coordX" column="coord_x" />
+		<result property="coordY" column="coord_y" />
+		<result property="isDraggable" column="is_draggable" />
+		<result property="isResizable" column="is_resizable" />
+		<result property="isStatic" column="is_static" />
+	</resultMap>
+
+	<select id="find" resultMap="portlet">
+		SELECT * FROM portlet
+		WHERE dashboard_idx = #{dashboardIdx}
+	</select>
+
+	<update id="save">
+		MERGE INTO portlet USING DUAL ON ( dashboard_idx = #{dashboardIdx} AND portlet_idx = #{portletIdx} )
+		WHEN MATCHED THEN UPDATE
+		<set>
+			portletName = #{portletName},
+			portletId = #{portletId},
+			width = #{width},
+			height = #{height},
+			coordX = #{coordX},
+			coordY = #{coordY},
+			isDraggable = #{isDraggable},
+			isResizable = #{isResizable},
+			isStatic = #{isStatic}
+		</set>
+		WHEN NOT MATCHED THEN
+		INSERT (
+			<if test = "portletIdx == null">
+			portlet_idx,
+			</if>
+			dashboard_idx,
+			portlet_name,
+			portlet_id,
+			width,
+			height,
+			padding,
+			coord_x,
+			coord_y,
+			is_draggable,
+			is_resizable,
+			is_static
+		) VALUES (
+			<if test = "portletIdx == null">
+				'PORTLET' || LPAD(PORTLET_IDX_SEQ.NEXTVAL, 13, '0'),
+			</if>
+			#{dashboard_idx},
+			#{portlet_name},
+			#{portlet_id},
+			#{width},
+			#{height},
+			#{padding},
+			#{coord_x},
+			#{coord_y},
+			#{is_draggable},
+			#{is_resizable},
+			#{is_static}
+		)
+	</update>
+
+</mapper>

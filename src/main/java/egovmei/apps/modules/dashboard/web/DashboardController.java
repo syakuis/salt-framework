@@ -1,6 +1,5 @@
 package egovmei.apps.modules.dashboard.web;
 
-import egovmei.apps.modules.dashboard.domain.Dashboard;
 import egovmei.apps.modules.dashboard.domain.DashboardVO;
 import egovmei.apps.modules.dashboard.service.DashboardService;
 import org.saltframework.web.handler.SuccessHandler;
@@ -9,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 
@@ -26,13 +24,6 @@ public class DashboardController {
 	DashboardService dashboardService;
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public ModelAndView dispModuleAdminList() {
-		ModelAndView mav = new ModelAndView("index");
-		mav.addObject("template", "/modules/dashboard/dashboard.save.ftl");
-		return mav;
-	}
-
-	@RequestMapping(value = "/dashboard/list", method = RequestMethod.GET)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public SuccessHandler procDashboardList() {
@@ -46,10 +37,7 @@ public class DashboardController {
 	@ResponseStatus(HttpStatus.OK)
 	public SuccessHandler procDashboardSave(@RequestBody DashboardVO dashboardVO) {
 		SuccessHandler<Void> successHandler = new SuccessHandler<>();
-
-
-
-		dashboardService.save(dashboardVO.getDashboard());
+		dashboardService.saveDashboard(dashboardVO);
 		return successHandler;
 	}
 }

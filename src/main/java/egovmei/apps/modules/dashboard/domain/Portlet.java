@@ -9,24 +9,49 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Portlet {
-
-	private int height;
+	private String dashboardIdx;
+	private String portletIdx;
+	private String portletName;
+	private String portletId;
 	private int width;
-	private boolean isDraggable;
-	private boolean isResizable;
-	private boolean batchStatic;
+	private int height;
 	private int padding;
 	private int coordX;
 	private int coordY;
-	private String portletId;
-	private String portletName;
+	private boolean isDraggable;
+	private boolean isResizable;
+	private boolean isStatic;
 
-	public int getHeight() {
-		return height;
+	public String getDashboardIdx() {
+		return dashboardIdx;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
+	public void setDashboardIdx(String dashboardIdx) {
+		this.dashboardIdx = dashboardIdx;
+	}
+
+	public String getPortletIdx() {
+		return portletIdx;
+	}
+
+	public void setPortletIdx(String portletIdx) {
+		this.portletIdx = portletIdx;
+	}
+
+	public String getPortletName() {
+		return portletName;
+	}
+
+	public void setPortletName(String portletName) {
+		this.portletName = portletName;
+	}
+
+	public String getPortletId() {
+		return portletId;
+	}
+
+	public void setPortletId(String portletId) {
+		this.portletId = portletId;
 	}
 
 	public int getWidth() {
@@ -37,28 +62,12 @@ public class Portlet {
 		this.width = width;
 	}
 
-	public boolean isDraggable() {
-		return isDraggable;
+	public int getHeight() {
+		return height;
 	}
 
-	public void setDraggable(boolean draggable) {
-		isDraggable = draggable;
-	}
-
-	public boolean isResizable() {
-		return isResizable;
-	}
-
-	public void setResizable(boolean resizable) {
-		isResizable = resizable;
-	}
-
-	public boolean isBatchStatic() {
-		return batchStatic;
-	}
-
-	public void setBatchStatic(boolean batchStatic) {
-		this.batchStatic = batchStatic;
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 	public int getPadding() {
@@ -85,35 +94,27 @@ public class Portlet {
 		this.coordY = coordY;
 	}
 
-	public String getPortletId() {
-		return portletId;
+	public boolean isDraggable() {
+		return isDraggable;
 	}
 
-	public void setPortletId(String portletId) {
-		this.portletId = portletId;
+	public void setDraggable(boolean draggable) {
+		isDraggable = draggable;
 	}
 
-	public String getPortletName() {
-		return portletName;
+	public boolean isResizable() {
+		return isResizable;
 	}
 
-	public void setPortletName(String portletName) {
-		this.portletName = portletName;
+	public void setResizable(boolean resizable) {
+		isResizable = resizable;
 	}
 
-	@Override
-	public String toString() {
-		return "Portlet{" +
-				"height=" + height +
-				", width=" + width +
-				", isDraggable=" + isDraggable +
-				", isResizable=" + isResizable +
-				", batchStatic=" + batchStatic +
-				", padding=" + padding +
-				", coordX=" + coordX +
-				", coordY=" + coordY +
-				", portletId='" + portletId + '\'' +
-				", portletName='" + portletName + '\'' +
-				'}';
+	public boolean isStatic() {
+		return isStatic;
+	}
+
+	public void setStatic(boolean aStatic) {
+		isStatic = aStatic;
 	}
 }

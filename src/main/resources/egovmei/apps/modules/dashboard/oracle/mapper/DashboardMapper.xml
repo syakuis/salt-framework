@@ -10,6 +10,8 @@
 		<result property="paddingX" column="padding_x" />
 		<result property="paddingY" column="padding_y" />
 		<result property="height" column="height" />
+		<result property="layoutJsonFile" column="layout_json_file" />
+		<result property="layoutsJsonFile" column="layouts_json_file" />
 	</resultMap>
 
 	<select id="findAll" resultMap="dashboard">
@@ -33,7 +35,9 @@
 			margin_y,
 			padding_x,
 			padding_y,
-			height
+			height,
+			layout_json_file,
+			layouts_json_file
 		) VALUES (
 			#{dashboardIdx},
 			#{title},
@@ -41,7 +45,9 @@
 			#{marginY},
 			#{paddingX},
 			#{paddingY},
-			#{height}
+			#{height},
+			#{layoutJsonFile},
+			#{layoutsJsonFile}
 		)
 	</insert>
 

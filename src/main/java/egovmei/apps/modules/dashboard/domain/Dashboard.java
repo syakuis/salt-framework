@@ -16,6 +16,8 @@ public class Dashboard {
 	private int paddingX;
 	private int paddingY;
 	private int height;
+	private String layoutJsonFile;
+	private String layoutsJsonFile;
 
 	public String getDashboardIdx() {
 		return dashboardIdx;
@@ -73,16 +75,19 @@ public class Dashboard {
 		this.height = height;
 	}
 
-	@Override
-	public String toString() {
-		return "Dashboard{" +
-				"dashboardIdx='" + dashboardIdx + '\'' +
-				", title='" + title + '\'' +
-				", marginX=" + marginX +
-				", marginY=" + marginY +
-				", paddingX=" + paddingX +
-				", paddingY=" + paddingY +
-				", height=" + height +
-				'}';
+	public String getLayoutJsonFile() {
+		return layoutJsonFile;
+	}
+
+	public void setLayoutJsonFile(String layoutJsonFile) {
+		this.layoutJsonFile = layoutJsonFile;
+	}
+
+	public String getLayoutsJsonFile() {
+		return layoutsJsonFile;
+	}
+
+	public void setLayoutsJsonFile(String layoutsJsonFile) {
+		this.layoutsJsonFile = layoutsJsonFile;
 	}
 }

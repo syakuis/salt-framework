@@ -1,6 +1,6 @@
 package egovmei.apps.modules.dashboard.service;
 
-import egovmei.apps.modules.dashboard.domain.Dashboard;
+import egovmei.apps.modules.dashboard.domain.DashboardVO;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)
@@ -9,5 +9,5 @@ import egovmei.apps.modules.dashboard.domain.Dashboard;
  */
 public interface DashboardService {
 
-	void save(Dashboard dashboard);
+	void saveDashboard(DashboardVO dashboardVO);
 }

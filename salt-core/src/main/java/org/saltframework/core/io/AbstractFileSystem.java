@@ -115,7 +115,9 @@ public abstract class AbstractFileSystem {
 			bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
 			bufferedOutputStream.write(bytes);
 		} finally {
-			bufferedOutputStream.close();
+			if (bufferedOutputStream != null) {
+				bufferedOutputStream.close();
+			}
 		}
 	}
 

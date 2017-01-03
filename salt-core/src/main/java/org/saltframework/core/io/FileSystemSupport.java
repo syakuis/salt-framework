@@ -95,6 +95,7 @@ public class FileSystemSupport extends AbstractFileSystem {
 		fileSystem.setDirPath(dirPath);
 		fileSystem.setExtension(FilenameUtils.getExtension(fileName).toLowerCase());
 		fileSystem.setFile(file);
+		fileSystem.setFilePath(dirPath + File.separator + file.getName());
 		fileSystem.setVirtualFileName(file.getName());
 		fileSystem.setFileName(fileName);
 

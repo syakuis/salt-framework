@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.springframework.util.StopWatch;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,7 +47,7 @@ public class FileSystemSupportTest {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(json);
 
-		FileSystem fileSystem = fileSystemSupport.save("test.json", jsonInString.getBytes());
+		FileSystem fileSystem = fileSystemSupport.save("test.json", jsonInString.getBytes(Charset.defaultCharset()));
 		System.out.printf(fileSystem.toString());
 	}
 
@@ -66,7 +68,7 @@ public class FileSystemSupportTest {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(json);
 
-		FileSystem fileSystem = fileSystemSupport.save("test.json", jsonInString.getBytes());
+		FileSystem fileSystem = fileSystemSupport.save("test.json", jsonInString.getBytes(StandardCharsets.UTF_8));
 		System.out.printf(fileSystem.toString());
 	}
 
