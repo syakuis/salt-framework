@@ -130,33 +130,19 @@ public abstract class AbstractFileSystem {
 	 * @return the file only one
 	 */
 	protected File getFileOnlyOne(String filename, String path) throws IOException {
-		int index = 0;
-		String fileRenaming = getFileReNameing(filename, index);
-		File file = new File(path + File.separator + fileRenaming);
-
-		while(file.exists()) {
-			fileRenaming = getFileReNameing(filename, index++);
-			file = new File(path + File.separator + fileRenaming);
-		}
-
-		return file;
+		String fileRenaming = getFileReNameing(filename);
+		return new File(path + File.separator + fileRenaming);
 	}
 
 	/**
 	 * UUID를 이용한 가상 파일명을 생성한다.
-	 * index 는 파일명이 중복인 경우 카운팅하여 파라메터로 전달한다.
 	 *
 	 * @param fileName the file name
-	 * @param index    the index
 	 * @return the file re nameing
 	 */
-	private String getFileReNameing(String fileName, int index) {
+	private String getFileReNameing(String fileName) {
 		Assert.notNull(fileName);
-
 		StringBuffer stringBuffer = new StringBuffer(UUID.randomUUID().toString().replace("-", ""));
-		if (index > 0) {
-			stringBuffer.append("OV").append(Integer.toString(index));
-		}
 		stringBuffer.append('.').append(FilenameUtils.getExtension(fileName).toLowerCase());
 		return stringBuffer.toString();
 	}
