@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class FileSystemSupportTest {
 	AtomicInteger c;
-	Blitzer blitzer = new Blitzer(1000, 20);
+	Blitzer blitzer = new Blitzer(20, 5);
 
 	@Before
 	public void setUp() {
@@ -33,9 +33,9 @@ public class FileSystemSupportTest {
 
 	void task() throws IOException {
 		FileSystemSupport fileSystemSupport = new FileSystemSupport("/Users/syaku/develop/salt/files");
-		fileSystemSupport.setSystemCode(SystemCode.module);
+		fileSystemSupport.setCategory(Category.attachments);
+		fileSystemSupport.setSystemCode(SystemCode.modules);
 		fileSystemSupport.setSystemName("test");
-		fileSystemSupport.setCategory(Category.other);
 
 		Map<String, String> json = new HashMap();
 		json.put("good", "good");
@@ -49,21 +49,29 @@ public class FileSystemSupportTest {
 		System.out.printf(fileSystem.toString());
 	}
 
-	@Test
-	public void save() throws Exception {
+	void generalTask(String text) throws IOException {
 		FileSystemSupport fileSystemSupport = new FileSystemSupport("/Users/syaku/develop/salt/files");
-		fileSystemSupport.setSystemCode(SystemCode.module);
+		fileSystemSupport.setCategory(Category.caches);
+		fileSystemSupport.setSystemCode(SystemCode.general);
 		fileSystemSupport.setSystemName("test");
-		fileSystemSupport.setCategory(Category.other);
+		fileSystemSupport.setRename(false);
+		fileSystemSupport.setDirDate(false);
 
 		Map<String, String> json = new HashMap();
 		json.put("good", "good");
 		json.put("good1", "good1");
 		json.put("kor", "굿굿");
+		json.put("text", text);
 
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(json);
 
+		FileSystem fileSystem = fileSystemSupport.save("test.json", jsonInString.getBytes());
+		System.out.printf(fileSystem.toString());
+	}
+
+	@Test
+	public void save() throws Exception {
 		StopWatch sw = new StopWatch();
 		sw.start();
 		blitzer.blitz(new Runnable() {
@@ -72,6 +80,7 @@ public class FileSystemSupportTest {
 				System.out.println(Thread.currentThread().getName() + ": done");
 				try {
 					task();
+					generalTask(Thread.currentThread().getName());
 				} catch (IOException e) {
 					System.out.printf("=====================> " + e.getMessage());
 				}

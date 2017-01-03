@@ -18,13 +18,13 @@ import java.util.UUID;
  * 파일을 서버에 업로드할 때 지정된 경로에 항상 등록될 수 있게 경로를 표준화하여 제공한다.
  * 해당 경로에 업로드하지 않으면 모듈 혹은 프로그램간의 공유가 어려워 지거나 관리범위에 벗어나므로 관리할 수 없게 된다.
  *
- * /system/systemName/category/date/index/fileName
+ * /category/system/systemName/date/systemIdx/fileName
  *
- * /module/moduleName/category/y/m//d/idx/fileName
- * /module/moduleName/attachments/y/m//d/idx/fileName
- * /module/moduleName/json/fileName
- * /plugin/pluginName/files/fileName
- * /general/targetName/json/fileName
+ * /category/modules/moduleName/y/m//d/idx/fileName
+ * /attachments/modules/moduleName/y/m//d/idx/fileName
+ * /temp/modules/moduleName/idx/fileName
+ * /cache/plugins/pluginName/idx/fileName
+ * /temp/general/targetName/idx/fileName
  *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
@@ -49,19 +49,16 @@ public abstract class AbstractFileSystem {
 	/**
 	 * 상대경로를 완성한다.
 	 *
-	 * @param systemCode 1st path
-	 * @param category   3rd path
-	 * @param systemName 2nd path : 해당 시스템의 명칭을 임의적으로 정한다.
+	 * @param systemCode 2nd path
+	 * @param category   1st path
 	 * @return the relative path
 	 */
-	protected String getRelativePath(SystemCode systemCode, Category category, String systemName) {
+	protected String getRelativePath(Category category, SystemCode systemCode) {
 		StringBuffer stringBuffer = new StringBuffer();
 		return stringBuffer.append(File.separator)
-				.append(systemCode.name())
+				.append(category.name())
 				.append(File.separator)
-				.append(systemName)
-				.append(File.separator)
-				.append(category.name()).toString();
+				.append(systemCode.name()).toString();
 	}
 
 	/**

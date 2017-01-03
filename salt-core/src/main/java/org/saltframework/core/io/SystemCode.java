@@ -6,5 +6,5 @@ package org.saltframework.core.io;
  * @since 2017. 1. 3.
  */
 public enum SystemCode {
-	general, module, plugin
+	general, modules, plugins
 }

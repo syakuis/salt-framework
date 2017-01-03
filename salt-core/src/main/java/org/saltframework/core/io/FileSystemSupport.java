@@ -4,7 +4,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.util.Assert;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -13,9 +12,11 @@ import java.io.IOException;
  * @since 2017. 1. 3.
  */
 public class FileSystemSupport extends AbstractFileSystem {
-	private SystemCode systemCode;
 	private Category category;
+	private SystemCode systemCode;
 	private String systemName;
+	private boolean rename = true;
+	private boolean dirDate = true;
 
 	public FileSystemSupport() {
 		super();
@@ -37,20 +38,54 @@ public class FileSystemSupport extends AbstractFileSystem {
 		this.systemName = systemName;
 	}
 
+	/**
+	 * 날짜를 이용한 폴더 경로 사용여부
+	 *
+	 * @param dirDate the dir date
+	 */
+	public void setDirDate(boolean dirDate) {
+		this.dirDate = dirDate;
+	}
+
+	/**
+	 * 파일명을 임의적으로 변경할지 여부
+	 *
+	 * @param rename the rename
+	 */
+	public void setRename(boolean rename) {
+		this.rename = rename;
+	}
+
 	@Override
 	public FileSystem save(String fileName, byte[] bytes) throws IOException {
-		Assert.notNull(systemCode);
 		Assert.notNull(category);
+		Assert.notNull(systemCode);
 		Assert.notNull(systemName);
 
 		String absolutePath = getAbsolutePath();
-		String relativePath = getRelativePath(systemCode, category, systemName);
-		String datePath = getDateFormatPath();
+		String relativePath = getRelativePath(category, systemCode);
 
-		String dirPath = absolutePath + relativePath + datePath;
-		createDir(dirPath);
+		StringBuffer dirString = new StringBuffer(relativePath);
 
-		File file = getFileOnlyOne(fileName, dirPath);
+		String datePath = null;
+		if (dirDate) {
+			datePath = getDateFormatPath();
+			dirString.append(datePath);
+		}
+
+		dirString.append(File.separator).append(systemName);
+
+		String dirPath = dirString.toString();
+		String fullPath = absolutePath + dirPath;
+		createDir(fullPath);
+
+		File file;
+		if (rename) {
+			file = getFileOnlyOne(fileName, fullPath);
+		} else {
+			file = new File(fullPath + File.separator + fileName);
+		}
+
 		createFile(file);
 
 		wirteFile(file, bytes);

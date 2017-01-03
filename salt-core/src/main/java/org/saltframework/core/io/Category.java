@@ -6,5 +6,5 @@ package org.saltframework.core.io;
  * @since 2017. 1. 3.
  */
 public enum Category {
-	attachments, json, xml, docs, images, media, other
+	attachments, temps, caches, others
 }
