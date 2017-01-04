@@ -23,21 +23,8 @@
 	</select>
 
 	<update id="save">
-		MERGE INTO portlet USING DUAL ON ( dashboard_idx = #{dashboardIdx} AND portlet_idx = #{portletIdx} )
-		WHEN MATCHED THEN UPDATE
-		<set>
-			portletName = #{portletName},
-			portletId = #{portletId},
-			width = #{width},
-			height = #{height},
-			coordX = #{coordX},
-			coordY = #{coordY},
-			isDraggable = #{isDraggable, typeHandler=org.saltframework.support.mybatis.type.BooleanToIntHandler},
-			isResizable = #{isResizable, typeHandler=org.saltframework.support.mybatis.type.BooleanToIntHandler},
-			isStatic = #{isStatic, typeHandler=org.saltframework.support.mybatis.type.BooleanToIntHandler}
-		</set>
-		WHEN NOT MATCHED THEN
-		INSERT (
+		MERGE INTO portlet
+		(
 			<if test = "portletIdx == null">
 			portlet_idx,
 			</if>
@@ -52,9 +39,11 @@
 			is_draggable,
 			is_resizable,
 			is_static
-		) VALUES (
+		)
+		KEY ( dashboard_idx, portlet_idx )
+		VALUES (
 			<if test = "portletIdx == null">
-				'PORTLET' || LPAD(PORTLET_IDX_SEQ.NEXTVAL, 13, '0'),
+			'PORTLET' || LPAD(PORTLET_IDX_SEQ.NEXTVAL, 13, '0'),
 			</if>
 			#{dashboardIdx},
 			#{portletName},

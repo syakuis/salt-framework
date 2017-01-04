@@ -1,6 +1,6 @@
-import React from 'react';
-
 import "babel-polyfill";
+import React from 'react';
+import _ from 'lodash';
 
 import { connect } from 'react-redux';
 import { addPortlet } from '../actions';
@@ -18,9 +18,25 @@ class Navbar extends React.Component {
 	    this.onSave = this.onSave.bind(this);
     }
 
+    getPortletComponets() {
+        return _.reduce(this.props.portletComponents, function(result, portlet, key) {
+            let { options, ...info } = portlet.getDefault();
+
+            return {
+                ...result,
+                [key]: {
+                    info: { ...info },
+                    options: options,
+                    portlet: portlet
+                }
+            }
+        }, {});
+    }
+
     state = {
         isShowPortletList : false,
-        isShowLayoutForm: false
+        isShowLayoutForm: false,
+        portletComponents: this.getPortletComponets()
     }
 
     onShowPortletList() {
@@ -32,12 +48,11 @@ class Navbar extends React.Component {
     }
 
     onAddPortlet(portletName) {
-        let portletComponents = this.props.portletComponents;
-        let portlet = portletComponents[portletName];
-        portlet = portlet.getDefault();
+        let portlet = this.state.portletComponents[portletName].options;
         portlet['componentName'] = portletName;
 
         this.props.addPortlet(portlet);
+        this.onShowPortletList();
     }
 
     async onSave() {
@@ -51,8 +66,7 @@ class Navbar extends React.Component {
         console.log(res);
     }
 
-
-    render() {
+    render() { 
         let showPortletListStyle = { position: 'absolute', marginTop: 5 };
         if (!this.state.isShowPortletList) {
             showPortletListStyle['display'] = 'none';
@@ -63,11 +77,16 @@ class Navbar extends React.Component {
             showLayoutFormStyle['display'] = 'none';
         }
 
-        let portletComponents = Object.keys(this.props.portletComponents).map((portletName, i) => {
-
+        let portletComponents = Object.keys(this.state.portletComponents).map((portletName, i) => {
+            let portlet = this.state.portletComponents[portletName];
             return (
-                <div key={i} onClick={() => this.onAddPortlet(portletName)}>
-                    {portletName}
+                <div className="col-sm-4 col-md-2" key={i} onClick={() => this.onAddPortlet(portletName)}>
+		            <div className="thumbnail">
+                        <a href="#">image</a>
+                        <div className="caption">
+                            {portlet.info.title}
+                        </div>
+                    </div>
                 </div>
             );
         }); 
@@ -79,10 +98,12 @@ class Navbar extends React.Component {
                         <ul className="nav navbar-nav">
                             <li>
                                 <a href="#" onClick={this.onShowPortletList}><i className="fa fa-plus"></i> 포틀릿추가</a>
-                                <div style={showPortletListStyle}>
+                                <div style={showPortletListStyle} className="container">
                                     <div className="panel panel-default">
                                         <div className="panel-body">
-                                            {portletComponents}
+                                            <div className="row">
+                                                {portletComponents}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

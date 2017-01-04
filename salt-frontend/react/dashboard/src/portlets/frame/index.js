@@ -13,14 +13,18 @@ export default class Frame extends React.Component {
 
     static getDefault() {
         return {
-            padding: 0,
-            w: 5,
-            h: 5,
-            x: 0,
-            y: Infinity,
-            static: false,
-            isDraggable: true,
-            isResizable: true
+            title: '아이프레임 포틀릿',
+            image: null,
+            options: {
+                padding: 0,
+                w: 5,
+                h: 5,
+                x: 0,
+                y: Infinity,
+                static: false,
+                isDraggable: true,
+                isResizable: true
+            }
         };
     }
 

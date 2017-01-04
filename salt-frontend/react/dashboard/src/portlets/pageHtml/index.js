@@ -7,16 +7,27 @@ export default class PageHtml extends React.Component {
         super(props);
     }
 
+    static getInfo() {
+        return {
+            title: '에디터 포틀릿',
+            image: null
+        }
+    }
+
     static getDefault() {
         return {
-            padding: 5,
-            w: 4,
-            h: 4,
-            x: 0,
-            y: Infinity,
-            static: false,
-            isDraggable: true,
-            isResizable: true
+            title: '에디터 포틀릿',
+            image: null,
+            options: {
+                padding: 5,
+                w: 4,
+                h: 4,
+                x: 0,
+                y: Infinity,
+                static: false,
+                isDraggable: true,
+                isResizable: true
+            }
         };
     }
 

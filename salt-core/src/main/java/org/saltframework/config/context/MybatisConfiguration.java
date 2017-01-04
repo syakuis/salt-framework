@@ -68,7 +68,7 @@ public class MybatisConfiguration {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("\ndbms : {}\nconfigLocation : {}\nmapperLocations : {}",
+			logger.debug("\ndataSource type : {}\nmyBatis configLocation : {}\nmyBatis mapperLocations : {}",
 					type,
 					configLocation,
 					StringUtils.arrayToCommaDelimitedString(mappers));

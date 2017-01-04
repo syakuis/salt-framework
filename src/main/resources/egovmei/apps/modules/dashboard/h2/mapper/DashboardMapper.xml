@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovmei.apps.modules.dashboard.mapper.DashboardEgovMapper">
+
+	<resultMap id="dashboard" type="egovmei.apps.modules.dashboard.domain.Dashboard">
+		<id property="dashboardIdx" column="dashboard_idx" />
+		<result property="title" column="title" />
+		<result property="marginX" column="margin_x" />
+		<result property="marginY" column="margin_y" />
+		<result property="paddingX" column="padding_x" />
+		<result property="paddingY" column="padding_y" />
+		<result property="height" column="height" />
+		<result property="layoutJsonFile" column="layout_json_file" />
+		<result property="layoutsJsonFile" column="layouts_json_file" />
+	</resultMap>
+
+	<select id="findAll" resultMap="dashboard">
+		SELECT * FROM dashboard
+	</select>
+
+	<select id="findOne" resultMap="dashboard">
+		SELECT * FROM dashboard
+		WHERE dashboard_idx = #{dashboardIdx}
+	</select>
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="dashboardIdx">
+		<selectKey keyProperty="dashboardIdx" resultType="string" order="BEFORE">
+			SELECT 'DASHBOARD' || LPAD(DASHBOARD_IDX_SEQ.NEXTVAL, 11, '0') FROM DUAL
+		</selectKey>
+
+		INSERT INTO dashboard (
+			dashboard_idx,
+			title,
+			margin_x,
+			margin_y,
+			padding_x,
+			padding_y,
+			height,
+			layout_json_file,
+			layouts_json_file
+		) VALUES (
+			#{dashboardIdx},
+			#{title},
+			#{marginX},
+			#{marginY},
+			#{paddingX},
+			#{paddingY},
+			#{height},
+			#{layoutJsonFile},
+			#{layoutsJsonFile}
+		)
+	</insert>
+
+</mapper>
