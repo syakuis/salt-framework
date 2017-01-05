@@ -1,9 +1,9 @@
-var fs = require('fs');
-var glob = require("glob");
-var path = require('path');
-var _ = require('lodash');
-
 /**
+ # 퍼미션 오류날 경우
+ sudo chown -R $USER:$GROUP ~/.npm
+ sudo chown -R $USER:$GROUP ~/.config
+ sudo chown -R $USER:$GROUP ~/.cache
+
  sudo npm install -g grunt-cli bower webpack webpack-dev-server
 
  npm install lodash grunt html-webpack-plugin extract-text-webpack-plugin grunt-contrib-copy grunt-contrib-concat grunt-contrib-uglify grunt-contrib-cssmin grunt-contrib-clean grunt-webpack grunt-install-dependencies grunt-bower-install-simple
@@ -16,7 +16,13 @@ var _ = require('lodash');
  install 과 deploy 는 모든 자원을 제거하기 때문에 자주 실행하지 않는 다.
 
  grunt update | rereact | redeploy
-**/
+ **/
+
+var fs = require('fs');
+var glob = require("glob");
+var path = require('path');
+var _ = require('lodash');
+
 module.exports = function(grunt) {
 
 	/*
@@ -63,34 +69,28 @@ module.exports = function(grunt) {
 
 	// 필요한 자원을 미리 정의된 정보를 이용하여 사용한다.
 	function getPackage(data, packages, type) {
-		var result = [];
-		for(var i in packages) {
-			var package = packages[i];
+		return _.reduce(packages, function(result, package) {
 
 			// package name 아닌 경우
 			if (/[\/]+/.test(package)) {
 				result = _.concat(result, package);
-				continue;
+			} else {
+				_.forEach(data, function(values, key) {
+					if (key === package) {
+						result = _.concat(result, values[type]);
+					}
+				})
 			}
 
-			_.forEach(data, function(values, key) {
-				if (key === package) {
-					result = _.concat(result, values[type]);
-				}
-			})
-		}
-
-		return result;
+			return result;
+		}, []);
 	}
 
 	// data 각 경로 앞에 dir 값을 추가하여 경로를 완성한다.
 	function getPackageAddDir(data, dir) {
-		var result = [];
-		_.forEach(data, function(value) {
-			result = _.concat(result, dir + value);
-		})
-
-		return result;
+		return _.reduce(data, function(result, value) {
+			return _.concat(result, dir + value);
+		}, []);
 	}
 
 	// ie9 하위 브라우저를 지원하기 위한 스크립트
@@ -262,6 +262,7 @@ module.exports = function(grunt) {
 			},
 			"update": {
 				options: {
+					forceLatest: true,
 					command: 'update'
 				}
 			}
@@ -303,47 +304,47 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-install-dependencies');
 	grunt.loadNpmTasks("grunt-bower-install-simple");
 
-	// 1. delete package.json
-	// 2. create package.json
-	// 3. npm update
+	// delete package.json
+	// create package.json
+	// npm update
 	grunt.registerTask('npm-install', [
 		'clean:npm',
 		'create-json:npm',
 		'install-dependencies'
 	]);
 
-	// 1. create package.json
-	// 2. npm update
+	// create package.json
+	// npm update
 	grunt.registerTask('npm-update', [
 		'create-json:npm',
 		'install-dependencies'
 	]);
 
-	// 1. delete bower_components
-	// 2. delete bower.json
-	// 3. create bower.json
-	// 4. bower install
+	// delete bower_components
+	// delete bower.json
+	// create bower.json
+	// bower install
 	grunt.registerTask('bower-install', [
 		'clean:bower',
 		'create-json:bower',
 		'bower-install-simple:install'
 	]);
 
-	// 1. create bower.json
-	// 2. bower update
+	// create bower.json
+	// bower update
 	grunt.registerTask('bower-update', [
 		'create-json:bower',
 		'bower-install-simple:update'
 	]);
 
-	// 1. delete react
-	// 2. webpack
+	// delete react
+	// webpack
 	// webpack can't use task name.
 	grunt.registerTask('react', [
 		'clean:webpack', 'rereact'
 	]);
 
-	// 1. webpack
+	// webpack
 	grunt.registerTask('rereact', [
 		'webpack'
 	]);
