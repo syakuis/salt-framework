@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 2017. 1. 3.
  */
 public class FileSystemSupportTest {
+	// thread safe test
 	AtomicInteger c;
 	Blitzer blitzer = new Blitzer(20, 5);
 

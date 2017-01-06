@@ -41,7 +41,6 @@ const saveDataConverter = (data) => {
 
 	return Object.assign({}, {
 		dashboard: {
-			title: 'goods',
 			marginX: data.layoutConfig.margin[0],
 			marginY: data.layoutConfig.margin[1],
 			paddingX: data.layoutConfig.containerPadding[0],

@@ -3,14 +3,14 @@
   "description": "saltframework javascript_library",
   "author": "Syaku (http://syaku.tistory.com)",
   "license": "MIT",
+  "version": "1.0.0",
   "config": {
-    "version": "1.0.0.RELEASE",
     "assets": "assets",
     "react": "assets/react",
     "deployPath": "../src/main/webapp/resources"
   },
   "scripts": {
-    "server": "webpack-dev-server --config webpack.dev.config.js"
+    "serv": "webpack-dev-server --config webpack.dev.config.js"
   },
   "devDependencies": {
     "glob": "^7.1.1",

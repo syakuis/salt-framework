@@ -4,18 +4,26 @@
  sudo chown -R $USER:$GROUP ~/.config
  sudo chown -R $USER:$GROUP ~/.cache
 
- sudo npm install -g grunt-cli bower webpack webpack-dev-server
+ sudo npm install -g grunt-cli bower
 
- npm install lodash grunt html-webpack-plugin extract-text-webpack-plugin grunt-contrib-copy grunt-contrib-concat grunt-contrib-uglify grunt-contrib-cssmin grunt-contrib-clean grunt-webpack grunt-install-dependencies grunt-bower-install-simple
+ # 최초 설치라면 bower_components, node_modules 폴더 삭제 후 설치한다. 그리고 bower.json, package.json 삭제한다.
+ package.root.json -> package.json 복사한다.
+ npm update
 
+ # 초기 설치
  grunt install
 
- grunt react
- grunt deploy
+ # 업데이트
+ grunt update
 
- install 과 deploy 는 모든 자원을 제거하기 때문에 자주 실행하지 않는 다.
+ # 리액트 빌드는 직접해야 한다.
+ grunt react | rereact
 
- grunt update | rereact | redeploy
+ # 배포 및 재배포
+ grunt deploy | redeploy
+
+ # 개별 빌드 작업.
+ grunt build | rebuild | react | rereact
  **/
 
 var fs = require('fs');
@@ -26,8 +34,8 @@ var _ = require('lodash');
 module.exports = function(grunt) {
 
 	/*
-		하위 전체 폴더에 bower.json 혹은 package.json 파일을 읽어서 설치할 패키지 정보를 수집하여 루트 경로에 bower.json 혹은 package.json 파일을 생성한다.
-		동일한 패키지 정보는 bower.root.json 혹은 package.root.json 정보가 최우선 설정된다.
+	 하위 전체 폴더에 bower.json 혹은 package.json 파일을 읽어서 설치할 패키지 정보를 수집하여 루트 경로에 bower.json 혹은 package.json 파일을 생성한다.
+	 동일한 패키지 정보는 bower.root.json 혹은 package.root.json 정보가 최우선 설정된다.
 	 */
 	grunt.registerMultiTask("create-json", "", function () {
 		var target = this.target;
@@ -40,17 +48,17 @@ module.exports = function(grunt) {
 			grunt.fail.warn("filename and rootFilename is required.");
 		}
 
-		var result = {};
-		var files = glob.sync("./+!(node_modules|bower_components)/**/*/" + filename);
-
-		_.forEach(files, function(file) {
+		// !(assets|node_modules|bower_components)/**/*/
+		// react 에 있는 소스만 조회한다.
+		var result = _.reduce(glob.sync("./react/**/*/" + filename), function(result, file) {
+			grunt.log.writeln(file);
 			var json = grunt.file.readJSON(file);
+			return _.merge(result, json);
+		}, {});
 
-			result = _.assign(result, { dependencies: json.dependencies, devDependencies: json.devDependencies });
-		});
-
-		result = _.assign(result, grunt.file.readJSON(rootFilename));
-		fs.writeFileSync(filename, JSON.stringify(result, null, 2));
+		fs.writeFileSync(filename, JSON.stringify(
+			_.merge(result, grunt.file.readJSON(rootFilename))
+			, null, 2));
 	});
 
 	var pkg = require('./package.root.json');
@@ -145,10 +153,9 @@ module.exports = function(grunt) {
 					'<%= assets %>/commons'
 				]
 			},
-			// node_modules 은 지울수 없다.
-			npm: {
+			deploy: {
 				src: [
-					'package.json'
+					'<%= deployPath %>/<%= assets %>'
 				]
 			},
 			bower: {
@@ -156,17 +163,17 @@ module.exports = function(grunt) {
 					'bower.json', './bower_components'
 				]
 			},
+			// node_modules 은 지울수 없다.
+			npm: {
+				src: [
+					'package.json'
+				]
+			},
 			webpack: {
 				src: [
 					'<%= react %>'
 				]
-			},
-			deploy: {
-				src: [
-					'<%= deployPath %>/<%= assets %>'
-				]
 			}
-
 		},
 
 		copy: {
@@ -186,11 +193,18 @@ module.exports = function(grunt) {
 					'commons/**/*.{png,jpg,jpeg,gif,webp,svg}'
 				]
 			},
-			css: {
+			other: {
 				expand: true,
 				dest: '<%= assets %>',
 				src: [
 					'commons/css/non-responsive.css'
+				]
+			},
+			deploy: {
+				expand: true,
+				dest: '<%= deployPath %>',
+				src: [
+					'<%= assets %>/**'
 				]
 			},
 			cssBasic: {
@@ -212,13 +226,6 @@ module.exports = function(grunt) {
 				expand: true,
 				dest: '<%= assets %>',
 				src: jsIE9
-			},
-			deploy: {
-				expand: true,
-				dest: '<%= deployPath %>',
-				src: [
-					'<%= assets %>/**'
-				]
 			}
 		},
 
@@ -256,13 +263,13 @@ module.exports = function(grunt) {
 			},
 			"install": {
 				options: {
-					forceLatest: true,
+					forceLatest: false,
 					command: 'install'
 				}
 			},
 			"update": {
 				options: {
-					forceLatest: true,
+					forceLatest: false,
 					command: 'update'
 				}
 			}
@@ -300,9 +307,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-webpack');
 	grunt.loadNpmTasks('grunt-install-dependencies');
 	grunt.loadNpmTasks("grunt-bower-install-simple");
+	grunt.loadNpmTasks('grunt-webpack');
 
 	// delete package.json
 	// create package.json
@@ -353,7 +360,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('assets', [
 		'copy:fonts',
 		'copy:images',
-		'copy:css'
+		'copy:other'
 	]);
 
 
@@ -402,10 +409,10 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('redeploy', [
-		'rereact', 'copy:deploy'
+		'copy:deploy'
 	]);
 
 	grunt.registerTask('deploy', [
-		'react', 'clean:deploy', 'copy:deploy'
+		'clean:deploy', 'copy:deploy'
 	]);
 };
