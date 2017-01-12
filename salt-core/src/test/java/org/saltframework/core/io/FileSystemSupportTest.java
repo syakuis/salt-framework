@@ -24,6 +24,8 @@ public class FileSystemSupportTest {
 	AtomicInteger c;
 	Blitzer blitzer = new Blitzer(20, 5);
 
+	String absolutePath = "/Users/syaku/develop/salt/files";
+
 	@Before
 	public void setUp() {
 		c = new AtomicInteger(0);
@@ -35,7 +37,7 @@ public class FileSystemSupportTest {
 	}
 
 	void task() throws IOException {
-		FileSystemSupport fileSystemSupport = new FileSystemSupport("/Users/syaku/develop/salt/files");
+		FileSystemSupport fileSystemSupport = new FileSystemSupport(absolutePath);
 		fileSystemSupport.setCategory(Category.attachments);
 		fileSystemSupport.setSystemCode(SystemCode.modules);
 		fileSystemSupport.setSystemName("test");
@@ -53,7 +55,7 @@ public class FileSystemSupportTest {
 	}
 
 	void generalTask(String text) throws IOException {
-		FileSystemSupport fileSystemSupport = new FileSystemSupport("/Users/syaku/develop/salt/files");
+		FileSystemSupport fileSystemSupport = new FileSystemSupport(absolutePath);
 		fileSystemSupport.setCategory(Category.caches);
 		fileSystemSupport.setSystemCode(SystemCode.general);
 		fileSystemSupport.setSystemName("test");

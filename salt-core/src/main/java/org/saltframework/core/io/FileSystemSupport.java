@@ -12,8 +12,6 @@ import java.io.IOException;
  * @since 2017. 1. 3.
  */
 public class FileSystemSupport extends AbstractFileSystem {
-	private Category category;
-	private SystemCode systemCode;
 	private String systemName;
 	private boolean rename = true;
 	private boolean dirDate = true;
@@ -27,13 +25,14 @@ public class FileSystemSupport extends AbstractFileSystem {
 	}
 
 	public void setSystemCode(SystemCode systemCode) {
-		this.systemCode = systemCode;
+		super.setSystemCode(systemCode);
 	}
 
 	public void setCategory(Category category) {
-		this.category = category;
+		super.setCategory(category);
 	}
 
+	@Override
 	public void setSystemName(String systemName) {
 		this.systemName = systemName;
 	}
@@ -58,12 +57,15 @@ public class FileSystemSupport extends AbstractFileSystem {
 
 	@Override
 	public FileSystem save(String fileName, byte[] bytes) throws IOException {
+		Category category = getCategory();
+		SystemCode systemCode = getSystemCode();
+
 		Assert.notNull(category);
 		Assert.notNull(systemCode);
 		Assert.notNull(systemName);
 
 		String absolutePath = getAbsolutePath();
-		String relativePath = getRelativePath(category, systemCode);
+		String relativePath = getRelativePath();
 
 		StringBuffer dirString = new StringBuffer(relativePath);
 

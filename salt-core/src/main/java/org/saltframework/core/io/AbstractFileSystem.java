@@ -18,8 +18,15 @@ import java.util.UUID;
  * 파일을 서버에 업로드할 때 지정된 경로에 항상 등록될 수 있게 경로를 표준화하여 제공한다.
  * 해당 경로에 업로드하지 않으면 모듈 혹은 프로그램간의 공유가 어려워 지거나 관리범위에 벗어나므로 관리할 수 없게 된다.
  *
- * /category/system/systemName/date/systemIdx/fileName
+ * -------------------------> getAbsolutePath
+ * @see Category 1st path
+ * @see SystemCode 2nd path
+ * -------------------------> getRelativePath
+ * 3rd systemName moduleName or pluginName or otherName
+ * 4rd user custom naming
+ * -------------------------> FileSystem.setDirPath 해당 경로를 백업해둬야 다시 읽을 수 있다.
  *
+ * /category/system/systemName/date/systemIdx/fileName
  * /category/modules/moduleName/y/m//d/idx/fileName
  * /attachments/modules/moduleName/y/m//d/idx/fileName
  * /temp/modules/moduleName/idx/fileName
@@ -33,6 +40,8 @@ import java.util.UUID;
 public abstract class AbstractFileSystem {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractFileSystem.class);
 	private final String absolutePath;
+	private Category category;
+	private SystemCode systemCode;
 
 	public AbstractFileSystem() {
 		this(PathUtils.getWebRootAbsolutePath());
@@ -42,8 +51,46 @@ public abstract class AbstractFileSystem {
 		this.absolutePath = absolutePath;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public SystemCode getSystemCode() {
+		return systemCode;
+	}
+
+	public void setSystemCode(SystemCode systemCode) {
+		this.systemCode = systemCode;
+	}
+
+	/**
+	 * 파일시스템 절대 경로
+	 *
+	 * @return the absolute path
+	 */
 	public String getAbsolutePath() {
 		return absolutePath;
+	}
+
+	/**
+	 * 상대경로를 완성한다.
+	 * /category/systemCode
+	 *
+	 * @return the relative path
+	 */
+	public String getRelativePath() {
+		Assert.notNull(this.category);
+		Assert.notNull(this.systemCode);
+
+		StringBuffer stringBuffer = new StringBuffer();
+		return stringBuffer.append(File.separator)
+				.append(category.name())
+				.append(File.separator)
+				.append(systemCode.name()).toString();
 	}
 
 	/**
@@ -53,7 +100,9 @@ public abstract class AbstractFileSystem {
 	 * @param category   1st path
 	 * @return the relative path
 	 */
-	protected String getRelativePath(Category category, SystemCode systemCode) {
+	public String getRelativePath(Category category, SystemCode systemCode) {
+		Assert.notNull(category);
+		Assert.notNull(systemCode);
 		StringBuffer stringBuffer = new StringBuffer();
 		return stringBuffer.append(File.separator)
 				.append(category.name())
@@ -66,7 +115,7 @@ public abstract class AbstractFileSystem {
 	 *
 	 * @return the date format path
 	 */
-	protected String getDateFormatPath() {
+	public String getDateFormatPath() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String date = format.format(new Date());
 		String[] dates = date.split("-");
@@ -96,19 +145,19 @@ public abstract class AbstractFileSystem {
 	 * @param dir the dir
 	 * @throws IOException the io exception
 	 */
-	protected void createDir(String dir) throws IOException {
+	public void createDir(String dir) throws IOException {
 		Files.createDirectories(Paths.get(dir));
 	}
 
-	protected void createFile(String file) throws IOException {
+	public void createFile(String file) throws IOException {
 		Files.createFile(Paths.get(file));
 	}
 
-	protected void createFile(File file) throws IOException {
+	public void createFile(File file) throws IOException {
 		file.createNewFile();
 	}
 
-	protected void wirteFile(File file, byte[] bytes) throws IOException {
+	public void wirteFile(File file, byte[] bytes) throws IOException {
 		BufferedOutputStream bufferedOutputStream = null;
 
 		try {
@@ -128,7 +177,7 @@ public abstract class AbstractFileSystem {
 	 * @param path     the path
 	 * @return the file only one
 	 */
-	protected File getFileOnlyOne(String filename, String path) throws IOException {
+	public File getFileOnlyOne(String filename, String path) throws IOException {
 		String fileRenaming = getFileReNameing(filename);
 		return new File(path + File.separator + fileRenaming);
 	}
@@ -139,12 +188,13 @@ public abstract class AbstractFileSystem {
 	 * @param fileName the file name
 	 * @return the file re nameing
 	 */
-	private String getFileReNameing(String fileName) {
+	public String getFileReNameing(String fileName) {
 		Assert.notNull(fileName);
 		StringBuffer stringBuffer = new StringBuffer(UUID.randomUUID().toString().replace("-", ""));
 		stringBuffer.append('.').append(FilenameUtils.getExtension(fileName).toLowerCase());
 		return stringBuffer.toString();
 	}
 
+	public abstract void setSystemName(String systemName);
 	public abstract FileSystem save(String fileName, byte[] bytes) throws IOException;
 }
