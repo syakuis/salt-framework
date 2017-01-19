@@ -1,13 +1,17 @@
 package org.saltframework.core.io;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.saltframework.core.io.enums.Category;
+import org.saltframework.core.io.enums.SystemCode;
 import org.saltframework.util.io.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -32,6 +36,9 @@ import java.util.UUID;
  * /temp/modules/moduleName/idx/fileName
  * /cache/plugins/pluginName/idx/fileName
  * /temp/general/targetName/idx/fileName
+ *
+ * 서버폴더명 설정하는 기눙 필요
+ * intiation 오타수정.
  *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
@@ -157,7 +164,7 @@ public abstract class AbstractFileSystem {
 		file.createNewFile();
 	}
 
-	public void wirteFile(File file, byte[] bytes) throws IOException {
+	public void writeFile(File file, byte[] bytes) throws IOException {
 		BufferedOutputStream bufferedOutputStream = null;
 
 		try {
@@ -196,5 +203,6 @@ public abstract class AbstractFileSystem {
 	}
 
 	public abstract void setSystemName(String systemName);
+	public abstract FileSystem initiation(String fileName) throws IOException;
 	public abstract FileSystem save(String fileName, byte[] bytes) throws IOException;
 }

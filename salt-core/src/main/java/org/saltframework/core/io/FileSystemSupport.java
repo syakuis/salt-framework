@@ -1,6 +1,8 @@
 package org.saltframework.core.io;
 
 import org.apache.commons.io.FilenameUtils;
+import org.saltframework.core.io.enums.Category;
+import org.saltframework.core.io.enums.SystemCode;
 import org.springframework.util.Assert;
 
 import java.io.File;
@@ -56,7 +58,7 @@ public class FileSystemSupport extends AbstractFileSystem {
 	}
 
 	@Override
-	public FileSystem save(String fileName, byte[] bytes) throws IOException {
+	public FileSystem initiation(String fileName) throws IOException {
 		Category category = getCategory();
 		SystemCode systemCode = getSystemCode();
 
@@ -90,8 +92,6 @@ public class FileSystemSupport extends AbstractFileSystem {
 
 		createFile(file);
 
-		wirteFile(file, bytes);
-
 		FileSystem fileSystem = new FileSystem(absolutePath, relativePath);
 		fileSystem.setDatePath(datePath);
 		fileSystem.setDirPath(dirPath);
@@ -101,6 +101,13 @@ public class FileSystemSupport extends AbstractFileSystem {
 		fileSystem.setVirtualFileName(file.getName());
 		fileSystem.setFileName(fileName);
 
+		return fileSystem;
+	}
+
+	@Override
+	public FileSystem save(String fileName, byte[] bytes) throws IOException {
+		FileSystem fileSystem = initiation(fileName);
+		writeFile(fileSystem.getFile(), bytes);
 		return fileSystem;
 	}
 }

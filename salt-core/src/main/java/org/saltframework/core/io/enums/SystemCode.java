@@ -1,4 +1,4 @@
-package org.saltframework.core.io;
+package org.saltframework.core.io.enums;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)

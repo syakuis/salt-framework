@@ -10,10 +10,10 @@ import egovmei.apps.modules.dashboard.domain.Portlet;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.saltframework.core.io.Category;
 import org.saltframework.core.io.FileSystem;
 import org.saltframework.core.io.FileSystemSupport;
-import org.saltframework.core.io.SystemCode;
+import org.saltframework.core.io.enums.Category;
+import org.saltframework.core.io.enums.SystemCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

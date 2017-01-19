@@ -5,8 +5,11 @@ import org.jmock.lib.concurrent.Blitzer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.saltframework.core.io.enums.Category;
+import org.saltframework.core.io.enums.SystemCode;
 import org.springframework.util.StopWatch;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -15,28 +18,55 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 1. ThreadSafe 테스트
+ * 2. FileSystemSupport 파일 생성 테스트
+ * 3. FileWrite 를 이용한 테스트
+ * 4. File 생성 테스트
+ *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
- * @site http://syaku.tistory.com
+ * @site http ://syaku.tistory.com
  * @since 2017. 1. 3.
  */
 public class FileSystemSupportTest {
-	// thread safe test
+	/**
+	 * The C.
+	 */
+// thread safe test
 	AtomicInteger c;
+	/**
+	 * The Blitzer.
+	 */
 	Blitzer blitzer = new Blitzer(20, 5);
 
+	/**
+	 * The Absolute path.
+	 */
 	String absolutePath = "/Users/syaku/develop/salt/files";
 
+	/**
+	 * Sets up.
+	 */
 	@Before
 	public void setUp() {
 		c = new AtomicInteger(0);
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
 	@After
 	public void tearDown() throws InterruptedException {
 		blitzer.shutdown();
 	}
 
-	void task() throws IOException {
+	/**
+	 * 새로운 파일을 생성한다.
+	 *
+	 * @throws IOException the io exception
+	 */
+	void modulesFileSystem() throws IOException {
 		FileSystemSupport fileSystemSupport = new FileSystemSupport(absolutePath);
 		fileSystemSupport.setCategory(Category.attachments);
 		fileSystemSupport.setSystemCode(SystemCode.modules);
@@ -54,7 +84,13 @@ public class FileSystemSupportTest {
 		System.out.printf(fileSystem.toString());
 	}
 
-	void generalTask(String text) throws IOException {
+	/**
+	 * 새로운 파일을 생성한다. 기존에 있으면 덮어쓴다.
+	 *
+	 * @param text the text
+	 * @throws IOException the io exception
+	 */
+	void generalFileSystem(String text) throws IOException {
 		FileSystemSupport fileSystemSupport = new FileSystemSupport(absolutePath);
 		fileSystemSupport.setCategory(Category.caches);
 		fileSystemSupport.setSystemCode(SystemCode.general);
@@ -75,8 +111,13 @@ public class FileSystemSupportTest {
 		System.out.printf(fileSystem.toString());
 	}
 
+	/**
+	 * FileSystem ThreadSafe 테스트
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
-	public void save() throws Exception {
+	public void fileSystemThreadSafe() throws Exception {
 		StopWatch sw = new StopWatch();
 		sw.start();
 		blitzer.blitz(new Runnable() {
@@ -84,8 +125,8 @@ public class FileSystemSupportTest {
 				c.getAndIncrement();
 				System.out.println(Thread.currentThread().getName() + ": done");
 				try {
-					task();
-					generalTask(Thread.currentThread().getName());
+					modulesFileSystem();
+					generalFileSystem(Thread.currentThread().getName());
 				} catch (IOException e) {
 					System.out.printf("=====================> " + e.getMessage());
 				}
@@ -93,6 +134,28 @@ public class FileSystemSupportTest {
 			}
 		});// end thread
 		sw.stop();
+	}
+
+	/**
+	 * FileWrite 를 이용한 기존 파일 내용 추가하기.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void fileWrite() throws Exception {
+		FileSystemSupport fileSystemSupport = new FileSystemSupport(absolutePath);
+		fileSystemSupport.setCategory(Category.caches);
+		fileSystemSupport.setSystemCode(SystemCode.general);
+		fileSystemSupport.setSystemName("test");
+		fileSystemSupport.setRename(false);
+		fileSystemSupport.setDirDate(false);
+
+		FileSystem fileSystem = fileSystemSupport.initiation("test2.json");
+		for(int i = 0; i < 100; i++) {
+			FileWriter fileWriter = new FileWriter(fileSystem.getFile(), true);
+			fileWriter.write("good\n");
+			fileWriter.close();
+		}
 	}
 
 }
