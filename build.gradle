@@ -25,6 +25,7 @@ configure(allprojects) {
 	}
 
 	ext {
+		saltVersion = '1.0.0.BETA'
 		slf4jVersion = '1.7.21'
 		junitVersion = '4.12'
 
@@ -93,7 +94,7 @@ configure(allprojects) {
 
 project(':salt-core') {
 	group 'org.saltframework'
-	version '1.0.0.RELEASE'
+	version "${saltVersion}"
 
 	dependencies {
 
@@ -107,7 +108,7 @@ project(':salt-core') {
 
 project(':salt-web') {
 	group 'org.saltframework'
-	version '1.0.0.RELEASE'
+	version "${saltVersion}"
 
 	dependencies {
 		compile project(':salt-core')
