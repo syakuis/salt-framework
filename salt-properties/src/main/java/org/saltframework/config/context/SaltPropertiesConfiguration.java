@@ -1,4 +1,4 @@
-package org.saltframework.config;
+package org.saltframework.config.context;
 
 import org.saltframework.beans.factory.config.SaltPropertiesConfigurer;
 import org.springframework.context.annotation.Bean;

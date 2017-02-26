@@ -19,8 +19,4 @@ import org.springframework.context.annotation.FilterType;
 		includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 )
 public class BootstrapConfiguration {
-	@Bean
-	public static ConfigurePropertiesConfigurer configurePropertiesConfigurer() {
-		return new ConfigurePropertiesConfigurer();
-	}
 }
