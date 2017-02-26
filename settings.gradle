@@ -2,4 +2,4 @@ rootProject.name = 'salt'
 
 include 'salt-core'
 include 'salt-web'
-
+include 'salt-properties'
