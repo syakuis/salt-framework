@@ -18,8 +18,8 @@ import java.util.*;
  * @site http://syaku.tistory.com
  * @since 2016. 11. 18.
  */
-public final class InitializeProperties {
-	private static final Logger logger = LoggerFactory.getLogger(InitializeProperties.class);
+public final class InitializeSaltProperties {
+	private static final Logger logger = LoggerFactory.getLogger(InitializeSaltProperties.class);
 	private static final String CHARSET_NAME = "charset";
 
 	private final Environment environment;
@@ -27,7 +27,7 @@ public final class InitializeProperties {
 	private String fileEncoding = Charset.defaultCharset().name();
 	private Properties properties;
 
-	protected InitializeProperties(Environment environment, String[] locations) {
+	protected InitializeSaltProperties(Environment environment, String[] locations) {
 		this.environment = environment;
 		this.locations = locations;
 	}

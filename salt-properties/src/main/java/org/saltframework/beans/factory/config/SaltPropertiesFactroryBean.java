@@ -48,7 +48,7 @@ public class SaltPropertiesFactroryBean implements FactoryBean<Properties>, Envi
 	 */
 	@Override
 	public Properties getObject() {
-		InitializeProperties initializingProperties = new InitializeProperties(environment, locations);
+		InitializeSaltProperties initializingProperties = new InitializeSaltProperties(environment, locations);
 		initializingProperties.setFileEncoding(fileEncoding);
 		initializingProperties.afterPostProcessor();
 		return initializingProperties.getProperties();
