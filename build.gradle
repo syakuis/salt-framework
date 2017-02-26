@@ -18,7 +18,7 @@ configure(allprojects) {
 	apply plugin: 'propdeps-idea'
 
 	sourceCompatibility = 1.7
-	targetCompatibility = 1.7
+	targetCompatibility = 1.8
 
 	repositories {
 		mavenCentral()
@@ -116,6 +116,24 @@ project(':salt-properties') {
 
 	jar {
 		baseName = 'salt-properties'
+		version =  version
+	}
+}
+
+project(':salt-store') {
+	group 'org.saltframework'
+	version "${saltVersion}"
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+	dependencies {
+		compile project(':salt-core')
+		compile project(':salt-properties')
+	}
+
+	jar {
+		baseName = 'salt-store'
 		version =  version
 	}
 }
