@@ -125,7 +125,6 @@ project(':salt-store') {
 	version "${saltVersion}"
 
 	dependencies {
-		compile project(':salt-core')
 		compile project(':salt-properties')
 	}
 
