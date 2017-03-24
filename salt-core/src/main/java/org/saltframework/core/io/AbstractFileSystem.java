@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * 파일을 서버에 업로드할 때 지정된 경로에 항상 등록될 수 있게 경로를 표준화하여 제공한다.
+ * 일반화된 경로를 이용하여 파일을 저장하거나 경로를 얻을 수 있다.
  * 해당 경로에 업로드하지 않으면 모듈 혹은 프로그램간의 공유가 어려워 지거나 관리범위에 벗어나므로 관리할 수 없게 된다.
  *
  * -------------------------> getAbsolutePath
@@ -36,9 +36,6 @@ import java.util.UUID;
  * /temp/modules/moduleName/idx/fileName
  * /cache/plugins/pluginName/idx/fileName
  * /temp/general/targetName/idx/fileName
- *
- * 서버폴더명 설정하는 기눙 필요
- * intiation 오타수정.
  *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
@@ -93,8 +90,7 @@ public abstract class AbstractFileSystem {
 		Assert.notNull(this.category);
 		Assert.notNull(this.systemCode);
 
-		StringBuffer stringBuffer = new StringBuffer();
-		return stringBuffer.append(File.separator)
+		return new StringBuffer().append(File.separator)
 				.append(category.name())
 				.append(File.separator)
 				.append(systemCode.name()).toString();
@@ -110,8 +106,7 @@ public abstract class AbstractFileSystem {
 	public String getRelativePath(Category category, SystemCode systemCode) {
 		Assert.notNull(category);
 		Assert.notNull(systemCode);
-		StringBuffer stringBuffer = new StringBuffer();
-		return stringBuffer.append(File.separator)
+		return new StringBuffer().append(File.separator)
 				.append(category.name())
 				.append(File.separator)
 				.append(systemCode.name()).toString();
@@ -131,8 +126,7 @@ public abstract class AbstractFileSystem {
 		String month = dates[1];
 		String day = dates[2];
 
-		StringBuffer stringBuffer = new StringBuffer();
-		String result = stringBuffer.append(File.separator)
+		String result = new StringBuffer().append(File.separator)
 				.append(year)
 				.append(File.separator)
 				.append(month)
