@@ -7,18 +7,8 @@
 		</layout>
 	</appender>
 
-	<logger name="java.sql" level="error" />
-	<logger name="jdbc.sqlonly" level="debug" />
-	<logger name="jdbc.sqltiming" level="debug" />
-	<logger name="jdbc.audit" level="error" />
-	<logger name="jdbc.resultset" level="error" />
-
 	<logger name="org.springframework" level="info" />
 	<logger name="org.saltframework" level="debug" />
-
-	<logger name="egovframework" level="error" />
-
-	<logger name="egovmei" level="debug" />
 
 	<root level="debug">
 		<appender-ref ref="STDOUT" />

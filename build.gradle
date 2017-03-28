@@ -25,7 +25,7 @@ configure(allprojects) {
 	}
 
 	ext {
-		saltVersion = '1.0.0.BETA'
+		saltVersion = '1.0.0.RC1'
 		slf4jVersion = '1.7.21'
 		junitVersion = '4.12'
 
@@ -92,7 +92,7 @@ configure(allprojects) {
 	}
 }
 
-project(':salt-core') {
+project(':salt-commons') {
 	group 'org.saltframework'
 	version "${saltVersion}"
 
@@ -101,58 +101,7 @@ project(':salt-core') {
 	}
 
 	jar {
-		baseName = 'salt-core'
-		version =  version
-	}
-}
-
-project(':salt-properties') {
-	group 'org.saltframework'
-	version "${saltVersion}"
-
-	dependencies {
-		compile project(':salt-core')
-	}
-
-	jar {
-		baseName = 'salt-properties'
-		version =  version
-	}
-}
-
-project(':salt-store') {
-	group 'org.saltframework'
-	version "${saltVersion}"
-
-	dependencies {
-		compile project(':salt-properties')
-	}
-
-	jar {
-		baseName = 'salt-store'
-		version =  version
-	}
-}
-
-project(':salt-web') {
-	group 'org.saltframework'
-	version "${saltVersion}"
-
-	dependencies {
-		compile project(':salt-core')
-
-		compile "org.springframework:spring-webmvc:$springVersion"
-
-		provided 'javax.servlet:javax.servlet-api:3.0.1',
-				'javax.el:javax.el-api:2.2.4'
-
-		compile 'org.freemarker:freemarker:2.3.23'
-
-		compile 'org.hibernate:hibernate-validator:5.1.1.Final'
-	}
-
-	jar {
-		baseName = 'salt-web'
+		baseName = 'salt-commons'
 		version =  version
 	}
 }
@@ -160,61 +109,15 @@ project(':salt-web') {
 configure(rootProject) {
 	apply plugin: 'war'
 
-	group 'egovmei'
-	version '3.0.0.RELEASE'
-
-	ext {
-		egovVersion = '3.5.0'
-	}
-
-	repositories {
-		maven {
-			name 'egovframe'
-			url 'http://www.egovframe.go.kr/maven/'
-		}
-	}
-
 	dependencies {
-		compile project(':salt-core')
-		compile project(':salt-web')
+		compile project(':salt-commons')
 
 		compile('javax.servlet:jstl:1.2') {
 			exclude group: 'javax.servlet', module: 'servlet-api'
 		}
 
-		compile "org.springframework:spring-webmvc:$springVersion"
-
 		providedCompile 'javax.servlet:javax.servlet-api:3.0.1',
-				'javax.servlet.jsp:jsp-api:2.1',
-				'javax.el:javax.el-api:2.2.4'
-
-		compile ("egovframework.rte:egovframework.rte.fdl.cmmn:${egovVersion}") {
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
-		}
-		compile ("egovframework.rte:egovframework.rte.fdl.idgnr:${egovVersion}") {
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
-		}
-		compile ("egovframework.rte:egovframework.rte.fdl.logging:${egovVersion}") {
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
-		}
-		compile ("egovframework.rte:egovframework.rte.fdl.property:${egovVersion}") {
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
-		}
-		compile ("egovframework.rte:egovframework.rte.fdl.string:${egovVersion}") {
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
-		}
-		compile ("egovframework.rte:egovframework.rte.psl.dataaccess:${egovVersion}") {
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
-		}
-		compile ("egovframework.rte:egovframework.rte.ptl.mvc:${egovVersion}") {
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
-		}
+						'javax.servlet.jsp:jsp-api:2.1',
+						'javax.el:javax.el-api:2.2.4'
 	}
 }
