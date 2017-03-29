@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -124,7 +125,7 @@ public class InitializingConfigureProperties {
 	 * http://www.network-science.de/ascii/
 	 * standard type smslant slant
 	 */
-	private void intro() {
+	private void intro() throws IOException {
 		StringBuilder print = new StringBuilder();
 
 		print.append("\n_________________________________________________________________________\n");
@@ -154,6 +155,10 @@ public class InitializingConfigureProperties {
 		print.append("_________________________________________________________________________\n\n");
 
 		logger.warn(print.toString());
+
+		Resource resource = new ClassPathResource("org/saltframework/config/salt.properties");
+
+		logger.warn(resource.getURI().getPath());
 
 		if (logger.isDebugEnabled()) {
 			Iterator<String> iterator = properties.stringPropertyNames().iterator();

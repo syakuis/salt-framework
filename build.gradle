@@ -24,6 +24,13 @@ configure(allprojects) {
 		mavenCentral()
 	}
 
+	pmd {
+		ignoreFailures = true
+		reportsDir = file("$project.buildDir/reports/pmd")
+		ruleSetFiles = files('pmd.ruleset.xml')
+		sourceSets = [sourceSets.main]
+	}
+
 	ext {
 		saltVersion = '1.0.0.RC1'
 		slf4jVersion = '1.7.21'
