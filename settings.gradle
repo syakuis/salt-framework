@@ -1,3 +1,5 @@
 rootProject.name = 'salt'
+
 include 'salt-commons'
+include 'salt-web'
 

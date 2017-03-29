@@ -97,12 +97,28 @@ project(':salt-commons') {
 	version "${saltVersion}"
 
 	dependencies {
-
+		testCompile "org.springframework:spring-webmvc:$springVersion"
 	}
 
 	jar {
 		baseName = 'salt-commons'
-		version =  version
+		version = version
+	}
+}
+
+project(':salt-web') {
+	group 'org.saltframework'
+	version "${saltVersion}"
+
+	dependencies {
+		compile project(':salt-commons')
+
+		compile "org.springframework:spring-webmvc:$springVersion"
+	}
+
+	jar {
+		baseName = 'salt-web'
+		version = version
 	}
 }
 
@@ -111,6 +127,7 @@ configure(rootProject) {
 
 	dependencies {
 		compile project(':salt-commons')
+		compile project(':salt-web')
 
 		compile('javax.servlet:jstl:1.2') {
 			exclude group: 'javax.servlet', module: 'servlet-api'
