@@ -1,4 +1,4 @@
-package org.saltframework.boot.properties;
+package org.saltframework.boot;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -27,10 +27,7 @@ public final class Config {
 	private int cacheSeconds;
 	private String[] resourcesPath;
 
-	private String viewResolverType;
 	private boolean viewResolverCache;
-	private String viewResolverPrefix;
-	private String viewResolverSuffix;
 
 	private String freemarkerTemplateLoaderPath;
 	private boolean freemarkerExposeSpringMacroHelpers;
@@ -48,11 +45,7 @@ public final class Config {
 		profiles = StringUtils.delimitedListToStringArray(properties.getProperty("profiles"), ",");
 		resourcesPath = StringUtils.delimitedListToStringArray(properties.getProperty("resourcesPath"), ",");
 
-		viewResolverType = properties.getProperty("viewResolverType");
-
 		viewResolverCache = Boolean.parseBoolean(properties.getProperty("viewResolverCache"));
-		viewResolverPrefix = properties.getProperty("viewResolverPrefix");
-		viewResolverSuffix = properties.getProperty("viewResolverSuffix");
 
 		freemarkerTemplateLoaderPath = properties.getProperty("freemarkerTemplateLoaderPath");
 		freemarkerExposeSpringMacroHelpers = Boolean.parseBoolean(properties.getProperty("freemarkerExposeSpringMacroHelpers"));

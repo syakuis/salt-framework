@@ -1,6 +1,6 @@
 package org.saltframework.boot.config;
 
-import org.saltframework.boot.properties.Config;
+import org.saltframework.boot.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 /**
@@ -59,26 +57,14 @@ public class WebServletConfiguration extends WebMvcConfigurerAdapter implements 
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
+		FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
+		viewResolver.setExposeSpringMacroHelpers(config.isFreemarkerExposeSpringMacroHelpers());
 
-		if ("jsp".equals(config.getViewResolverType())) {
-			InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-			viewResolver.setViewClass(JstlView.class);
-			viewResolver.setContentType("text/html; charset=" + config.getCharset() +";");
-			viewResolver.setCache(config.isViewResolverCache());
-			viewResolver.setPrefix(config.getViewResolverPrefix());
-			viewResolver.setSuffix(config.getViewResolverSuffix());
+		viewResolver.setContentType("text/html; charset=" + config.getCharset() +";");
+		viewResolver.setCache(config.isViewResolverCache());
+		viewResolver.setPrefix("");
+		viewResolver.setSuffix(".ftl");
 
-			registry.viewResolver(viewResolver);
-		} else {
-			FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
-			viewResolver.setExposeSpringMacroHelpers(config.isFreemarkerExposeSpringMacroHelpers());
-
-			viewResolver.setContentType("text/html; charset=" + config.getCharset() +";");
-			viewResolver.setCache(config.isViewResolverCache());
-			viewResolver.setPrefix(config.getViewResolverPrefix());
-			viewResolver.setSuffix(config.getViewResolverSuffix());
-
-			registry.viewResolver(viewResolver);
-		}
+		registry.viewResolver(viewResolver);
 	}
 }

@@ -15,17 +15,4 @@
 		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation" />
 	</context:component-scan>
 
-	<mvc:interceptors>
-		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-			<property name="cacheSeconds" value="0" />
-		</bean>
-	</mvc:interceptors>
-
-	<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-		<property name="contentType" value="text/html; charset=#{config.charset}" />
-		<property name="cache" value="#{config.viewResolverCache}"/>
-		<property name="prefix" value="#{config.viewResolverPrefix}"/>
-		<property name="suffix" value="#{config.viewResolverSuffix}"/>
-		<property name="exposeSpringMacroHelpers" value="#{config.freemarkerExposeSpringMacroHelpers}" />
-	</bean>
 </beans>

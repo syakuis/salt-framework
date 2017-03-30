@@ -1,6 +1,7 @@
 package org.saltframework.boot.properties;
 
 import org.apache.commons.lang3.StringUtils;
+import org.saltframework.boot.Config;
 import org.saltframework.boot.enums.Profile;
 import org.saltframework.util.io.PathMatchingResourceResolver;
 import org.slf4j.Logger;
@@ -144,7 +145,6 @@ public class InitializingConfigureProperties {
 		print.append("* Encoding: " + config.getCharset()).append("\n");
 		print.append("* Profile: " + config.getProfile()).append("\n");
 		print.append("* Profiles: " + properties.getProperty("profiles")).append("\n");
-		print.append("* Template: " + config.getViewResolverType()).append("\n");
 		print.append("_________________________________________________________________________\n\n");
 
 		logger.warn(print.toString());

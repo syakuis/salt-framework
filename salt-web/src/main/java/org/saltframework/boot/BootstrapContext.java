@@ -1,14 +1,11 @@
 package org.saltframework.boot;
 
 import org.saltframework.beans.factory.config.ConfigurePropertiesConfigurer;
-import org.saltframework.boot.properties.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-
-import java.util.Properties;
 
 /**
  * @author Seok Kyun. Choi. 최석균 (Syaku)
@@ -23,9 +20,6 @@ import java.util.Properties;
 		includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 )
 public class BootstrapContext {
-	@Autowired
-	private Config config;
-
 	@Bean
 	public static ConfigurePropertiesConfigurer configurePropertiesConfigurer() {
 		return new ConfigurePropertiesConfigurer();

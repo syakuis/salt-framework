@@ -1,6 +1,6 @@
 package org.saltframework.boot.config;
 
-import org.saltframework.boot.properties.Config;
+import org.saltframework.boot.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,7 +35,10 @@ public class WebApplicationConfiguration {
 	@Bean(name ="freemarkerConfig")
 	public FreeMarkerConfigurer freeMarkerConfigurer() {
 		FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-		configurer.setTemplateLoaderPath(config.getFreemarkerTemplateLoaderPath());
+		configurer.setTemplateLoaderPaths(
+				"classpath:/META-INF/resources/WEB-INF/views/",
+				config.getFreemarkerTemplateLoaderPath()
+		);
 		configurer.setDefaultEncoding(config.getCharset());
 
 		Properties properties = new Properties();

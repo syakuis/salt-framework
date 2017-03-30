@@ -1,6 +1,6 @@
 package org.saltframework.beans.factory;
 
-import org.saltframework.boot.properties.Config;
+import org.saltframework.boot.Config;
 import org.saltframework.boot.properties.InitializingConfigureProperties;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.EnvironmentAware;
