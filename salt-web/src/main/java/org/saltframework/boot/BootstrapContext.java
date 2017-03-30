@@ -1,6 +1,7 @@
 package org.saltframework.boot;
 
 import org.saltframework.beans.factory.config.ConfigurePropertiesConfigurer;
+import org.saltframework.boot.properties.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,7 +24,7 @@ import java.util.Properties;
 )
 public class BootstrapContext {
 	@Autowired
-	private Properties config;
+	private Config config;
 
 	@Bean
 	public static ConfigurePropertiesConfigurer configurePropertiesConfigurer() {

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<mvc:annotation-driven />
+	<aop:aspectj-autoproxy/>
+
+	<context:component-scan base-package="egovmei" use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation" />
+	</context:component-scan>
+
+	<mvc:interceptors>
+		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+			<property name="cacheSeconds" value="0" />
+		</bean>
+	</mvc:interceptors>
+
+	<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=#{config.charset}" />
+		<property name="cache" value="#{config.viewResolverCache}"/>
+		<property name="prefix" value="#{config.viewResolverPrefix}"/>
+		<property name="suffix" value="#{config.viewResolverSuffix}"/>
+		<property name="exposeSpringMacroHelpers" value="#{config.freemarkerExposeSpringMacroHelpers}" />
+	</bean>
+</beans>

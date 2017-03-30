@@ -8,6 +8,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.beans.factory.support.RootBeanDefinition;
 
 /**
+ * spring bean 으로 생성된 salt.properties 를 spring lifecycle 최우선적으로 로도되게 한다.
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2017. 3. 29.

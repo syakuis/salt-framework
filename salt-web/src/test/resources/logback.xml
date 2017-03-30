@@ -9,7 +9,6 @@
 
 	<logger name="org.springframework" level="info" />
 	<logger name="org.saltframework" level="debug" />
-	<logger name="egovmei" level="debug" />
 
 	<root level="debug">
 		<appender-ref ref="STDOUT" />

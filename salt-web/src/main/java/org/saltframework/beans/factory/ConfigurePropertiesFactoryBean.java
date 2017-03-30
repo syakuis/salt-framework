@@ -1,18 +1,18 @@
 package org.saltframework.beans.factory;
 
+import org.saltframework.boot.properties.Config;
 import org.saltframework.boot.properties.InitializingConfigureProperties;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
-import java.util.Properties;
-
 /**
+ * salt.properties 를 spring bean 으로 생성한다.
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2017. 3. 29.
  */
-public class ConfigurePropertiesFactoryBean implements FactoryBean<Properties>, EnvironmentAware {
+public class ConfigurePropertiesFactoryBean implements FactoryBean<Config>, EnvironmentAware {
 	private Environment environment;
 	private String fileEncoding;
 
@@ -32,7 +32,7 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Properties>, 
 	 * @return the properties
 	 */
 	@Override
-	public Properties getObject() {
+	public Config getObject() {
 
 		String[] locations = new String[]{
 				"classpath*:org/saltframework/config/salt.properties",
@@ -43,12 +43,12 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Properties>, 
 		InitializingConfigureProperties initializingGeneralProperties = new InitializingConfigureProperties(environment, locations);
 		initializingGeneralProperties.setFileEncoding(fileEncoding);
 		initializingGeneralProperties.afterPostProcessor();
-		return initializingGeneralProperties.getProperties();
+		return initializingGeneralProperties.getConfig();
 	}
 
 	@Override
-	public Class<Properties> getObjectType() {
-		return Properties.class;
+	public Class<Config> getObjectType() {
+		return Config.class;
 	}
 
 	@Override

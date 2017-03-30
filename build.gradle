@@ -60,6 +60,8 @@ configure(allprojects) {
 				'org.apache.commons:commons-collections4:4.1',
 				'commons-io:commons-io:2.5'
 
+		compile 'org.projectlombok:lombok:1.16.16'
+
 		compile "org.aspectj:aspectjweaver:${aspectjVersion}"
 
 		compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}",
@@ -70,25 +72,8 @@ configure(allprojects) {
 		compile "org.springframework:spring-context:$springVersion",
 				"org.springframework:spring-context-support:$springVersion"
 
-		compile 'com.h2database:h2:1.4.191'
-
-		compile "org.springframework:spring-jdbc:${springVersion}",
-				"org.springframework:spring-orm:${springVersion}",
-				"org.springframework:spring-tx:${springVersion}",
-				'org.apache.commons:commons-dbcp2:2.1.1',
-				'com.googlecode.log4jdbc:log4jdbc:1.2'
-
-		compile "org.mybatis:mybatis:${mybatisVersion}",
-				"org.mybatis:mybatis-spring:${mybatisSpringVersion}"
-
-		compile "org.hibernate:hibernate-entitymanager:${hibernateVersion}",
-				"org.springframework.data:spring-data-jpa:${springDataJpaVersion}"
-
 		compile "net.sf.ehcache:ehcache:${ehcacheVersion}"
 
-		provided 'javax.servlet:javax.servlet-api:3.0.1',
-				'javax.servlet.jsp:jsp-api:2.1',
-				'javax.el:javax.el-api:2.2.4'
 	}
 }
 
@@ -114,6 +99,26 @@ project(':salt-web') {
 		compile project(':salt-commons')
 
 		compile "org.springframework:spring-webmvc:$springVersion"
+
+		compile 'org.freemarker:freemarker:2.3.23'
+
+		compile 'com.h2database:h2:1.4.191'
+
+		compile "org.springframework:spring-jdbc:${springVersion}",
+				"org.springframework:spring-orm:${springVersion}",
+				"org.springframework:spring-tx:${springVersion}",
+				'org.apache.commons:commons-dbcp2:2.1.1',
+				'com.googlecode.log4jdbc:log4jdbc:1.2'
+
+		compile "org.mybatis:mybatis:${mybatisVersion}",
+				"org.mybatis:mybatis-spring:${mybatisSpringVersion}"
+
+		compile "org.hibernate:hibernate-entitymanager:${hibernateVersion}",
+				"org.springframework.data:spring-data-jpa:${springDataJpaVersion}"
+
+		testCompile 'javax.servlet:javax.servlet-api:3.0.1',
+					'javax.servlet.jsp:jsp-api:2.1',
+					'javax.el:javax.el-api:2.2.4'
 	}
 
 	jar {
@@ -124,6 +129,17 @@ project(':salt-web') {
 
 configure(rootProject) {
 	apply plugin: 'war'
+
+	ext {
+		egovVersion = '3.5.0'
+	}
+
+	repositories {
+		maven {
+			name 'egovframe'
+			url 'http://www.egovframe.go.kr/maven/'
+		}
+	}
 
 	dependencies {
 		compile project(':salt-commons')
@@ -136,5 +152,34 @@ configure(rootProject) {
 		providedCompile 'javax.servlet:javax.servlet-api:3.0.1',
 						'javax.servlet.jsp:jsp-api:2.1',
 						'javax.el:javax.el-api:2.2.4'
+
+		compile ("egovframework.rte:egovframework.rte.fdl.cmmn:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.idgnr:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.logging:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.property:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.fdl.string:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.psl.dataaccess:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
+		compile ("egovframework.rte:egovframework.rte.ptl.mvc:${egovVersion}") {
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+			exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
+		}
 	}
 }

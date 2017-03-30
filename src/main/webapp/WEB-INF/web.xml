@@ -4,7 +4,7 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-	<display-name>Springframework</display-name>
+	<display-name>Saltframework</display-name>
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -48,7 +48,7 @@
 	</listener>
 
 	<servlet>
-		<servlet-name>Springframework WEB</servlet-name>
+		<servlet-name>salt-web</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<!-- spring configuration annotation
 		<init-param>
@@ -61,11 +61,11 @@
 		</init-param> -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/servlet/*-servlet.xml</param-value>
+			<param-value>/WEB-INF/config/servlet/*-servlet.xml</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Springframework WEB</servlet-name>
+		<servlet-name>salt-web</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 

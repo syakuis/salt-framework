@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 /**
- * 프레임워크를 구동하기 위한 설정 정보를 초기화한다.
+ * salt.properties to instance.
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  * @since 2016. 11. 18.
@@ -26,7 +26,7 @@ public class InitializingConfigureProperties {
 	private final Environment environment;
 	private final String[] locations;
 	private String fileEncoding = Charset.defaultCharset().name();
-	private Properties properties;
+	private Config config;
 
 	public InitializingConfigureProperties(Environment environment, String[] locations) {
 		this.environment = environment;
@@ -87,25 +87,24 @@ public class InitializingConfigureProperties {
 
 			propertiesFactoryBean.afterPropertiesSet();
 
-			this.properties = propertiesFactoryBean.getObject();
+			Properties properties = propertiesFactoryBean.getObject();
 
-			properties.setProperty("config.profiles", StringUtils.join(profiles, ","));
-			properties.setProperty("config.profile", profile);
-			properties.setProperty("config.charset", fileEncoding);
+			properties.setProperty("profiles", StringUtils.join(profiles, ","));
+			properties.setProperty("profile", profile);
+			properties.setProperty("charset", fileEncoding);
 
-			properties.setProperty("config.timeZone", TimeZone.getDefault().getID());
-
+			TimeZone timeZone = TimeZone.getDefault();
 			Locale locale = Locale.getDefault();
-			properties.setProperty("config.locale", locale.getLanguage());
 
-			intro();
+			this.config = new Config(properties, timeZone, locale);
+			intro(properties);
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
 
-	public Properties getProperties() {
-		return this.properties;
+	public Config getConfig() {
+		return config;
 	}
 
 	private String getProfile(Environment env) {
@@ -124,7 +123,7 @@ public class InitializingConfigureProperties {
 	 * http://www.network-science.de/ascii/
 	 * standard type smslant slant
 	 */
-	private void intro() {
+	private void intro(Properties properties) {
 		StringBuilder print = new StringBuilder();
 
 		print.append("\n_________________________________________________________________________\n");
@@ -133,24 +132,19 @@ public class InitializingConfigureProperties {
 		print.append("  / __/___ _ / // /_ / __/____ ___ _ __ _  ___  _    __ ___   ____ / /__\n");
 		print.append(" _\\ \\ / _ `// // __// _/ / __// _ `//  ' \\/ -_)| |/|/ // _ \\ / __//  '_/\n");
 		print.append("/___/ \\_,_//_/ \\__//_/  /_/   \\_,_//_/_/_/\\__/ |__,__/ \\___//_/  /_/\\_\\\n");
-		print.append("                                                  version " + properties.getProperty("config.version"));
+		print.append("                                                  version " + config.getVersion());
 		print.append("\n                                                                         \n");
 		print.append("                                                                         \n");
 		print.append("                           Salt Framework by 52572 49437 44512   \n");
 		print.append("                                                                         \n");
 		print.append("_________________________________________________________________________\n\n");
-		print.append("* Locale: " + properties.getProperty("config.locale"));
-		print.append("\n");
-		print.append("* TimeZone: " + properties.getProperty("config.timeZone"));
-		print.append("\n");
-		print.append("* Date: " + new Date());
-		print.append("\n");
-		print.append("* Encoding: " + properties.getProperty("config.charset"));
-		print.append("\n");
-		print.append("* Profile: " + properties.getProperty("config.profile"));
-		print.append("\n");
-		print.append("* Profiles: " + properties.getProperty("config.profiles"));
-		print.append("\n");
+		print.append("* Locale: " + config.getLocale().getLanguage()).append("\n");
+		print.append("* TimeZone: " + config.getTimeZone().getID()).append("\n");
+		print.append("* Date: " + new Date()).append("\n");
+		print.append("* Encoding: " + config.getCharset()).append("\n");
+		print.append("* Profile: " + config.getProfile()).append("\n");
+		print.append("* Profiles: " + properties.getProperty("profiles")).append("\n");
+		print.append("* Template: " + config.getViewResolverType()).append("\n");
 		print.append("_________________________________________________________________________\n\n");
 
 		logger.warn(print.toString());
