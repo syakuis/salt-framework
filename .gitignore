@@ -16,6 +16,8 @@ db
 *.bak
 .svn
 *.iml
+*.ipr
+*.iws
 .idea/
 *.log
 out/
