@@ -13,7 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = "classpath*:egovmei/config/*-context.xml")
+@ContextConfiguration(locations = "classpath:egovmei/config/*-context.xml")
 public class BootstrapContextTest {
 	@Test
 	public void test() {

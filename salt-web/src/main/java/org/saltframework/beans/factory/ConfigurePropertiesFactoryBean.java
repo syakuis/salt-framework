@@ -35,9 +35,9 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Config>, Envi
 	public Config getObject() {
 
 		String[] locations = new String[]{
-				"classpath*:org/saltframework/config/salt.properties",
-				"classpath*:config.properties",
-				"classpath*:config-%s.properties"
+				"classpath:org/saltframework/config/salt.properties",
+				"classpath:config.properties",
+				"classpath:config-%s.properties"
 		};
 
 		InitializingConfigureProperties initializingGeneralProperties = new InitializingConfigureProperties(environment, locations);
