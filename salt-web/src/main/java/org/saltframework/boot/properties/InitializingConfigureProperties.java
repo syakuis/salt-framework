@@ -10,6 +10,7 @@ import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 
+import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -24,12 +25,14 @@ public class InitializingConfigureProperties {
 	private static final Logger logger = LoggerFactory.getLogger(InitializingConfigureProperties.class);
 	private static final String CHARSET_NAME = "charset";
 
+	private final ServletContext servletContext;
 	private final Environment environment;
 	private final String[] locations;
 	private String fileEncoding = Charset.defaultCharset().name();
 	private Config config;
 
-	public InitializingConfigureProperties(Environment environment, String[] locations) {
+	public InitializingConfigureProperties(ServletContext servletContext, Environment environment, String[] locations) {
+		this.servletContext = servletContext;
 		this.environment = environment;
 		this.locations = locations;
 	}
@@ -89,6 +92,7 @@ public class InitializingConfigureProperties {
 			properties.setProperty("profiles", StringUtils.join(profiles, ","));
 			properties.setProperty("profile", profile);
 			properties.setProperty("charset", fileEncoding);
+			properties.setProperty("rootAbsolutePath", servletContext.getRealPath("/"));
 
 			TimeZone timeZone = TimeZone.getDefault();
 			Locale locale = Locale.getDefault();
@@ -140,7 +144,8 @@ public class InitializingConfigureProperties {
 		print.append("* Date: " + new Date()).append("\n");
 		print.append("* Encoding: " + config.getCharset()).append("\n");
 		print.append("* Profile: " + config.getProfile()).append("\n");
-		print.append("* Profiles: " + properties.getProperty("profiles")).append("\n");
+		print.append("* Profile: " + config.getProfile()).append("\n");
+		print.append("* rootAbsolutePath: " + properties.getProperty("rootAbsolutePath")).append("\n");
 		print.append("_________________________________________________________________________\n\n");
 
 		logger.warn(print.toString());

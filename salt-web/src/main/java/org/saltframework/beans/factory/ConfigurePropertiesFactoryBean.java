@@ -5,6 +5,9 @@ import org.saltframework.boot.properties.InitializingConfigureProperties;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+import org.springframework.web.context.ServletContextAware;
+
+import javax.servlet.ServletContext;
 
 /**
  * salt.properties 를 spring bean 으로 생성한다.
@@ -12,7 +15,8 @@ import org.springframework.core.env.Environment;
  * @site http://syaku.tistory.com
  * @since 2017. 3. 29.
  */
-public class ConfigurePropertiesFactoryBean implements FactoryBean<Config>, EnvironmentAware {
+public class ConfigurePropertiesFactoryBean implements FactoryBean<Config>, EnvironmentAware, ServletContextAware {
+	private ServletContext servletContext;
 	private Environment environment;
 	private String fileEncoding;
 
@@ -23,6 +27,11 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Config>, Envi
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
+	}
+
+	@Override
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
 	}
 
 	/**
@@ -40,7 +49,7 @@ public class ConfigurePropertiesFactoryBean implements FactoryBean<Config>, Envi
 				"classpath:config-%s.properties"
 		};
 
-		InitializingConfigureProperties initializingGeneralProperties = new InitializingConfigureProperties(environment, locations);
+		InitializingConfigureProperties initializingGeneralProperties = new InitializingConfigureProperties(servletContext, environment, locations);
 		initializingGeneralProperties.setFileEncoding(fileEncoding);
 		initializingGeneralProperties.afterPostProcessor();
 		return initializingGeneralProperties.getConfig();

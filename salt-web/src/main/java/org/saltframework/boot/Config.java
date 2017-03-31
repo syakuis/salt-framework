@@ -25,6 +25,9 @@ public final class Config {
 	private String[] profiles;
 	private String charset;
 	private int cacheSeconds;
+
+	private String rootAbsolutePath;
+
 	private String[] resourcesPath;
 
 	private boolean viewResolverCache;
@@ -39,10 +42,13 @@ public final class Config {
 		this.timeZone = timeZone;
 		this.locale = locale;
 
-		charset = properties.getProperty("charset");
 		profile = properties.getProperty("profile");
-		cacheSeconds = Integer.parseInt(properties.getProperty("cacheSeconds"));
 		profiles = StringUtils.delimitedListToStringArray(properties.getProperty("profiles"), ",");
+		charset = properties.getProperty("charset");
+		cacheSeconds = Integer.parseInt(properties.getProperty("cacheSeconds"));
+
+		rootAbsolutePath = properties.getProperty("rootAbsolutePath");
+
 		resourcesPath = StringUtils.delimitedListToStringArray(properties.getProperty("resourcesPath"), ",");
 
 		viewResolverCache = Boolean.parseBoolean(properties.getProperty("viewResolverCache"));
