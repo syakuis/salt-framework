@@ -16,7 +16,7 @@ import java.util.List;
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @site http://syaku.tistory.com
  */
-public class PathMatchingResourceResolver implements ResourcePatternResolver {
+public class ResourcesMatchingPattern implements ResourcePatternResolver {
 	private final PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
 
 	@Override

@@ -3,7 +3,7 @@ package org.saltframework.boot.properties;
 import org.apache.commons.lang3.StringUtils;
 import org.saltframework.boot.Config;
 import org.saltframework.boot.enums.Profile;
-import org.saltframework.util.io.PathMatchingResourceResolver;
+import org.saltframework.util.io.ResourcesMatchingPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -75,8 +75,8 @@ public class InitializingConfigureProperties {
 		}
 
 		try {
-			PathMatchingResourceResolver pathResourcePatternResolver = new PathMatchingResourceResolver();
-			Resource[] resources = pathResourcePatternResolver.getResources(configLocations);
+			ResourcesMatchingPattern resourcesMatchingPattern = new ResourcesMatchingPattern();
+			Resource[] resources = resourcesMatchingPattern.getResources(configLocations);
 
 			PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
 			propertiesFactoryBean.setLocations(resources);

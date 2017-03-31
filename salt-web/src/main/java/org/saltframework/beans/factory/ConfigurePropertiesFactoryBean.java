@@ -16,8 +16,17 @@ import javax.servlet.ServletContext;
  * @since 2017. 3. 29.
  */
 public class ConfigurePropertiesFactoryBean implements FactoryBean<Config>, EnvironmentAware, ServletContextAware {
+	/**
+	 * rootAbsolutePath 를 구한기 위함.
+	 */
 	private ServletContext servletContext;
+	/**
+	 * The Environment.
+	 */
 	private Environment environment;
+	/**
+	 * The File encoding.
+	 */
 	private String fileEncoding;
 
 	public void setFileEncoding(String fileEncoding) {
