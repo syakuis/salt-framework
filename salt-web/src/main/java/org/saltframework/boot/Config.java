@@ -17,6 +17,7 @@ import java.util.TimeZone;
 @Getter
 @ToString
 public final class Config {
+	private Properties properties;
 	private TimeZone timeZone;
 	private Locale locale;
 
@@ -39,6 +40,7 @@ public final class Config {
 	}
 
 	public Config(Properties properties, TimeZone timeZone, Locale locale) {
+		this.properties = properties;
 		this.timeZone = timeZone;
 		this.locale = locale;
 
@@ -55,5 +57,28 @@ public final class Config {
 
 		freemarkerTemplateLoaderPath = properties.getProperty("freemarkerTemplateLoaderPath");
 		freemarkerExposeSpringMacroHelpers = Boolean.parseBoolean(properties.getProperty("freemarkerExposeSpringMacroHelpers"));
+	}
+
+	public String getString(String name) {
+		return getString(name, null);
+	}
+
+	public String getString(String name, String defaultValue) {
+		if (defaultValue == null) {
+			return this.properties.getProperty(name);
+		}
+
+		String value = this.properties.getProperty(name);
+		return StringUtils.isEmpty(value) ? defaultValue : value;
+	}
+
+	public int getInt(String name) {
+		String value = getString(name, "0");
+		return Integer.parseInt(value);
+	}
+
+	public boolean getBoolean(String name) {
+		String value = getString(name, "false");
+		return Boolean.parseBoolean(value);
 	}
 }

@@ -1,8 +1,7 @@
 package org.saltframework.boot.config;
 
-import org.saltframework.beans.factory.MessageSourceFactoryBean;
 import org.saltframework.boot.Config;
-import org.saltframework.util.io.MessageSourceMatchingPattern;
+import org.saltframework.boot.config.support.MessageSourceMatchingPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
@@ -23,30 +24,25 @@ import java.io.IOException;
 @Configuration
 public class MessageSourceConfiguration {
 	private static final Logger logger = LoggerFactory.getLogger(MessageSourceConfiguration.class);
+	private MessageSource messageSource;
+	private String parentBasename =
+			"classpath:org/saltframework/i18n/message.properties," +
+			"classpath:org/saltframework/**/i18n/message.properties";
 
 	@Autowired
 	private Config config;
 
-	private MessageSource messageSourceParent;
-	private MessageSource messageSource;
+	private MessageSourceMatchingPattern messageSourceMatchingPattern = new MessageSourceMatchingPattern();
 
-	private ResourceBundleMessageSource getResourceBundleMessageSource(MessageSource parentMessageSource) {
+	private ResourceBundleMessageSource getResourceBundleMessageSource(String basename, MessageSource parentMessageSource) {
+		String[] basenames = StringUtils.commaDelimitedListToStringArray(basename);
+
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		messageSource.setCacheSeconds(cacheSeconds);
-		messageSource.setDefaultEncoding(defaultEncoding);
+		messageSource.setCacheSeconds(config.getInt("messageSourceCacheSeconds"));
+		messageSource.setDefaultEncoding(config.getCharset());
 		if (parentMessageSource != null) messageSource.setParentMessageSource(parentMessageSource);
 		try {
-			if (logger.isDebugEnabled()) {
-				logger.debug(
-						"------> MessageSourceAccessor: " +
-								" cacheSeconds: " + cacheSeconds +
-								" , defaultEncoding: " + defaultEncoding
-				);
-			}
-
-			MessageSourceMatchingPattern messageSourceMatchingPattern = new MessageSourceMatchingPattern();
-			String[] resources = messageSourceMatchingPattern.getResources(basenames);
-			messageSource.setBasenames(resources);
+			messageSource.setBasenames(messageSourceMatchingPattern.getResources(basenames));
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -54,22 +50,16 @@ public class MessageSourceConfiguration {
 		return messageSource;
 	}
 
-	private ReloadableResourceBundleMessageSource getReloadableResourceBundleMessageSource(MessageSource parentMessageSource) {
+	private ReloadableResourceBundleMessageSource getReloadableResourceBundleMessageSource(String basename, MessageSource parentMessageSource) {
+		String[] basenames = StringUtils.commaDelimitedListToStringArray(basename);
+
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setCacheSeconds(cacheSeconds);
-		messageSource.setDefaultEncoding(defaultEncoding);
-		messageSource.setConcurrentRefresh(concurrentRefresh);
+		messageSource.setCacheSeconds(config.getInt("messageSourceCacheSeconds"));
+		messageSource.setDefaultEncoding(config.getCharset());
+		messageSource.setConcurrentRefresh(config.getBoolean("messageSourceConcurrentRefresh"));
 		if (parentMessageSource != null) messageSource.setParentMessageSource(parentMessageSource);
 		try {
-			if (logger.isDebugEnabled()) {
-				logger.debug(
-						"------> MessageSourceAccessor: " +
-								" cacheSeconds: " + cacheSeconds +
-								" , defaultEncoding: " + defaultEncoding
-				);
-			}
-			String[] resources = PathMatchingClassPath.getClassPath(basenames);
-			messageSource.setBasenames(resources);
+			messageSource.setBasenames(messageSourceMatchingPattern.getResources(basenames));
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -77,15 +67,25 @@ public class MessageSourceConfiguration {
 		return messageSource;
 	}
 
-	@Bean
-	public MessageSource messageSourceParent() {
-		return getReloadableResourceBundleMessageSource();
+	private MessageSource getMessageSource() {
+		if (config.getBoolean("messageSourceReloadable")) {
+			return getReloadableResourceBundleMessageSource(parentBasename,
+					getReloadableResourceBundleMessageSource(config.getString("messageSourceBasename"), null));
+		}
+
+		return getResourceBundleMessageSource(parentBasename,
+				getResourceBundleMessageSource(config.getString("messageSourceBasename"),null));
 	}
 
 	@Bean
-	@DependsOn("messageSourceParent")
 	public MessageSource messageSource() {
-		return getReloadableResourceBundleMessageSource(messageSourceParent);
+		this.messageSource = getMessageSource();
+		return this.messageSource;
 	}
 
+	@Bean
+	@DependsOn("messageSource")
+	public MessageSourceAccessor messageSourceAccessor() {
+		return new MessageSourceAccessor(this.messageSource);
+	}
 }

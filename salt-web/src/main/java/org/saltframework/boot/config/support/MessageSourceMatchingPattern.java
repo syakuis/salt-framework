@@ -1,4 +1,4 @@
-package org.saltframework.util.io;
+package org.saltframework.boot.config.support;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -33,6 +33,17 @@ public final class MessageSourceMatchingPattern {
 		return getResources(new String[]{locationPattern});
 	}
 
+	/**
+	 * Get resources string [ ].
+	 *
+	 * locationPattern = {
+	 *     "classpath:org/saltframework/{@code **}/i18n/message.properties"
+	 * }
+	 *
+	 * @param locationPattern the location pattern
+	 * @return the string [ ]
+	 * @throws IOException the io exception
+	 */
 	public String[] getResources(String[] locationPattern) throws IOException {
 
 		List<String> strings = new ArrayList();
