@@ -22,6 +22,7 @@ import java.util.List;
  */
 public final class MessageSourceMatchingPattern {
 	private static final Logger logger = LoggerFactory.getLogger(MessageSourceMatchingPattern.class);
+	private static final String MESSAGE_NAME = "message";
 
 	private final PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
 
@@ -51,6 +52,7 @@ public final class MessageSourceMatchingPattern {
 		for (String path : locationPattern) {
 			Resource[] resources = pathMatchingResourcePatternResolver.getResources(path);
 			for (Resource resource : resources) {
+				//strings.add(resource.createRelative(MESSAGE_NAME));
 				String baseName = getBaseName(resource);
 				if (baseName != null) strings.add(baseName);
 			}
