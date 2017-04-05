@@ -127,26 +127,26 @@ public class InitializingConfigureProperties {
 	private void intro(Properties properties) {
 		StringBuilder print = new StringBuilder();
 
-		print.append("\n_________________________________________________________________________\n");
-		print.append("                                                                         \n");
-		print.append("   ____       __ __   ____                                          __\n");
-		print.append("  / __/___ _ / // /_ / __/____ ___ _ __ _  ___  _    __ ___   ____ / /__\n");
-		print.append(" _\\ \\ / _ `// // __// _/ / __// _ `//  ' \\/ -_)| |/|/ // _ \\ / __//  '_/\n");
-		print.append("/___/ \\_,_//_/ \\__//_/  /_/   \\_,_//_/_/_/\\__/ |__,__/ \\___//_/  /_/\\_\\\n");
-		print.append("                                                  version " + config.getVersion());
-		print.append("\n                                                                         \n");
-		print.append("                                                                         \n");
-		print.append("                           Salt Framework by 52572 49437 44512   \n");
-		print.append("                                                                         \n");
-		print.append("_________________________________________________________________________\n\n");
-		print.append("* Locale: " + config.getLocale().getLanguage()).append("\n");
-		print.append("* TimeZone: " + config.getTimeZone().getID()).append("\n");
-		print.append("* Date: " + new Date()).append("\n");
-		print.append("* Encoding: " + config.getCharset()).append("\n");
-		print.append("* Profile: " + config.getProfile()).append("\n");
-		print.append("* Profile: " + config.getProfile()).append("\n");
-		print.append("* rootAbsolutePath: " + properties.getProperty("rootAbsolutePath")).append("\n");
-		print.append("_________________________________________________________________________\n\n");
+		print.append("\n_________________________________________________________________________\n")
+		.append("                                                                         \n")
+		.append("   ____       __ __   ____                                          __\n")
+		.append("  / __/___ _ / // /_ / __/____ ___ _ __ _  ___  _    __ ___   ____ / /__\n")
+		.append(" _\\ \\ / _ `// // __// _/ / __// _ `//  ' \\/ -_)| |/|/ // _ \\ / __//  '_/\n")
+		.append("/___/ \\_,_//_/ \\__//_/  /_/   \\_,_//_/_/_/\\__/ |__,__/ \\___//_/  /_/\\_\\\n")
+		.append("                                                  version " + config.getVersion())
+		.append("\n                                                                         \n")
+		.append("                                                                         \n")
+		.append("                           Salt Framework by 52572 49437 44512   \n")
+		.append("                                                                         \n")
+		.append("_________________________________________________________________________\n\n")
+		.append("* Locale: ").append(config.getLocale().getLanguage()).append("\n")
+		.append("* TimeZone: ").append(config.getTimeZone().getID()).append("\n")
+		.append("* Date: ").append(new Date()).append("\n")
+		.append("* Encoding: ").append(config.getCharset()).append("\n")
+		.append("* Profile: ").append(config.getProfile()).append("\n")
+		.append("* profiles: ").append(properties.getProperty("profiles")).append("\n")
+		.append("* rootAbsolutePath: ").append(properties.getProperty("rootAbsolutePath")).append("\n")
+		.append("_________________________________________________________________________\n\n");
 
 		logger.warn(print.toString());
 

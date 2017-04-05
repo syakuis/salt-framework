@@ -3,6 +3,7 @@ package org.saltframework.beans.factory.config;
 import org.saltframework.beans.factory.ConfigurePropertiesFactoryBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.RootBeanDefinition;
@@ -16,7 +17,8 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 public class ConfigurePropertiesConfigurer implements BeanDefinitionRegistryPostProcessor {
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-		registry.registerBeanDefinition("config", new RootBeanDefinition(ConfigurePropertiesFactoryBean.class));
+		BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(ConfigurePropertiesFactoryBean.class);
+		registry.registerBeanDefinition("config", beanDefinitionBuilder.getBeanDefinition());
 	}
 
 	@Override
