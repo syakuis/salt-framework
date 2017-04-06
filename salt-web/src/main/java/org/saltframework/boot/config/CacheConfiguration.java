@@ -1,5 +1,7 @@
 package org.saltframework.boot.config;
 
+import org.saltframework.beans.factory.DataSharedFactoryBean;
+import org.saltframework.data.DataSharedCacheManager;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
@@ -17,15 +19,23 @@ import java.util.Arrays;
 @Configuration
 @EnableCaching
 public class CacheConfiguration {
+	private SimpleCacheManager cacheManager;
+
 	@Bean
 	public CacheManager cacheManager() {
-		SimpleCacheManager cacheManager = new SimpleCacheManager();
+		this.cacheManager = new SimpleCacheManager();
+
 		cacheManager.setCaches(
 				Arrays.asList(
 						new ConcurrentMapCache("mainCache"),
-						new ConcurrentMapCache("dataShare")
+						new ConcurrentMapCache("dataShared")
 				)
 		);
 		return cacheManager;
+	}
+
+	@Bean
+	public DataSharedCacheManager dataSharedCacheManager() {
+		return new DataSharedFactoryBean(this.cacheManager).getObject();
 	}
 }
