@@ -1,5 +1,6 @@
 rootProject.name = 'salt'
 
 include 'salt-core'
+include 'salt-properties'
+include 'salt-store'
 include 'salt-web'
-
