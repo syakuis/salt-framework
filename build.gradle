@@ -106,6 +106,34 @@ project(':salt-core') {
 	}
 }
 
+project(':salt-properties') {
+	group 'org.saltframework'
+	version "${saltVersion}"
+
+	dependencies {
+		compile project(':salt-core')
+	}
+
+	jar {
+		baseName = 'salt-properties'
+		version =  version
+	}
+}
+
+project(':salt-store') {
+	group 'org.saltframework'
+	version "${saltVersion}"
+
+	dependencies {
+		compile project(':salt-properties')
+	}
+
+	jar {
+		baseName = 'salt-store'
+		version =  version
+	}
+}
+
 project(':salt-web') {
 	group 'org.saltframework'
 	version "${saltVersion}"
